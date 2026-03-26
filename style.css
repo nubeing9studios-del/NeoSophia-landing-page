@@ -55,3 +55,13 @@ button {
   padding: 80px 20px;
   text-align: center;
 }
+textarea {
+  width: 60%;
+  height: 100px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  font-size: 16px;
+  resize: none;
+}
