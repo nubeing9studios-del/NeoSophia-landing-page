@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signal Capture — Nubeing9</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Think Clearly. Move Decisively.</h1>
+    <p>
+      An AI-guided clarity system for transforming inner tension into structured insight and action.
+    </p>
+    <button onclick="scrollToSection()">Start Your First Signal</button>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="section">
+    <h2>The Problem</h2>
+    <p>
+      Most intelligent people don’t lack ideas — they lack structured clarity.
+      Thoughts loop. Decisions stall. Energy fragments.
+    </p>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <h2>How It Works</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Capture</h3>
+        <p>Write your current tension or thought.</p>
+      </div>
+      <div class="card">
+        <h3>Interpret</h3>
+        <p>AI translates it into structured clarity.</p>
+      </div>
+      <div class="card">
+        <h3>Act</h3>
+        <p>Commit to one clear action.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOOP -->
+  <section class="section" id="loop">
+    <h2>The Clarity Loop</h2>
+    <p>
+      Morning signal. Midday calibration. Evening integration. Weekly synthesis.
+    </p>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="toolSection">
+    <h2>Capture Your First Signal</h2>
+
+    <textarea id="signalInput" placeholder="What’s on your mind right now?"></textarea>
+
+    <br><br>
+
+    <button onclick="generateInsight()" id="generateBtn">Generate Insight</button>
+
+    <p id="output"></p>
+
+    <p class="micro-note">AI reflection • not advice</p>
+
+    <div id="history"></div>
+  </section>
+
+  <!-- THRESHOLD OVERLAY -->
+  <div id="thresholdOverlay" class="hidden">
+    <div class="threshold-inner">
+      <div class="spiral"></div>
+      <p class="threshold-text">Entering Nubeing9...</p>
+    </div>
+  </div>
+
+  <!-- ARRIVAL SCREEN -->
+  <section id="arrivalScreen" class="arrival hidden">
+    <div class="arrival-inner">
+      <h2>Welcome to Nubeing9</h2>
+      <p>
+        You have crossed the first threshold. This space opens into a wider ecosystem of coherence tools, reflective systems, and deeper creative pathways.
+      </p>
+
+      <div class="arrival-cards">
+        <div class="arrival-card">
+          <h3>Continue Here</h3>
+          <p>Keep using Signal Capture as a simple clarity tool whenever you need reflection and direction.</p>
+        </div>
+        <div class="arrival-card">
+          <h3>Go Deeper</h3>
+          <p>Explore the wider Nubeing9 environment when you want broader tools, systems, and structured pathways.</p>
+        </div>
+        <div class="arrival-card">
+          <h3>What Comes Next</h3>
+          <p>More advanced layers may later include deeper coherence diagnostics, apps, guides, and symbolic experiences.</p>
+        </div>
+      </div>
+
+      <div class="arrival-actions">
+        <button onclick="returnToTool()">Continue with Signal Capture</button>
+        <button onclick="enterWebsite()" class="secondary-btn">Explore Nubeing9.com</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
