@@ -20,18 +20,18 @@ async function generateInsight() {
   outputEl.innerText = "Processing your signal...";
 
   try {
-    const res = await fetch("http://localhost:3000/generate", {
+    const res = await fetch("https://neosophia-landing-page.onrender.com/generate", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({ input }),
+      body: JSON.stringify({ input })
     });
 
     const data = await res.json();
-    outputEl.innerText = data.output;
+    outputEl.innerText = data.output || "No response received.";
 
-    saveToHistory(input, data.output);
+    saveToHistory(input, data.output || "No response received.");
     renderHistory();
 
     showEnterButton();
@@ -74,7 +74,7 @@ function saveToHistory(input, output) {
   history.unshift({
     input,
     output,
-    time: new Date().toLocaleString(),
+    time: new Date().toLocaleString()
   });
 
   localStorage.setItem("signalHistory", JSON.stringify(history));
