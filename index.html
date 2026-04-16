@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Signal Capture — Nubeing9</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Signal Capture Gateway by Nubeing 9 Studios — a fast coherence tool for turning noise into one clear next step.">
+  <title>Signal Capture Gateway — Nubeing 9 Studios</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -10,78 +12,115 @@
 
   <!-- HERO -->
   <section class="hero">
-    <h1>Think Clearly. Move Decisively.</h1>
-    <p>
-      An AI-guided clarity system for transforming inner tension into structured insight and action.
+    <div class="seal" aria-label="Nubeing 9 Studios seal">NB9</div>
+    <p class="eyebrow">Nubeing 9 Studios · Coherence Architecture</p>
+    <h1>Signal Capture Gateway</h1>
+    <p class="hero-subtitle">
+      A fast coherence tool for turning noise into one clear next step.
     </p>
-    <button onclick="scrollToSection()">Start Your First Signal</button>
+    <p class="hero-copy">
+      Name what is active. Separate signal from noise. Choose one coherent move.
+    </p>
+    <div class="hero-actions">
+      <button onclick="scrollToTool()">Capture Your Signal</button>
+      <button class="secondary-btn" onclick="enterWebsite()">Enter Nubeing 9 Studios</button>
+    </div>
   </section>
 
   <!-- PROBLEM -->
-  <section class="section">
-    <h2>The Problem</h2>
+  <section class="section narrow">
+    <p class="section-kicker">The problem</p>
+    <h2>Thoughts loop when signal has no container.</h2>
     <p>
-      Most intelligent people don’t lack ideas — they lack structured clarity.
-      Thoughts loop. Decisions stall. Energy fragments.
+      Most intelligent people do not lack ideas. They lack structured clarity.
+      Thoughts loop. Decisions stall. Energy fragments. Signal Capture gives the moment a container.
     </p>
   </section>
 
   <!-- HOW IT WORKS -->
   <section class="section">
-    <h2>How It Works</h2>
+    <p class="section-kicker">How it works</p>
+    <h2>Capture. Interpret. Act.</h2>
     <div class="cards">
-      <div class="card">
+      <div class="card card-signal">
+        <span class="card-number">01</span>
         <h3>Capture</h3>
-        <p>Write your current tension or thought.</p>
+        <p>Write the signal, tension, question, or thought currently active in your awareness.</p>
       </div>
-      <div class="card">
+      <div class="card card-intel">
+        <span class="card-number">02</span>
         <h3>Interpret</h3>
-        <p>AI translates it into structured clarity.</p>
+        <p>The system reflects the signal back as structured insight, not advice.</p>
       </div>
-      <div class="card">
+      <div class="card card-action">
+        <span class="card-number">03</span>
         <h3>Act</h3>
-        <p>Commit to one clear action.</p>
+        <p>Choose one clear next step that reduces noise and restores movement.</p>
       </div>
     </div>
   </section>
 
   <!-- LOOP -->
-  <section class="section" id="loop">
-    <h2>The Clarity Loop</h2>
+  <section class="section narrow" id="loop">
+    <p class="section-kicker">The clarity loop</p>
+    <h2>Signal becomes useful when it becomes action.</h2>
     <p>
       Morning signal. Midday calibration. Evening integration. Weekly synthesis.
+      This gateway is the first threshold into a wider Nubeing 9 Studios coherence ecosystem.
     </p>
   </section>
 
   <!-- CTA -->
   <section class="cta" id="toolSection">
+    <p class="section-kicker">Begin here</p>
     <h2>Capture Your First Signal</h2>
+    <p class="tool-intro">
+      Enter one sentence. Do not solve the whole situation. Name what is active now.
+    </p>
 
-    <textarea id="signalInput" placeholder="What’s on your mind right now?"></textarea>
+    <textarea id="signalInput" placeholder="What signal, tension, question, or noise is active right now?"></textarea>
 
-    <br><br>
+    <div class="tool-actions">
+      <button onclick="generateInsight()" id="generateBtn">Generate Insight</button>
+      <button class="secondary-btn" onclick="clearSignal()">Clear</button>
+    </div>
 
-    <button onclick="generateInsight()" id="generateBtn">Generate Insight</button>
+    <div id="output" class="output-card" aria-live="polite"></div>
 
-    <p id="output"></p>
-
-    <p class="micro-note">AI reflection • not advice</p>
+    <p class="micro-note">AI reflection · not advice · not therapy · one next step</p>
 
     <div id="history"></div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section class="section feedback-section">
+    <p class="section-kicker">Prototype feedback</p>
+    <h2>Was this useful?</h2>
+    <p>
+      This gateway is a live prototype. Your response helps refine the wider coherence tool system.
+    </p>
+    <div class="feedback-buttons">
+      <button class="feedback-btn" onclick="recordFeedback('Yes — it helped me see the signal')">Yes — I saw the signal</button>
+      <button class="feedback-btn" onclick="recordFeedback('Somewhat')">Somewhat</button>
+      <button class="feedback-btn" onclick="recordFeedback('Not yet')">Not yet</button>
+      <button class="feedback-btn" onclick="recordFeedback('I need a deeper reset')">I need a deeper reset</button>
+    </div>
+    <p id="feedbackMessage" class="feedback-message"></p>
   </section>
 
   <!-- THRESHOLD OVERLAY -->
   <div id="thresholdOverlay" class="hidden">
     <div class="threshold-inner">
       <div class="spiral"></div>
-      <p class="threshold-text">Entering Nubeing9...</p>
+      <p class="threshold-text">Entering Nubeing 9 Studios...</p>
     </div>
   </div>
 
   <!-- ARRIVAL SCREEN -->
   <section id="arrivalScreen" class="arrival hidden">
     <div class="arrival-inner">
-      <h2>Welcome to Nubeing9</h2>
+      <div class="seal small-seal" aria-label="Nubeing 9 Studios seal">NB9</div>
+      <h2>Welcome to Nubeing 9 Studios</h2>
       <p>
         You have crossed the first threshold. This space opens into a wider ecosystem of coherence tools, reflective systems, and deeper creative pathways.
       </p>
@@ -93,11 +132,11 @@
         </div>
         <div class="arrival-card">
           <h3>Go Deeper</h3>
-          <p>Explore the wider Nubeing9 environment when you want broader tools, systems, and structured pathways.</p>
+          <p>Explore the wider Nubeing 9 Studios environment when you want broader tools, systems, and structured pathways.</p>
         </div>
         <div class="arrival-card">
           <h3>What Comes Next</h3>
-          <p>More advanced layers may later include deeper coherence diagnostics, apps, guides, and symbolic experiences.</p>
+          <p>Advanced layers may include diagnostics, resets, apps, guides, and symbolic experiences.</p>
         </div>
       </div>
 
@@ -107,6 +146,11 @@
       </div>
     </div>
   </section>
+
+  <footer>
+    <div class="footer-seal">NB9</div>
+    <p>Nubeing 9 Studios · Signal Capture Gateway · Nubeing9.com</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
