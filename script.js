@@ -63,7 +63,7 @@ function showEnterButton() {
 
     const enterBtn = document.createElement("button");
     enterBtn.id = "enterBtn";
-    enterBtn.innerText = "Enter Nubeing 9 Studios";
+    enterBtn.innerText = "Explore Coherence Tools";
     enterBtn.style.marginTop = "20px";
 
     enterBtn.onclick = () => {
@@ -101,6 +101,11 @@ function renderHistory() {
     title.className = "history-title";
     title.innerText = "Recent Signal History";
     container.appendChild(title);
+
+    const actions = document.createElement("div");
+    actions.className = "history-actions";
+    actions.innerHTML = `<button class="history-clear-btn" onclick="clearHistory()">Clear Signal History</button>`;
+    container.appendChild(actions);
   }
 
   history.slice(0, 5).forEach(entry => {
@@ -117,6 +122,11 @@ function renderHistory() {
   });
 }
 
+function clearHistory() {
+  localStorage.removeItem("signalHistory");
+  renderHistory();
+}
+
 function recordFeedback(value) {
   const feedback = JSON.parse(localStorage.getItem("signalFeedback")) || [];
   feedback.unshift({
@@ -127,7 +137,7 @@ function recordFeedback(value) {
 
   const message = document.getElementById("feedbackMessage");
   if (message) {
-    message.innerText = "Feedback captured locally. Thank you.";
+    message.innerText = "Feedback noted on this device. Full feedback capture is coming soon.";
   }
 }
 
@@ -151,7 +161,7 @@ function returnToTool() {
 }
 
 function enterWebsite() {
-  window.open("https://nubeing9.com", "_blank");
+  window.open("https://nubeing9.com/services", "_blank");
 }
 
 window.onload = renderHistory;
