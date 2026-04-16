@@ -1,21 +1,33 @@
-function scrollToSection() {
-  const loop = document.getElementById("loop");
-  if (loop) {
-    loop.scrollIntoView({ behavior: "smooth" });
+function scrollToTool() {
+  const tool = document.getElementById("toolSection");
+  if (tool) {
+    tool.scrollIntoView({ behavior: "smooth" });
   }
 }
 
+function scrollToSection() {
+  scrollToTool();
+}
+
+function clearSignal() {
+  const input = document.getElementById("signalInput");
+  const outputEl = document.getElementById("output");
+  if (input) input.value = "";
+  if (outputEl) outputEl.innerHTML = "";
+}
+
 async function generateInsight() {
-  const input = document.getElementById("signalInput").value;
+  const inputEl = document.getElementById("signalInput");
+  const input = inputEl.value;
   const outputEl = document.getElementById("output");
   const button = document.getElementById("generateBtn");
 
   if (!input.trim()) {
-    outputEl.innerText = "Please enter a signal.";
+    outputEl.innerText = "Please enter a signal first.";
     return;
   }
 
-  button.innerText = "Thinking...";
+  button.innerText = "Reading the signal...";
   button.disabled = true;
   outputEl.innerText = "Processing your signal...";
 
@@ -29,14 +41,15 @@ async function generateInsight() {
     });
 
     const data = await res.json();
-    outputEl.innerText = data.output || "No response received.";
+    const insight = data.output || "No response received.";
+    outputEl.innerText = insight;
 
-    saveToHistory(input, data.output || "No response received.");
+    saveToHistory(input, insight);
     renderHistory();
 
     showEnterButton();
   } catch (err) {
-    outputEl.innerText = "Could not connect to the AI server.";
+    outputEl.innerText = "Could not connect to the AI server. Your signal is still captured locally — try again shortly.";
   }
 
   button.innerText = "Generate Insight";
@@ -50,13 +63,8 @@ function showEnterButton() {
 
     const enterBtn = document.createElement("button");
     enterBtn.id = "enterBtn";
-    enterBtn.innerText = "Enter Nubeing9";
+    enterBtn.innerText = "Enter Nubeing 9 Studios";
     enterBtn.style.marginTop = "20px";
-    enterBtn.style.padding = "10px 20px";
-    enterBtn.style.background = "#ffd700";
-    enterBtn.style.border = "none";
-    enterBtn.style.cursor = "pointer";
-    enterBtn.style.borderRadius = "8px";
 
     enterBtn.onclick = () => {
       triggerSpiral();
@@ -65,7 +73,7 @@ function showEnterButton() {
     const outputEl = document.getElementById("output");
     outputEl.appendChild(document.createElement("br"));
     outputEl.appendChild(enterBtn);
-  }, 1500);
+  }, 1200);
 }
 
 function saveToHistory(input, output) {
@@ -107,6 +115,20 @@ function renderHistory() {
 
     container.appendChild(div);
   });
+}
+
+function recordFeedback(value) {
+  const feedback = JSON.parse(localStorage.getItem("signalFeedback")) || [];
+  feedback.unshift({
+    value,
+    time: new Date().toLocaleString()
+  });
+  localStorage.setItem("signalFeedback", JSON.stringify(feedback));
+
+  const message = document.getElementById("feedbackMessage");
+  if (message) {
+    message.innerText = "Feedback captured locally. Thank you.";
+  }
 }
 
 function triggerSpiral() {
