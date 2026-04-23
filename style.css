@@ -3,85 +3,114 @@
   --nb9-indigo: #080B1A;
   --nb9-navy: #0B1026;
   --nb9-blue: #0B1F3B;
-  --nb9-white: #F8FAFC;
-  --nb9-soft: #CBD5E1;
-  --nb9-muted: #94A3B8;
-  --nb9-gold: #D4AF37;
-  --nb9-deep-gold: #B8922A;
   --nb9-teal: #14F1D9;
-  --nb9-cyan: #22D3C5;
   --nb9-purple: #8B5CF6;
-  --nb9-violet: #7C3AED;
+  --nb9-gold: #D4AF37;
+  --nb9-muted: #94A3B8;
 }
 
-/* Base Styling */
+/* General */
 body {
   margin: 0;
-  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(circle at 20% 15%, rgba(20, 241, 217, 0.1), transparent 60%),
-              radial-gradient(circle at 80% 15%, rgba(139, 92, 246, 0.1), transparent 70%),
-              linear-gradient(180deg, var(--nb9-black), var(--nb9-indigo) 46%, var(--nb9-navy));
-  color: var(--nb9-soft);
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(180deg, var(--nb9-black), var(--nb9-navy));
+  color: var(--nb9-muted);
   min-height: 100vh;
 }
 
-.hero-header .logo {
-  padding: 16px 32px;
-  font-size: 1.25rem;
-  font-weight: 700;
+/* Header */
+header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--nb9-indigo);
+}
+
+.nb9-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
   color: var(--nb9-teal);
 }
 
-/* Hero Section */
+.studio-tag {
+  font-size: 0.95rem;
+  color: var(--nb9-purple);
+}
+
+/* Hero */
 .hero {
   text-align: center;
-  padding: 80px 20px 40px;
+  padding: 60px 20px;
 }
 
-.product-name {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  color: var(--nb9-white);
-  font-weight: 800;
-  line-height: 1.2;
-  margin: 0;
-}
-
-.hero-description {
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+.hero h1 {
+  font-size: 2.8rem;
   color: var(--nb9-gold);
-  margin: 16px 0;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+  margin-bottom: 10px;
 }
 
-.primary-btn {
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--nb9-muted);
+}
+
+.cta .primary-btn {
   padding: 12px 28px;
-  font-size: 1rem;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--nb9-teal), var(--nb9-purple));
+  background: var(--nb9-gold);
   color: var(--nb9-navy);
   border: none;
-  box-shadow: 0 4px 12px rgba(20, 241, 217, 0.2);
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-.primary-btn:hover {
-  background: linear-gradient(135deg, var(--nb9-purple), var(--nb9-teal));
+.cta .primary-btn:hover {
+  background: var(--nb9-teal);
+  color: var(--nb9-black);
 }
 
-.cta textarea {
-  width: min(92%, 760px);
-  height: 130px;
-  padding: 18px;
-  border: 1px solid rgba(20, 241, 217, 0.38);
-  margin-top: 14px;
-  font-size: 16px;
-  resize: vertical;
+/* Sections */
+section {
+  padding: 40px 20px;
+}
+
+section h2 {
+  font-size: 1.75rem;
+  color: var(--nb9-teal);
+  border-bottom: 2px solid var(--nb9-purple);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+section p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--nb9-muted);
+}
+
+/* Textarea Interactive Section */
+textarea {
+  display: block;
+  width: 95%;
+  margin: 20px auto;
+  padding: 15px;
+  font-size: 1rem;
+  border: 1px solid var(--nb9-muted);
+  border-radius: 4px;
+  background: var(--nb9-navy);
   color: var(--nb9-white);
-  background: rgba(5, 8, 22, 0.72);
-  box-shadow: inset 0 0 20px rgba(20, 241, 217, 0.055), 0 18px 40px rgba(0,0,0,0.18);
-  outline: none;
 }
 
-.cta textarea:focus {
-  border-color: rgba(20, 241, 217, 0.75);
-  box-shadow: 0 0 0 3px rgba(20, 241, 217, 0.13), 0 18px 40px rgba(0,0,0,0.18), inset 0 0 22px rgba(139,92,246,0.08);
+.primary-btn.action {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--nb9-teal), var(--nb9-purple));
+  color: var(--nb9-navy);
+  font-weight: bold;
+}
+
+.primary-btn.action:hover {
+  background: var(--nb9-purple);
+  color: var(--nb9-teal);
 }
