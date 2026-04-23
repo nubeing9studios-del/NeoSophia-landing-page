@@ -14,7 +14,7 @@
   --nb9-violet: #7C3AED;
 }
 
-/* Background Refinement */
+/* Base Styling */
 body {
   margin: 0;
   font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -25,92 +25,63 @@ body {
   min-height: 100vh;
 }
 
-/* Typography Refinement */
-h1 {
-  font-size: clamp(2.2rem, 6vw, 4rem);
+.hero-header .logo {
+  padding: 16px 32px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--nb9-teal);
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 80px 20px 40px;
+}
+
+.product-name {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--nb9-white);
   font-weight: 800;
   line-height: 1.2;
-  color: var(--nb9-white);
+  margin: 0;
 }
 
-.hero-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.6rem);
+.hero-description {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
   color: var(--nb9-gold);
-  margin-top: 16px;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.25);
+  margin: 16px 0;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
 }
 
-.hero-copy p {
-  font-size: 1.05rem;
-  color: var(--nb9-soft);
-  line-height: 1.7;
-}
-
-/* Card Refinements */
-.card {
-  padding: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(11, 16, 38, 0.85);
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-}
-
-.card-signal {
-  border-color: rgba(20, 241, 217, 0.4);
-}
-
-.card-intel {
-  border-color: rgba(139, 92, 246, 0.4);
-}
-
-.card-action {
-  border-color: rgba(212, 175, 55, 0.4);
-}
-
-/* Button Refinements */
-button {
-  padding: 12px 24px;
+.primary-btn {
+  padding: 12px 28px;
   font-size: 1rem;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--nb9-gold), var(--nb9-deep-gold));
-  color: var(--nb9-indigo);
+  background: linear-gradient(135deg, var(--nb9-teal), var(--nb9-purple));
+  color: var(--nb9-navy);
   border: none;
-  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(20, 241, 217, 0.2);
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+.primary-btn:hover {
+  background: linear-gradient(135deg, var(--nb9-purple), var(--nb9-teal));
 }
 
-.secondary-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--nb9-muted);
-  color: var(--nb9-soft);
+.cta textarea {
+  width: min(92%, 760px);
+  height: 130px;
+  padding: 18px;
+  border: 1px solid rgba(20, 241, 217, 0.38);
+  margin-top: 14px;
+  font-size: 16px;
+  resize: vertical;
+  color: var(--nb9-white);
+  background: rgba(5, 8, 22, 0.72);
+  box-shadow: inset 0 0 20px rgba(20, 241, 217, 0.055), 0 18px 40px rgba(0,0,0,0.18);
+  outline: none;
 }
 
-.secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--nb9-soft);
-}
-
-/* Section Spacings */
-.hero {
-  padding: 80px 20px 60px;
-}
-.cta {
-  padding: 40px 20px;
-}
-#output {
-  margin-top: 30px;
-}
-.hero-actions {
-  margin-top: 30px;
+.cta textarea:focus {
+  border-color: rgba(20, 241, 217, 0.75);
+  box-shadow: 0 0 0 3px rgba(20, 241, 217, 0.13), 0 18px 40px rgba(0,0,0,0.18), inset 0 0 22px rgba(139,92,246,0.08);
 }
