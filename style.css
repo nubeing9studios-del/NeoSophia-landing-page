@@ -19,7 +19,6 @@
   --nb9-max: 1080px;
 }
 
-/* Reset / base */
 * {
   box-sizing: border-box;
 }
@@ -41,7 +40,6 @@ body {
   line-height: 1.6;
 }
 
-/* Layout helpers */
 header,
 main,
 section,
@@ -61,10 +59,9 @@ section {
 }
 
 section {
-  padding: 36px 20px;
+  padding: 32px 20px;
 }
 
-/* Header */
 header {
   padding: 18px 20px;
   display: flex;
@@ -98,15 +95,14 @@ header {
   opacity: 0.9;
 }
 
-/* Hero */
 .hero {
   text-align: center;
-  padding: 72px 20px 36px;
+  padding: 64px 20px 28px;
 }
 
 .hero h1 {
   margin: 0 0 14px;
-  font-size: clamp(2.3rem, 4vw, 4rem);
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: var(--nb9-gold-soft);
@@ -118,12 +114,11 @@ header {
 .hero-subtitle {
   margin: 0 auto;
   max-width: 760px;
-  font-size: 1.08rem;
+  font-size: 1.06rem;
   color: #cad4e6;
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
-/* Optional descriptor / small intro text */
 .hero p,
 .hero-copy p,
 section p {
@@ -131,7 +126,7 @@ section p {
 }
 
 .hero-copy {
-  padding: 6px 20px 0;
+  padding: 18px 24px 0;
 }
 
 .hero-copy p,
@@ -142,12 +137,11 @@ section p {
   color: var(--nb9-muted);
 }
 
-/* Generic section titles */
 section h2 {
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   color: var(--nb9-text);
-  margin: 0 0 16px;
-  padding-bottom: 10px;
+  margin: 0 0 14px;
+  padding-bottom: 8px;
   position: relative;
   border-bottom: none;
 }
@@ -174,7 +168,6 @@ section ul {
   margin: 0;
 }
 
-/* Panels / structured blocks */
 .hero-copy,
 .cta,
 #output,
@@ -191,16 +184,14 @@ section.panel,
   box-shadow: var(--nb9-shadow);
 }
 
-/* Tighten panels used for supporting text */
 .hero-copy {
   padding: 24px 24px;
   margin-top: 14px;
 }
 
-/* CTA / interaction zone */
 .cta {
-  margin-top: 28px;
-  padding: 28px 20px;
+  margin-top: 24px;
+  padding: 24px 20px;
   position: relative;
   overflow: hidden;
 }
@@ -215,7 +206,8 @@ section.panel,
   pointer-events: none;
 }
 
-.signal-capture-container {
+.signal-capture-container,
+.tool-area {
   position: relative;
   z-index: 1;
   background: linear-gradient(
@@ -224,17 +216,20 @@ section.panel,
     rgba(255, 255, 255, 0.022)
   );
   border: 1px solid rgba(212, 175, 55, 0.18);
+  border-left: 2px solid var(--nb9-teal);
   border-radius: 18px;
-  padding: 22px;
+  padding: 20px;
   box-shadow:
     inset 0 0 18px rgba(212, 175, 55, 0.05),
-    0 12px 30px rgba(0, 0, 0, 0.28);
+    0 12px 30px rgba(0, 0, 0, 0.28),
+    0 0 18px rgba(139, 92, 246, 0.12);
 }
 
-/* Textarea */
 textarea,
 .cta textarea,
-#signalInput {
+#signalInput,
+.signal-input,
+input[type="text"] {
   display: block;
   width: 100%;
   min-height: 170px;
@@ -253,17 +248,21 @@ textarea,
 }
 
 textarea::placeholder,
-#signalInput::placeholder {
+#signalInput::placeholder,
+.signal-input::placeholder {
   color: #8da0c2;
 }
 
 textarea:hover,
-#signalInput:hover {
+#signalInput:hover,
+.signal-input:hover {
   border-color: rgba(20, 241, 217, 0.28);
 }
 
 textarea:focus,
-#signalInput:focus {
+#signalInput:focus,
+.signal-input:focus,
+input[type="text"]:focus {
   border-color: rgba(20, 241, 217, 0.72);
   box-shadow:
     0 0 0 3px rgba(20, 241, 217, 0.08),
@@ -271,7 +270,6 @@ textarea:focus,
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* Button rows */
 .tool-actions,
 .button-row,
 .hero-actions {
@@ -285,18 +283,18 @@ textarea:focus,
 }
 
 .hero-actions {
-  margin-top: 26px;
-  padding: 24px 20px;
+  margin-top: 22px;
+  padding: 22px 20px;
   justify-content: center;
 }
 
-/* Buttons */
 button,
 .primary-btn,
 .secondary-btn,
 .btn-primary,
 .btn-secondary,
-.feedback-btn {
+.feedback-btn,
+.cta-button {
   font-family: inherit;
   font-size: 0.98rem;
   border-radius: 12px;
@@ -314,7 +312,8 @@ button:hover,
 .secondary-btn:hover,
 .btn-primary:hover,
 .btn-secondary:hover,
-.feedback-btn:hover {
+.feedback-btn:hover,
+.cta-button:hover {
   transform: translateY(-1px);
 }
 
@@ -323,25 +322,29 @@ button:active,
 .secondary-btn:active,
 .btn-primary:active,
 .btn-secondary:active,
-.feedback-btn:active {
+.feedback-btn:active,
+.cta-button:active {
   transform: translateY(0);
 }
 
-/* Primary action */
 .primary-btn,
 .btn-primary,
 .cta .primary-btn,
 .cta button.primary-btn,
 .tool-actions .primary-btn,
-.tool-actions .btn-primary {
+.tool-actions .btn-primary,
+button.generate,
+button.capture,
+.cta-button {
   padding: 13px 24px;
   background: linear-gradient(180deg, #f2d57a, #d4af37);
   color: #11182d;
   border: 1px solid rgba(255, 230, 153, 0.38);
   font-weight: 700;
   letter-spacing: 0.01em;
+  min-width: 180px;
   box-shadow:
-    0 0 16px rgba(212, 175, 55, 0.22),
+    0 0 16px rgba(212, 175, 55, 0.28),
     0 8px 20px rgba(0, 0, 0, 0.22);
 }
 
@@ -349,31 +352,50 @@ button:active,
 .btn-primary:hover,
 .cta .primary-btn:hover,
 .tool-actions .primary-btn:hover,
-.tool-actions .btn-primary:hover {
+.tool-actions .btn-primary:hover,
+button.generate:hover,
+button.capture:hover,
+.cta-button:hover {
   background: linear-gradient(180deg, #ffe7a3, #ddb74a);
   box-shadow:
-    0 0 20px rgba(212, 175, 55, 0.32),
+    0 0 20px rgba(212, 175, 55, 0.36),
     0 0 8px rgba(20, 241, 217, 0.16);
 }
 
-/* Secondary actions */
 .secondary-btn,
-.btn-secondary {
+.btn-secondary,
+button.secondary,
+button.clear,
+button.feedback {
   padding: 11px 18px;
   background: rgba(255, 255, 255, 0.045);
   color: #dde6f5;
-  border: 1px solid rgba(139, 92, 246, 0.28);
+  border: 2px solid rgba(139, 92, 246, 0.42);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .secondary-btn:hover,
-.btn-secondary:hover {
-  background: rgba(139, 92, 246, 0.12);
-  border-color: rgba(139, 92, 246, 0.52);
+.btn-secondary:hover,
+button.secondary:hover,
+button.clear:hover,
+button.feedback:hover {
+  background: rgba(139, 92, 246, 0.14);
+  border-color: rgba(139, 92, 246, 0.65);
   box-shadow: 0 0 14px rgba(139, 92, 246, 0.18);
 }
 
-/* Feedback buttons */
+.btn-secondary-teal {
+  border-color: rgba(20, 241, 217, 0.5);
+  color: var(--nb9-teal);
+}
+
+.btn-secondary-teal:hover {
+  background: rgba(20, 241, 217, 0.12);
+  border-color: rgba(20, 241, 217, 0.72);
+  box-shadow: 0 0 14px rgba(20, 241, 217, 0.14);
+  color: #ffffff;
+}
+
 .feedback-btn {
   padding: 10px 14px;
   background: rgba(255, 255, 255, 0.04);
@@ -386,10 +408,9 @@ button:active,
   box-shadow: 0 0 14px rgba(20, 241, 217, 0.14);
 }
 
-/* Output area */
 #output {
-  margin-top: 28px;
-  padding: 28px 20px;
+  margin-top: 24px;
+  padding: 24px 20px;
 }
 
 #output .card {
@@ -431,17 +452,27 @@ button:active,
   opacity: 0.82;
 }
 
-/* Utility */
 .tight-text {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Responsive */
+.divider-accent {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(155, 107, 255, 0.3),
+    transparent
+  );
+  margin: 1.8rem 0;
+}
+
 @media (max-width: 900px) {
   .hero {
-    padding: 56px 18px 28px;
+    padding: 52px 18px 24px;
   }
 
   .hero h1 {
@@ -449,7 +480,7 @@ button:active,
   }
 
   section {
-    padding: 28px 18px;
+    padding: 26px 18px;
   }
 
   .hero-copy,
@@ -477,7 +508,7 @@ button:active,
   }
 
   .hero {
-    padding: 46px 16px 24px;
+    padding: 42px 16px 22px;
   }
 
   .hero-subtitle {
@@ -493,13 +524,15 @@ button:active,
     padding-right: 16px;
   }
 
-  .signal-capture-container {
+  .signal-capture-container,
+  .tool-area {
     padding: 16px;
   }
 
   textarea,
   .cta textarea,
-  #signalInput {
+  #signalInput,
+  .signal-input {
     min-height: 150px;
     font-size: 0.98rem;
   }
@@ -515,7 +548,8 @@ button:active,
   .secondary-btn,
   .btn-primary,
   .btn-secondary,
-  .feedback-btn {
+  .feedback-btn,
+  .cta-button {
     width: 100%;
     text-align: center;
   }
