@@ -856,24 +856,6 @@ textarea {
   border-left: 3px solid #d4af37;
 }
 
-/* === NB9 FINAL STRUCTURE LAYER === */
-
-/* Main layout tightening */
-main, body {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 30px 16px;
-}
-
-/* FORCE ALL SECTIONS INTO STRUCTURED BOXES */
-section {
-  background: rgba(10, 20, 40, 0.75);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
 /* TEXT CONTROL */
 h1, h2 {
   margin-bottom: 10px;
