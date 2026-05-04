@@ -592,3 +592,178 @@ button {
   border-radius: 10px;
   cursor: pointer;
 }
+
+/* =========================
+   GLOBAL STRUCTURE
+========================= */
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: #e2e8f0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* =========================
+   PANEL SYSTEM (CONTAINMENT)
+========================= */
+
+.panel {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 28px 24px;
+  border-radius: 16px;
+
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02),
+    0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* subtle glow variation per step */
+.panel-entry { border-left: 3px solid #6366f1; }
+.panel-capture { border-left: 3px solid #22c55e; }
+.panel-interpret { border-left: 3px solid #38bdf8; }
+.panel-act { border-left: 3px solid #fbbf24; }
+.panel-expand { border-left: 3px solid #a855f7; }
+
+/* =========================
+   TYPOGRAPHY (HIERARCHY)
+========================= */
+
+h1, h2 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  max-width: 65ch;
+}
+
+/* tighten spacing */
+.panel p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================
+   INPUT FIELD (CAPTURE)
+========================= */
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px;
+  border-radius: 10px;
+
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  color: #e2e8f0;
+  font-size: 0.95rem;
+
+  outline: none;
+}
+
+textarea:focus {
+  border: 1px solid #22c55e;
+  box-shadow: 0 0 0 1px rgba(34,197,94,0.3);
+}
+
+/* =========================
+   BUTTON SYSTEM (PRIORITY)
+========================= */
+
+.btn-primary {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 22px;
+
+  border-radius: 10px;
+  border: none;
+
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  background: linear-gradient(135deg, #fbbf24, #d4af37);
+  color: #020617;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 20px rgba(251,191,36,0.25),
+    0 0 0 1px rgba(255,255,255,0.05);
+
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 10px 28px rgba(251,191,36,0.35);
+}
+
+/* secondary */
+
+.btn-secondary {
+  display: inline-block;
+  margin-top: 16px;
+  margin-left: 10px;
+  padding: 12px 22px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+
+  background: transparent;
+  color: #a5b4fc;
+
+  font-weight: 500;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(99,102,241,0.1);
+}
+
+/* =========================
+   SECTION FLOW (SPACING)
+========================= */
+
+.panel + .panel {
+  margin-top: 20px;
+}
+
+/* =========================
+   SIGNAL / OUTPUT BLOCK
+========================= */
+
+.output-box {
+  margin-top: 16px;
+  padding: 16px;
+
+  border-radius: 12px;
+
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.output-box strong {
+  color: #22c55e;
+}
