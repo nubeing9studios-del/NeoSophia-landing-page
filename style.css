@@ -767,3 +767,91 @@ textarea:focus {
 .output-box strong {
   color: #22c55e;
 }
+
+/* === NB9 STRUCTURE OVERRIDE LAYER === */
+
+/* Global tightening */
+body {
+  line-height: 1.5;
+}
+
+/* Main content width control */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* SECTION CONTAINERS */
+section {
+  background: rgba(20, 30, 60, 0.6);
+  border: 1px solid rgba(255, 215, 120, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+/* HEADINGS */
+h1, h2 {
+  margin-bottom: 12px;
+}
+
+p {
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+
+/* BUTTON SYSTEM */
+button,
+.btn,
+input[type="submit"] {
+  padding: 14px 22px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* PRIMARY BUTTON (GOLD) */
+.primary-btn {
+  background: linear-gradient(135deg, #d4af37, #f5d06f);
+  color: #0a0f2a;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+/* SECONDARY BUTTON (GREEN) */
+.secondary-btn {
+  background: rgba(60, 180, 140, 0.2);
+  color: #7ef0c8;
+  border: 1px solid rgba(60, 180, 140, 0.4);
+}
+
+/* BUTTON GROUP CENTERING */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* INPUT AREA */
+textarea {
+  width: 100%;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.2);
+  color: white;
+  margin-top: 10px;
+}
+
+/* RESULT BOX */
+.result-box {
+  background: rgba(0,0,0,0.25);
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 14px;
+  border-left: 3px solid #d4af37;
+}
