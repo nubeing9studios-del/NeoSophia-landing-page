@@ -88,6 +88,12 @@ header {
   text-transform: uppercase;
 }
 
+.nb9-logo img {
+  width: 120px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
+}
 .studio-tag {
   font-size: 0.92rem;
   color: #b8c3d9;
