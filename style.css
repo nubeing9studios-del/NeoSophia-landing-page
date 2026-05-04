@@ -942,3 +942,108 @@ section {
 * {
   box-sizing: border-box;
 }
+
+/* === FINAL REFINEMENT: CENTER + TIGHTEN === */
+
+/* 1. CENTER ALL CONTENT */
+main {
+  text-align: center;
+}
+
+section {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 2. TIGHTER CONTENT WIDTH */
+section,
+.container,
+.panel {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+}
+
+/* 3. HEADINGS + TEXT BALANCE */
+h1, h2, h3 {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+p {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 16px auto;
+}
+
+/* 4. BUTTON GROUPING (PRIMARY ACTION ZONE) */
+.button-group,
+.cta-group {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* 5. PRIMARY BUTTON (GOLD) */
+button.primary,
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37, #f5d76e);
+  color: #111;
+  font-weight: 600;
+  padding: 14px 24px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(212,175,55,0.4);
+}
+
+/* 6. SECONDARY BUTTON (TEAL) */
+button.secondary,
+.btn-secondary {
+  background: linear-gradient(135deg, #1f8f8f, #3ad1c8);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 10px;
+}
+
+/* 7. INPUT BOX TIGHTEN */
+textarea,
+input {
+  max-width: 700px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* 8. ACTION BUTTONS UNDER INPUT */
+textarea + button,
+input + button {
+  margin-top: 12px;
+}
+
+/* 9. FEEDBACK BUTTON COLORS */
+.feedback button:nth-child(1) {
+  background: #d4af37; /* gold */
+  color: #111;
+}
+
+.feedback button:nth-child(2) {
+  background: #3ad1c8; /* teal */
+  color: #111;
+}
+
+.feedback button:nth-child(3) {
+  background: #6c5ce7; /* purple */
+  color: white;
+}
+
+.feedback button:nth-child(4) {
+  background: #2ecc71; /* green */
+  color: #111;
+}
+
+/* 10. MAKE FEEDBACK BUTTONS LOOK CLEAN */
+.feedback button {
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin: 6px;
+  min-width: 180px;
+}
