@@ -1144,3 +1144,10 @@ hr,
   background: linear-gradient(90deg, transparent, var(--gold-main), transparent);
   opacity: 0.6;
 }
+
+.main-logo {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 120px;
+  height: auto;
+}
