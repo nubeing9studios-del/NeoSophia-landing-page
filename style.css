@@ -558,3 +558,37 @@ button.feedback:hover {
     padding: 16px;
   }
 }
+
+/* === SIGNAL CAPTURE UPGRADE === */
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.signal-hero {
+  width: 90%;
+  max-width: 720px;
+  margin: auto;
+  padding: 40px;
+  border-radius: 16px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 200px;
+  font-size: 16px;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 14px 32px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
