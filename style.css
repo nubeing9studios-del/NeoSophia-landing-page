@@ -1047,3 +1047,100 @@ input + button {
   margin: 6px;
   min-width: 180px;
 }
+
+/* === FINAL POLISH: PREMIUM LOOK === */
+
+/* 1. TRUE GOLD SYSTEM */
+:root {
+  --gold-main: #d4af37;
+  --gold-soft: #f5d76e;
+  --gold-glow: rgba(212, 175, 55, 0.35);
+}
+
+/* 2. PANEL DEPTH (THIS CHANGES EVERYTHING) */
+section,
+.container,
+.panel {
+  background: linear-gradient(180deg, rgba(20,30,60,0.9), rgba(10,15,40,0.95));
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02),
+    0 10px 30px rgba(0,0,0,0.4),
+    inset 0 0 20px rgba(255,255,255,0.02);
+  border-radius: 14px;
+}
+
+/* 3. PRIMARY BUTTON (GOLD - NOW PREMIUM) */
+button.primary,
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37, #f5d76e);
+  color: #111;
+  font-weight: 600;
+  border: none;
+  box-shadow:
+    0 0 12px var(--gold-glow),
+    0 4px 12px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+}
+
+/* HOVER = LIFE */
+button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 18px var(--gold-glow),
+    0 6px 16px rgba(0,0,0,0.5);
+}
+
+/* 4. SECONDARY BUTTON (TEAL UPGRADE) */
+button.secondary,
+.btn-secondary {
+  background: linear-gradient(135deg, #1f8f8f, #3ad1c8);
+  box-shadow:
+    0 0 10px rgba(58,209,200,0.3),
+    0 4px 12px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+}
+
+button.secondary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 16px rgba(58,209,200,0.5),
+    0 6px 16px rgba(0,0,0,0.5);
+}
+
+/* 5. INPUT FIELD (FEELS MORE "SYSTEM") */
+textarea,
+input {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* 6. FEEDBACK BUTTONS (CLEAN + CONSISTENT) */
+.feedback button {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.feedback button:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+}
+
+/* 7. HEADLINE GOLD ACCENT */
+h1 {
+  background: linear-gradient(90deg, #d4af37, #f5d76e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 8. SUBTLE DIVIDER ACCENTS */
+hr,
+.divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-main), transparent);
+  opacity: 0.6;
+}
