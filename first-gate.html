@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NeoSophia First Gate — a public onboarding guide to clarity, coherence, and conscious action by Nubeing 9 Studios." />
+  <title>NeoSophia First Gate — Nubeing 9 Studios</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --navy: #0b1026;
+      --blue: #0b1f3b;
+      --teal: #14f1d9;
+      --gold: #d4af37;
+      --gold-soft: #f2d57a;
+      --text: #e8edf7;
+      --muted: #a9b6cc;
+      --panel: rgba(255,255,255,0.045);
+      --border: rgba(255,255,255,0.1);
+      --max: 960px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top center, rgba(20,241,217,0.08), transparent 32%),
+        radial-gradient(circle at 85% 12%, rgba(212,175,55,0.10), transparent 22%),
+        linear-gradient(180deg, var(--bg), var(--navy) 55%, #09101f 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      color: var(--gold-soft);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.86rem;
+    }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      margin-left: 16px;
+    }
+
+    .nav a:hover { color: var(--gold-soft); }
+
+    main { max-width: var(--max); margin: 0 auto; padding: 40px 20px 70px; }
+
+    .hero {
+      padding: 58px 0 36px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      line-height: 0.98;
+      margin: 0 0 18px;
+      color: var(--gold-soft);
+      letter-spacing: -0.04em;
+      text-shadow: 0 0 28px rgba(212,175,55,0.16);
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 0 auto;
+      color: #d7dfef;
+      font-size: 1.12rem;
+    }
+
+    .quote {
+      margin: 28px auto 0;
+      max-width: 760px;
+      padding: 18px 22px;
+      border: 1px solid rgba(212,175,55,0.22);
+      border-left: 3px solid var(--gold);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.035);
+      color: var(--gold-soft);
+      font-size: 1.03rem;
+    }
+
+    section {
+      margin: 22px 0;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
+      box-shadow: 0 18px 42px rgba(0,0,0,0.28);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      color: var(--text);
+    }
+
+    h3 { color: var(--gold-soft); margin-bottom: 8px; }
+
+    p { color: var(--muted); margin: 0 0 14px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .card {
+      padding: 18px;
+      border: 1px solid rgba(20,241,217,0.14);
+      border-radius: 14px;
+      background: rgba(5,8,22,0.34);
+    }
+
+    .card strong {
+      color: var(--teal);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .loop {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .loop-step {
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(20,241,217,0.06);
+      border: 1px solid rgba(20,241,217,0.16);
+    }
+
+    .loop-step span {
+      display: inline-block;
+      color: var(--gold-soft);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .pathway {
+      border-left: 3px solid var(--teal);
+    }
+
+    .path-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+    }
+
+    .path-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: var(--muted);
+    }
+
+    .path-list li strong { color: var(--text); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .primary {
+      color: #0b1026;
+      background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+      box-shadow: 0 0 18px rgba(212,175,55,0.28);
+    }
+
+    .secondary {
+      color: var(--teal);
+      border: 1px solid rgba(20,241,217,0.36);
+      background: rgba(20,241,217,0.07);
+    }
+
+    footer {
+      text-align: center;
+      color: #8190aa;
+      padding: 30px 20px 54px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 760px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .nav a { margin-left: 0; margin-right: 12px; }
+      main { padding-top: 20px; }
+      section { padding: 22px 18px; }
+      .grid, .loop { grid-template-columns: 1fr; }
+      .hero { padding-top: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">NeoSophia · Nubeing 9 Studios</div>
+    <nav class="nav">
+      <a href="index.html">Signal Capture</a>
+      <a href="https://www.nubeing9.com/" target="_blank" rel="noopener">Nubeing9.com</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="eyebrow">The First Gate</div>
+      <h1>Clarity. Coherence. Conscious Action.</h1>
+      <p class="subtitle">A grounded entry into NeoSophia: a developmental environment for stabilising perception, regulating emotional response, and aligning behaviour with conscious intention.</p>
+      <div class="quote">You are not being asked to adopt beliefs. You are being invited to develop clarity.</div>
+    </div>
+
+    <section>
+      <h2>What NeoSophia Is</h2>
+      <p>NeoSophia helps individuals observe internal response patterns, reduce reactive behaviour, and gradually increase behavioural coherence. It works across immediate clarity tools and longer developmental practice pathways.</p>
+      <div class="grid">
+        <div class="card"><strong>Immediate Clarity</strong><p>Tools for moments of friction, overwhelm, or mental overload. Entry point: Signal Capture.</p></div>
+        <div class="card"><strong>Developmental Practice</strong><p>Structured pathways for building coherence over time. Entry points: The First Gate, Coherence Reset, and 7-Day Reset.</p></div>
+        <div class="card"><strong>Deeper Intelligence</strong><p>Pattern recognition and decision support systems in development for deeper layers of the ecosystem.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What Is Coherence?</h2>
+      <p>Coherence is the alignment between what you intend, what you feel, and how you act. When all three move in the same direction, clearer thinking, calmer communication, and more intentional action become possible.</p>
+    </section>
+
+    <section>
+      <h2>Signal Capture: The Primary Entry Tool</h2>
+      <p>Signal Capture is used when you know something needs to happen but cannot clearly identify what it is. It turns unclear internal signal into one clear, actionable next step.</p>
+      <div class="actions">
+        <a class="btn primary" href="index.html">Use Signal Capture</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>The Coherence Loop</h2>
+      <p>A simple four-phase awareness cycle that can be used in moments of internal disruption. It does not require analysis. It requires practice.</p>
+      <div class="loop">
+        <div class="loop-step"><span>Phase 1</span><h3>Recognition</h3><p>Notice internal activation or emotional shift.</p></div>
+        <div class="loop-step"><span>Phase 2</span><h3>Stabilisation</h3><p>Pause, slow breathing, reduce immediate reaction.</p></div>
+        <div class="loop-step"><span>Phase 3</span><h3>Alignment</h3><p>Ask: what outcome do I want to create here?</p></div>
+        <div class="loop-step"><span>Phase 4</span><h3>Action</h3><p>Choose behaviour consistent with that outcome.</p></div>
+      </div>
+    </section>
+
+    <section class="pathway">
+      <h2>The Pathway From Here</h2>
+      <p>The First Gate introduces stabilisation and awareness. From here, the journey can deepen through practical tools and structured pathways.</p>
+      <ul class="path-list">
+        <li><strong>1. Signal Capture</strong> — instant clarity and one next step.</li>
+        <li><strong>2. NeoSophia First Gate</strong> — understanding clarity, coherence, and conscious action.</li>
+        <li><strong>3. Coherence Reset</strong> — short stabilisation bridge.</li>
+        <li><strong>4. 7-Day Coherence Reset</strong> — daily practice pathway.</li>
+        <li><strong>5. 28-Day Coherence Cycle</strong> — deeper behavioural coherence container.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Begin Simply</h2>
+      <p>You are not required to become someone new. You are learning to notice more clearly, stabilise more consistently, and act more intentionally.</p>
+      <div class="actions">
+        <a class="btn primary" href="index.html">Return to Signal Capture</a>
+        <a class="btn secondary" href="https://www.nubeing9.com/" target="_blank" rel="noopener">Visit Nubeing9.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    NeoSophia™ · Nubeing 9 Studios · www.nubeing9.com · 2026
+  </footer>
+</body>
+</html>
