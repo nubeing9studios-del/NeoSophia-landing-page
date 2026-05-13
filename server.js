@@ -1,10 +1,11 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
@@ -22,21 +23,19 @@ app.post("/generate", async (req, res) => {
     return res.status(400).json({ output: "Please enter a signal." });
   }
 
-  if (!ANTHROPIC_API_KEY) {
-    return res.status(500).json({ output: "Missing Anthropic API key on server." });
+  if (!OPENROUTER_API_KEY) {
+    return res.status(500).json({ output: "Missing OpenRouter API key on server." });
   }
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "x-api-key": ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json"
+        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 300,
+        model: "openai/gpt-4o-mini",
         messages: [
           {
             role: "user",
@@ -60,7 +59,8 @@ Do not be dramatic. Do not over-explain.
 
 User signal: ${input}`
           }
-        ]
+        ],
+        max_tokens: 300
       })
     });
 
@@ -70,12 +70,13 @@ User signal: ${input}`
       const message =
         data?.error?.message ||
         data?.error ||
-        "Anthropic API request failed.";
+        "OpenRouter API request failed.";
+
       return res.status(500).json({ output: `API error: ${message}` });
     }
 
     const output =
-      data?.content?.[0]?.text ||
+      data?.choices?.[0]?.message?.content ||
       "No response returned from the AI.";
 
     return res.json({ output });
