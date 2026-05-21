@@ -1,3 +1,5 @@
+let pendingClarification = null;
+
 function scrollToTool() {
   const tool = document.getElementById("toolSection");
   if (tool) {
@@ -12,8 +14,17 @@ function scrollToSection() {
 function clearSignal() {
   const input = document.getElementById("signalInput");
   const outputEl = document.getElementById("output");
-  if (input) input.value = "";
+  const button = document.getElementById("generateBtn");
+
+  pendingClarification = null;
+
+  if (input) {
+    input.value = "";
+    input.placeholder = "Example: I feel stuck and I don’t know what to focus on.";
+  }
+
   if (outputEl) outputEl.innerHTML = "";
+  if (button) button.innerText = "Generate Insight";
 }
 
 async function generateInsight() {
@@ -23,13 +34,23 @@ async function generateInsight() {
   const button = document.getElementById("generateBtn");
 
   if (!input.trim()) {
-    outputEl.innerText = "Please enter a signal first.";
+    outputEl.innerText = pendingClarification
+      ? "Please answer the clarifying question first."
+      : "Please enter a signal first.";
     return;
   }
 
-  button.innerText = "Reading the signal...";
+  const originalDisplayInput = pendingClarification
+    ? `${pendingClarification.originalSignal}\nClarification answer: ${input}`
+    : input;
+
+  const payloadInput = pendingClarification
+    ? `Original signal: ${pendingClarification.originalSignal}\nClarifying question asked: ${pendingClarification.question}\nUser clarification answer: ${input}\n\nNow provide the full Signal Capture response using SIGNAL, STATE, DISTORTION, INSIGHT, and NEXT BEST ACTION. Do not ask another clarifying question unless the answer is still impossible to interpret.`
+    : input;
+
+  button.innerText = pendingClarification ? "Reading clarification..." : "Reading the signal...";
   button.disabled = true;
-  outputEl.innerText = "Processing your signal...";
+  outputEl.innerText = pendingClarification ? "Processing your clarification..." : "Processing your signal...";
 
   try {
     const res = await fetch("https://neosophia-landing-page.onrender.com/generate", {
@@ -37,23 +58,43 @@ async function generateInsight() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ input })
+      body: JSON.stringify({ input: payloadInput })
     });
 
     const data = await res.json();
     const insight = data.output || "No response received.";
     outputEl.innerText = insight;
 
-    saveToHistory(input, insight);
-    renderHistory();
-
-    showEnterButton();
+    if (isClarifyingQuestion(insight)) {
+      pendingClarification = {
+        originalSignal: input,
+        question: insight
+      };
+      inputEl.value = "";
+      inputEl.placeholder = "Answer the clarifying question here, then press Submit Clarification.";
+      button.innerText = "Submit Clarification";
+    } else {
+      saveToHistory(originalDisplayInput, insight);
+      renderHistory();
+      pendingClarification = null;
+      inputEl.placeholder = "Example: I feel stuck and I don’t know what to focus on.";
+      button.innerText = "Generate Insight";
+      showEnterButton();
+    }
   } catch (err) {
     outputEl.innerText = "Could not connect to the AI server. Your signal is still captured locally — try again shortly.";
   }
 
-  button.innerText = "Generate Insight";
   button.disabled = false;
+
+  if (!pendingClarification) {
+    button.innerText = "Generate Insight";
+  }
+}
+
+function isClarifyingQuestion(text) {
+  const normalized = text.trim().toUpperCase();
+  return normalized.startsWith("CLARIFYING QUESTION");
 }
 
 function showEnterButton() {
