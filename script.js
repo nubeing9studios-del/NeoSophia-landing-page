@@ -24,7 +24,7 @@ function clearSignal() {
   }
 
   if (outputEl) outputEl.innerHTML = "";
-  if (button) button.innerText = "Generate Insight";
+  if (button) button.innerText = "Capture Signal";
 }
 
 async function generateInsight() {
@@ -40,8 +40,11 @@ async function generateInsight() {
     return;
   }
 
-  const originalDisplayInput = pendingClarification
-    ? `${pendingClarification.originalSignal}\nClarification answer: ${input}`
+  const displayInput = pendingClarification
+    ? {
+        originalSignal: pendingClarification.originalSignal,
+        clarificationAnswer: input
+      }
     : input;
 
   const payloadInput = pendingClarification
@@ -74,11 +77,11 @@ async function generateInsight() {
       inputEl.placeholder = "Answer the clarifying question here, then press Submit Clarification.";
       button.innerText = "Submit Clarification";
     } else {
-      saveToHistory(originalDisplayInput, insight);
+      saveToHistory(displayInput, insight);
       renderHistory();
       pendingClarification = null;
       inputEl.placeholder = "Example: I feel stuck and I don’t know what to focus on.";
-      button.innerText = "Generate Insight";
+      button.innerText = "Capture Signal";
       showEnterButton();
     }
   } catch (err) {
@@ -88,7 +91,7 @@ async function generateInsight() {
   button.disabled = false;
 
   if (!pendingClarification) {
-    button.innerText = "Generate Insight";
+    button.innerText = "Capture Signal";
   }
 }
 
@@ -154,13 +157,37 @@ function renderHistory() {
     div.className = "history-entry";
 
     div.innerHTML = `
-      <strong>Signal:</strong><br>${entry.input}<br><br>
-      <strong>Insight:</strong><br>${entry.output}<br>
-      <div class="history-meta">${entry.time}</div>
+      ${formatSignalForHistory(entry.input)}<br><br>
+      <strong>Insight:</strong><br>${formatTextForDisplay(entry.output)}<br>
+      <div class="history-meta">${escapeHtml(entry.time)}</div>
     `;
 
     container.appendChild(div);
   });
+}
+
+function formatSignalForHistory(input) {
+  if (input && typeof input === "object" && input.originalSignal && input.clarificationAnswer) {
+    return `
+      <strong>Original Signal:</strong><br>${formatTextForDisplay(input.originalSignal)}<br><br>
+      <strong>Clarification:</strong><br>${formatTextForDisplay(input.clarificationAnswer)}
+    `;
+  }
+
+  return `<strong>Signal:</strong><br>${formatTextForDisplay(input || "")}`;
+}
+
+function formatTextForDisplay(text) {
+  return escapeHtml(String(text || "")).replace(/\n/g, "<br>");
+}
+
+function escapeHtml(text) {
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function clearHistory() {
