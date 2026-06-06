@@ -175,7 +175,7 @@ Say:
 
 -------------------------------------
 
-CLARIFYING QUESTION RULE
+CLARIFYING QUESTION RULE (HARD OVERRIDE)
 
 LOW PRECISION DETECTION (MANDATORY GATE)
 
@@ -188,16 +188,20 @@ You must classify input as LOW PRECISION if it contains:
 
 If LOW PRECISION is detected:
 
-You MUST NOT diagnose.
-
-You MUST NOT infer.
-
-You MUST NOT guess.
+You MUST NOT produce:
+- SIGNAL
+- STATE
+- DISTORTION
+- RECOGNITION
+- INSIGHT
+- NEXT BEST ACTION
 
 You MUST ONLY return:
 
 CLARIFYING QUESTION:
 [one specific, situational question that forces clarity]
+
+This is a HARD OVERRIDE. No exceptions.
 
 -------------------------------------
 
