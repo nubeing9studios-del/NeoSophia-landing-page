@@ -1,15 +1,14 @@
-let pendingClarification = null;
+let clarificationCount = 0;
 
 async function generateInsight() {
   const inputEl = document.getElementById("signalInput");
-  const input = inputEl.value;
   const outputEl = document.getElementById("output");
   const button = document.getElementById("generateBtn");
 
-  if (!input.trim()) {
-    outputEl.innerText = pendingClarification
-      ? "Answer the clarifying question."
-      : "Enter a signal.";
+  const input = inputEl.value.trim();
+
+  if (!input) {
+    outputEl.innerText = "Enter a signal.";
     return;
   }
 
@@ -18,7 +17,7 @@ async function generateInsight() {
   outputEl.innerText = "Processing...";
 
   try {
-    const res = await fetch("https://neosophia-landing-page.onrender.com/generate", {
+    const res = await fetch("/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -27,61 +26,61 @@ async function generateInsight() {
     });
 
     const data = await res.json();
-    const insight = data.output || "No response.";
+    let text = data.output || "No response.";
 
-    outputEl.innerHTML = formatOutput(insight);
+    // 🚨 HANDLE CLARIFYING QUESTION
+    if (text.includes("CLARIFYING QUESTION")) {
+      clarificationCount++;
 
-    saveToHistory(input, insight);
-    renderHistory();
+      if (clarificationCount >= 2) {
+        clarificationCount = 0;
+      }
+
+      outputEl.innerHTML = `
+        <div style="padding:20px; font-size:18px;">
+          ${text}
+        </div>
+      `;
+      return;
+    }
+
+    // ✅ RESET counter when full answer arrives
+    clarificationCount = 0;
+
+    // 🚨 CLEAN + FORMAT OUTPUT
+    const sections = {
+      SIGNAL: "",
+      STATE: "",
+      DISTORTION: "",
+      RECOGNITION: "",
+      INSIGHT: "",
+      "NEXT BEST ACTION": ""
+    };
+
+    Object.keys(sections).forEach(key => {
+      const regex = new RegExp(`${key}:([\\s\\S]*?)(?=(SIGNAL:|STATE:|DISTORTION:|RECOGNITION:|INSIGHT:|NEXT BEST ACTION:|$))`);
+      const match = text.match(regex);
+      if (match) {
+        sections[key] = match[1].trim();
+      }
+    });
+
+    // ✅ BUILD CLEAN UI
+    outputEl.innerHTML = `
+      <div style="padding:20px; line-height:1.6;">
+        <p><strong>SIGNAL:</strong> ${sections.SIGNAL}</p>
+        <p><strong>STATE:</strong> ${sections.STATE}</p>
+        <p><strong>DISTORTION:</strong> ${sections.DISTORTION}</p>
+        <p><strong>RECOGNITION:</strong> ${sections.RECOGNITION}</p>
+        <p><strong>INSIGHT:</strong> ${sections.INSIGHT}</p>
+        <p><strong>NEXT BEST ACTION:</strong> ${sections["NEXT BEST ACTION"]}</p>
+      </div>
+    `;
 
   } catch (err) {
     outputEl.innerText = "Connection error. Try again.";
   }
 
-  button.disabled = false;
   button.innerText = "Capture Signal";
+  button.disabled = false;
 }
-
-function formatOutput(text) {
-  return text
-    .replace("SIGNAL:", "<b>SIGNAL:</b>")
-    .replace("STATE:", "<br><b>STATE:</b>")
-    .replace("DISTORTION:", "<br><b>DISTORTION:</b>")
-    .replace("INSIGHT:", "<br><b>INSIGHT:</b>")
-    .replace("NEXT ACTION:", "<br><b>NEXT ACTION:</b>");
-}
-
-function saveToHistory(input, output) {
-  const history = JSON.parse(localStorage.getItem("signalHistory")) || [];
-
-  history.unshift({
-    input,
-    output,
-    time: new Date().toLocaleString()
-  });
-
-  localStorage.setItem("signalHistory", JSON.stringify(history));
-}
-
-function renderHistory() {
-  const history = JSON.parse(localStorage.getItem("signalHistory")) || [];
-  const container = document.getElementById("history");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  history.slice(0, 5).forEach(entry => {
-    const div = document.createElement("div");
-
-    div.innerHTML = `
-      <strong>Signal:</strong><br>${entry.input}<br><br>
-      <strong>Insight:</strong><br>${entry.output}<br>
-      <small>${entry.time}</small>
-    `;
-
-    container.appendChild(div);
-  });
-}
-
-window.onload = renderHistory;
