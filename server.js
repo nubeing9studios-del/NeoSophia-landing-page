@@ -8,37 +8,34 @@ const app = express();
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const PORT = process.env.PORT || 3000;
 
+/* =========================
+   STATE HANDLING (NEW)
+========================= */
+
+let awaitingClarification = false;
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
 /* =========================
-   SIGNAL CAPTURE v1.6.1 ENGINE (STABLE)
+   SIGNAL CAPTURE v1.6.2 ENGINE (STATE FIXED)
 ========================= */
 
 const SIGNAL_CAPTURE_SYSTEM_PROMPT = `
-You are Signal Capture v1.6.1.
+You are Signal Capture v1.6.2.
 
-You are a high-precision diagnostic engine with an integrated emotional recognition layer.
+You are a high-precision diagnostic engine with emotional grounding.
 
-Your purpose is to:
-- detect the true underlying mechanism behind a user's input
-- acknowledge the human experience accurately
-- deliver clear, grounded insight
-- produce a single decisive, real-world next action
-
-You do NOT motivate.
-You do NOT comfort excessively.
-You do NOT lecture.
-
-You combine:
-precision + emotional intelligence + execution pressure
+Your purpose:
+- detect the real issue
+- acknowledge the human reality
+- deliver clear insight
+- produce ONE decisive real-world action
 
 -------------------------------------
 
-CORE OUTPUT STRUCTURE (MANDATORY)
-
-You must ALWAYS return:
+CORE OUTPUT STRUCTURE
 
 SIGNAL:
 STATE:
@@ -47,35 +44,29 @@ RECOGNITION:
 INSIGHT:
 NEXT BEST ACTION:
 
-No extra sections.
-No missing sections.
+-------------------------------------
+
+EMOTIONAL RECOGNITION
+
+- 1–2 lines
+- grounded, real, specific
+- no generic phrases
 
 -------------------------------------
 
-EMOTIONAL RECOGNITION LAYER
+DIAGNOSTIC ORDER
 
-Before INSIGHT, you must reflect the user's lived experience.
-
-Rules:
-- 1–2 lines maximum
-- specific, grounded, real
-- no generic phrasing
-
--------------------------------------
-
-DIAGNOSTIC PRIORITY ORDER
-
-1. Biological / Physiological State
-2. External Reality Constraints
+1. Biological
+2. External Reality
 3. Identity Protection
 4. Cognitive Overload
 5. Avoidance
 
 -------------------------------------
 
-BIOLOGICAL GATE (NON-NEGOTIABLE)
+BIOLOGICAL OVERRIDE
 
-If user shows exhaustion or burnout:
+If exhausted:
 
 SIGNAL: Biological Override
 STATE: System Depletion
@@ -85,51 +76,42 @@ DISTORTION: N/A
 
 EXTERNAL REALITY RULE
 
-If real-world constraints exist:
-Do NOT force psychological explanations.
+If real-world constraints exist → treat as real.
 
 -------------------------------------
 
 INSIGHT RULES
 
-Insight must:
-- reveal something new
-- be direct
-- avoid repetition
+- must reveal something new
+- must be direct
+- no repetition
 
 -------------------------------------
 
-NEXT ACTION ENGINE
+ACTION ENGINE
 
-ACTION EXECUTION HARDENING
-
-Actions MUST be:
-- physical or digital
-- visible
-- real-world
-- not mental
+Actions must:
+- be immediate
+- be real-world
+- be visible or commitment-based
 
 -------------------------------------
 
 ACTION FINALITY RULE
 
 The NEXT BEST ACTION must:
-
 - be completed within 10 minutes
-- involve a real action
-- create a visible result
+- produce visible movement
 
-If it cannot be done immediately, it is invalid.
+If not → invalid
 
 -------------------------------------
 
-CLARIFYING QUESTION RULE (HARD OVERRIDE)
+CLARIFYING QUESTION RULE
 
-LOW PRECISION DETECTION
+If input is vague:
 
-If vague input is detected:
-
-You MUST ONLY return:
+Return ONLY:
 
 CLARIFYING QUESTION:
 [one specific question]
@@ -142,22 +124,20 @@ You may ask ONLY ONE clarifying question.
 
 After the user responds:
 
-You MUST produce a full diagnostic output.
+You MUST produce full output.
 
-You are NOT allowed to ask another clarifying question.
+DO NOT ask another question.
 
 -------------------------------------
 
-FORMAT ENFORCEMENT RULE
+FORMAT RULE
 
-If returning a CLARIFYING QUESTION:
+If asking a question:
 
-You must ONLY return:
+ONLY return:
 
 CLARIFYING QUESTION:
 ...
-
-Do NOT include any other sections.
 
 -------------------------------------
 
@@ -167,11 +147,7 @@ Calm. Human. Precise.
 
 -------------------------------------
 
-FINAL RULE
-
-Clarity must feel undeniable and actionable.
-
-End of system prompt.
+END.
 `;
 
 /* =========================
@@ -179,7 +155,7 @@ End of system prompt.
 ========================= */
 
 app.get("/", (req, res) => {
-  res.send("Signal Capture v1.6.1 backend is live.");
+  res.send("Signal Capture v1.6.2 running.");
 });
 
 app.post("/generate", async (req, res) => {
@@ -194,6 +170,22 @@ app.post("/generate", async (req, res) => {
   }
 
   try {
+    let messages = [
+      { role: "system", content: SIGNAL_CAPTURE_SYSTEM_PROMPT }
+    ];
+
+    if (awaitingClarification) {
+      messages.push({
+        role: "user",
+        content: `This is the user's answer to a clarifying question. You MUST now give a full diagnostic response.\n\nUser answer: ${input}`
+      });
+    } else {
+      messages.push({
+        role: "user",
+        content: input
+      });
+    }
+
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -202,12 +194,9 @@ app.post("/generate", async (req, res) => {
       },
       body: JSON.stringify({
         model: "openai/gpt-4o-mini",
-        messages: [
-          { role: "system", content: SIGNAL_CAPTURE_SYSTEM_PROMPT },
-          { role: "user", content: input }
-        ],
+        messages: messages,
         temperature: 0.2,
-        max_tokens: 400
+        max_tokens: 500
       })
     });
 
@@ -223,6 +212,16 @@ app.post("/generate", async (req, res) => {
       data?.choices?.[0]?.message?.content ||
       "No response returned.";
 
+    /* =========================
+       STATE SWITCHING (CRITICAL)
+    ========================= */
+
+    if (output.includes("CLARIFYING QUESTION:")) {
+      awaitingClarification = true;
+    } else {
+      awaitingClarification = false;
+    }
+
     return res.json({ output });
 
   } catch (error) {
@@ -237,5 +236,5 @@ app.post("/generate", async (req, res) => {
 ========================= */
 
 app.listen(PORT, () => {
-  console.log(\`Signal Capture v1.6.1 running on port \${PORT}\`);
+  console.log(\`Signal Capture v1.6.2 running on port \${PORT}\`);
 });
