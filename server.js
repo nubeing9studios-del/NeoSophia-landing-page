@@ -1,138 +1,83 @@
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
+import express from "express";
+import fetch from "node-fetch";
 
 const app = express();
-
-app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
-// ✅ Serve static files from root (IMPORTANT)
-app.use(express.static(__dirname));
-
-// ✅ ROOT FIX (this is what you're missing)
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// ===============================
-// SIGNAL CAPTURE API
-// ===============================
-
-app.post("/api/insight", (req, res) => {
+app.post("/api/interpret", async (req, res) => {
   const { signal } = req.body;
 
-  if (!signal || signal.trim() === "") {
+  if (!signal || signal.trim().length < 5) {
     return res.json({
-      type: "clarify",
-      content: "CLARIFYING QUESTION: What is active for you right now?"
+      response: "Please enter a clearer signal."
     });
   }
 
-  const input = signal.toLowerCase();
-
-  // --- SMART CLARIFY LOGIC ---
-  if (
-    input.length < 8 ||
-    input.includes("not sure") ||
-    input.includes("idk") ||
-    input.includes("confused")
-  ) {
+  // === CLARIFYING LOGIC ===
+  if (signal.length < 20 || signal.split(" ").length < 4) {
     return res.json({
-      type: "clarify",
-      content:
-        "CLARIFYING QUESTION: What specific area of your life or situation does this relate to?"
+      response: `CLARIFYING QUESTION:\nWhat specifically about "${signal}" feels most active or unresolved right now?`
     });
   }
 
-  // ===============================
-  // INSIGHT ENGINE
-  // ===============================
+  const prompt = `
+You are Signal Capture — a clarity system.
 
-  let response = {};
+Return structured insight only.
 
-  if (input.includes("business") || input.includes("start")) {
-    response = {
-      signal: "Starting a new business venture",
-      state: "Excitement mixed with uncertainty",
-      distortion: "Overwhelm from the number of steps and unknowns ahead",
-      recognition:
-        "This is a transition point between security and independence",
-      insight:
-        "Clarity comes from breaking complexity into structured, manageable parts rather than trying to solve everything at once",
-      action: `
-1. Define your core idea in one sentence (what problem you solve)
-2. Identify your target audience (who specifically needs this)
-3. Outline a simple offer (what you provide and how)
-4. Block 3–5 hours this week to work ONLY on this
-5. Take one visible step (write it, name it, or test it)
+FORMAT:
 
-Focus on movement, not perfection.
-`
-    };
-  } else if (input.includes("stuck")) {
-    response = {
-      signal: "Feeling stuck",
-      state: "Low clarity and reduced momentum",
-      distortion: "Belief that nothing is changing or progressing",
-      recognition:
-        "Stuckness often signals overload or lack of clear direction",
-      insight:
-        "Movement returns when you reduce scope and act on something small and immediate",
-      action: `
-1. Identify one area causing the most friction
-2. Reduce it to the smallest possible step
-3. Set a 10–15 minute timer
-4. Take action immediately without overthinking
-5. Stop after completion — build momentum gradually
-
-Small movement breaks stagnation.
-`
-    };
-  } else {
-    response = {
-      signal: "Unstructured signal",
-      state: "Unclear or undefined",
-      distortion: "Lack of clarity",
-      recognition: "Need to define the signal more clearly",
-      insight:
-        "Clarity improves when the signal is made more specific and grounded",
-      action: `
-1. Rewrite your signal in one clear sentence
-2. Specify what area it relates to
-3. Identify what outcome you want
-4. Take one small step toward that outcome
-
-Clarity comes from definition.
-`
-    };
-  }
-
-  return res.json({
-    type: "insight",
-    content: `
-SIGNAL: ${response.signal}
-
-STATE: ${response.state}
-
-DISTORTION: ${response.distortion}
-
-RECOGNITION: ${response.recognition}
-
-INSIGHT: ${response.insight}
+SIGNAL:
+STATE:
+DISTORTION:
+RECOGNITION:
+INSIGHT:
 
 NEXT BEST ACTION:
-${response.action}
-`
-  });
+
+1. Immediate (do now)
+2. Short-term (today / this week)
+3. Direction (next phase)
+
+RULES:
+- No fluff
+- No therapy language
+- No generic advice
+- Must be precise, grounded, useful
+- Action must be specific and executable
+- Keep clarity high
+
+Signal:
+"${signal}"
+`;
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.7
+      })
+    });
+
+    const data = await response.json();
+
+    res.json({
+      response: data.choices[0].message.content
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error processing request.");
+  }
 });
 
-// ===============================
-// START SERVER
-// ===============================
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
 });
