@@ -1,11 +1,15 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🧠 Track whether user is in clarification mode
+// 🔥 Serve frontend files
+app.use(express.static("public"));
+
+// 🧠 Track clarification state
 let awaitingClarification = false;
 
 const isVague = (input) => {
@@ -28,6 +32,7 @@ const isVague = (input) => {
   );
 };
 
+// 🔥 MAIN API
 app.post("/generate", async (req, res) => {
   const input = req.body.input?.trim();
 
@@ -35,68 +40,76 @@ app.post("/generate", async (req, res) => {
     return res.json({ output: "Please enter a signal." });
   }
 
-  // 🔥 IF WAITING FOR CLARIFICATION → FORCE FULL OUTPUT
+  // 🔁 IF CLARIFICATION RESPONSE
   if (awaitingClarification) {
     awaitingClarification = false;
 
-    const response = `
+    return res.json({
+      output: `
 SIGNAL: ${input}
 
 STATE: Movement mixed with uncertainty
 
 DISTORTION: Overwhelm created by multiple possible paths
 
-RECOGNITION: Awareness that something needs to shift or evolve
+RECOGNITION: Awareness that something needs to shift
 
-INSIGHT: This is no longer a vague signal. You have now identified a direction. The tension you feel is not confusion — it is the friction between where you are and where you want to go.
+INSIGHT: You now have direction. The issue is not confusion — it is hesitation at the edge of action.
 
 NEXT BEST ACTION:
-1. Define exactly what "starting your own business" means for you (type, service, or idea)
-2. Identify one simple starting point (research, outline, or first action)
-3. Remove all non-essential thinking — focus only on the first move
-4. Commit to one action within 24 hours
-5. Track progress — adjust, don't hesitate
+1. Define what "starting your business" actually is (offer, service, or idea)
+2. Choose ONE simple first step (research, outline, or test)
+3. Remove all unnecessary thinking
+4. Take action within 24 hours
+5. Track progress and adjust
 
-Clarity is built through movement, not waiting.
-`;
-
-    return res.json({ output: response });
+Clarity comes from movement.
+`
+    });
   }
 
-  // 🔥 FIRST PASS → CHECK IF VAGUE
+  // ❓ IF VAGUE INPUT
   if (isVague(input)) {
     awaitingClarification = true;
 
     return res.json({
-      output: `CLARIFYING QUESTION: What specific area or situation does this relate to?`
+      output: "CLARIFYING QUESTION: What specific area or situation does this relate to?"
     });
   }
 
-  // 🔥 DIRECT CLEAR INPUT → FULL OUTPUT
-  const response = `
+  // ✅ CLEAR INPUT
+  return res.json({
+    output: `
 SIGNAL: ${input}
 
-STATE: Forward movement with underlying uncertainty
+STATE: Forward movement with uncertainty
 
-DISTORTION: Overcomplicating the path ahead
+DISTORTION: Overcomplicating the path
 
-RECOGNITION: Desire to create change and take control
+RECOGNITION: Desire for change
 
-INSIGHT: You are not lacking clarity — you are standing at the edge of action. The signal is already strong enough to move.
+INSIGHT: You are already at the point of action. The next step is not more thinking — it is movement.
 
 NEXT BEST ACTION:
-1. Break the idea into one clear starting step
-2. Define a simple plan (not perfect, just usable)
-3. Take immediate action within 24 hours
-4. Avoid over-planning — prioritise movement
-5. Review and refine as you go
+1. Break this into one clear first step
+2. Take action within 24 hours
+3. Avoid overplanning
+4. Learn through execution
+5. Adjust based on results
 
-Momentum creates clarity — not the other way around.
-`;
-
-  res.json({ output: response });
+Momentum creates clarity.
+`
+  });
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+// 🔥 ROOT ROUTE FIX
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve("public/index.html"));
+});
+
+// 🔥 START SERVER
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
