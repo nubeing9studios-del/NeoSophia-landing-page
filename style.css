@@ -1,6 +1,6 @@
 /* =========================
-   NEOSOPHIA SIGNAL CAPTURE UI
-   CLEAN SYSTEM V1
+   NEOSOPHIA SIGNAL CAPTURE
+   RESONANCE UI SYSTEM V2
 ========================= */
 
 /* RESET */
@@ -14,7 +14,7 @@
 /* BASE */
 body {
   background: radial-gradient(circle at top,
-    #0f172a 0%,
+    #0b1220 0%,
     #020617 60%,
     #01030a 100%
   );
@@ -24,12 +24,12 @@ body {
 
 /* CONTAINER */
 .container {
-  max-width: 700px;
+  max-width: 720px;
   margin: auto;
 }
 
 /* =========================
-   HEADER
+   HERO
 ========================= */
 .hero {
   text-align: center;
@@ -38,11 +38,12 @@ body {
 
   background: linear-gradient(
     135deg,
-    rgba(34, 211, 238, 0.08),
-    rgba(139, 92, 246, 0.08)
+    rgba(34,197,94,0.08),
+    rgba(79,70,229,0.08),
+    rgba(168,85,247,0.08)
   );
 
-  border: 1px solid rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(34,197,94,0.2);
   margin-bottom: 25px;
 }
 
@@ -50,7 +51,7 @@ body {
   font-size: 32px;
   font-weight: 700;
 
-  background: linear-gradient(135deg, #facc15, #22d3ee);
+  background: linear-gradient(135deg, #22c55e, #6366f1, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -66,11 +67,12 @@ body {
 .section {
   background: linear-gradient(
     135deg,
-    rgba(14, 165, 233, 0.08),
-    rgba(139, 92, 246, 0.08)
+    rgba(34,197,94,0.06),
+    rgba(79,70,229,0.06),
+    rgba(168,85,247,0.06)
   );
 
-  border: 1px solid rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(99,102,241,0.2);
   border-radius: 18px;
   padding: 20px;
   margin-bottom: 20px;
@@ -89,11 +91,11 @@ h2 {
   margin: 10px 0 20px;
   border-radius: 2px;
 
-  background: linear-gradient(90deg, #22d3ee, #8b5cf6);
+  background: linear-gradient(90deg, #22c55e, #6366f1, #a855f7);
 }
 
 /* =========================
-   HOW IT WORKS CARDS
+   STEPS
 ========================= */
 .step {
   padding: 15px;
@@ -102,11 +104,12 @@ h2 {
 
   background: linear-gradient(
     135deg,
-    rgba(34, 211, 238, 0.10),
-    rgba(139, 92, 246, 0.10)
+    rgba(34,197,94,0.08),
+    rgba(79,70,229,0.08),
+    rgba(168,85,247,0.08)
   );
 
-  border: 1px solid rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(168,85,247,0.2);
 }
 
 .step strong {
@@ -123,9 +126,9 @@ textarea {
   padding: 15px;
 
   border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  border: 1px solid rgba(148,163,184,0.2);
 
-  background: rgba(2, 6, 23, 0.8);
+  background: rgba(2,6,23,0.85);
   color: #e2e8f0;
 
   font-size: 14px;
@@ -143,25 +146,32 @@ button {
   margin-bottom: 10px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* PRIMARY (GOLD ONLY) */
+/* GOLD = ACTION */
 button.primary {
   background: linear-gradient(135deg, #facc15, #eab308);
   color: #020617;
-  box-shadow: 0 0 20px rgba(250, 204, 21, 0.25);
+  box-shadow: 0 0 18px rgba(250,204,21,0.3);
 }
 
-/* SECONDARY (TEAL → PURPLE FLOW) */
+/* GREEN = RESET / GROUND */
 button.secondary {
-  background: linear-gradient(135deg, #22d3ee, #8b5cf6);
-  color: #020617;
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  color: #022c22;
 }
 
-/* TERTIARY (SUBTLE) */
+/* PURPLE/INDIGO = MEMORY */
 button.tertiary {
-  background: rgba(148, 163, 184, 0.1);
-  color: #cbd5f5;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: white;
+}
+
+/* HOVER */
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
 }
 
 /* =========================
@@ -170,14 +180,24 @@ button.tertiary {
 .output-card {
   background: linear-gradient(
     135deg,
-    rgba(34, 211, 238, 0.08),
-    rgba(139, 92, 246, 0.08)
+    rgba(34,197,94,0.06),
+    rgba(79,70,229,0.06),
+    rgba(168,85,247,0.06)
   );
 
-  border: 1px solid rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(99,102,241,0.2);
   border-radius: 18px;
   padding: 20px;
   margin-top: 20px;
+}
+
+/* =========================
+   TEXT STRUCTURE
+========================= */
+.output-card strong {
+  display: block;
+  margin-top: 10px;
+  color: #cbd5f5;
 }
 
 /* =========================
