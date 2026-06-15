@@ -6,10 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔥 Serve frontend files
-app.use(express.static("public"));
+// 🔥 Serve ALL files from root
+app.use(express.static("."));
 
-// 🧠 Track clarification state
+// 🧠 Clarification state
 let awaitingClarification = false;
 
 const isVague = (input) => {
@@ -32,15 +32,13 @@ const isVague = (input) => {
   );
 };
 
-// 🔥 MAIN API
-app.post("/generate", async (req, res) => {
+app.post("/generate", (req, res) => {
   const input = req.body.input?.trim();
 
   if (!input) {
     return res.json({ output: "Please enter a signal." });
   }
 
-  // 🔁 IF CLARIFICATION RESPONSE
   if (awaitingClarification) {
     awaitingClarification = false;
 
@@ -50,25 +48,24 @@ SIGNAL: ${input}
 
 STATE: Movement mixed with uncertainty
 
-DISTORTION: Overwhelm created by multiple possible paths
+DISTORTION: Overwhelm from too many paths
 
-RECOGNITION: Awareness that something needs to shift
+RECOGNITION: You are ready for change
 
-INSIGHT: You now have direction. The issue is not confusion — it is hesitation at the edge of action.
+INSIGHT: You now have direction. The hesitation is not confusion — it is the moment before action.
 
 NEXT BEST ACTION:
-1. Define what "starting your business" actually is (offer, service, or idea)
-2. Choose ONE simple first step (research, outline, or test)
-3. Remove all unnecessary thinking
+1. Define exactly what this means (be specific)
+2. Choose ONE simple starting step
+3. Ignore everything else
 4. Take action within 24 hours
-5. Track progress and adjust
+5. Adjust after movement
 
-Clarity comes from movement.
+Clarity follows action.
 `
     });
   }
 
-  // ❓ IF VAGUE INPUT
   if (isVague(input)) {
     awaitingClarification = true;
 
@@ -77,37 +74,35 @@ Clarity comes from movement.
     });
   }
 
-  // ✅ CLEAR INPUT
   return res.json({
     output: `
 SIGNAL: ${input}
 
 STATE: Forward movement with uncertainty
 
-DISTORTION: Overcomplicating the path
+DISTORTION: Overthinking the path
 
 RECOGNITION: Desire for change
 
-INSIGHT: You are already at the point of action. The next step is not more thinking — it is movement.
+INSIGHT: You are already at the point of action.
 
 NEXT BEST ACTION:
-1. Break this into one clear first step
-2. Take action within 24 hours
+1. Break this into one clear step
+2. Act within 24 hours
 3. Avoid overplanning
 4. Learn through execution
-5. Adjust based on results
+5. Adjust as needed
 
 Momentum creates clarity.
 `
   });
 });
 
-// 🔥 ROOT ROUTE FIX
+// 🔥 ROOT FIX (CRITICAL)
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("public/index.html"));
+  res.sendFile(path.resolve("index.html"));
 });
 
-// 🔥 START SERVER
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
