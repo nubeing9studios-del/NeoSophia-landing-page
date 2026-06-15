@@ -1,1159 +1,187 @@
-:root {
-  --nb9-black: #050816;
-  --nb9-indigo: #080b1a;
-  --nb9-navy: #0b1026;
-  --nb9-blue: #0b1f3b;
-  --nb9-teal: #14f1d9;
-  --nb9-purple: #8b5cf6;
-  --nb9-gold: #d4af37;
-  --nb9-gold-soft: #f2d57a;
-  --nb9-muted: #94a3b8;
-  --nb9-text: #e8edf7;
-  --nb9-white: #ffffff;
-  --nb9-panel: rgba(255, 255, 255, 0.03);
-  --nb9-panel-2: rgba(255, 255, 255, 0.05);
-  --nb9-border: rgba(255, 255, 255, 0.08);
-  --nb9-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-  --nb9-radius: 16px;
-  --nb9-radius-sm: 10px;
-  --nb9-max: 1080px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+/* ===============================
+   GLOBAL
+================================= */
 
 body {
   margin: 0;
-  padding: 0;
-  font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background:
-    radial-gradient(circle at top center, rgba(20, 241, 217, 0.08), transparent 28%),
-    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.12), transparent 24%),
-    linear-gradient(180deg, var(--nb9-black), var(--nb9-navy) 55%, #09101f 100%);
-  color: var(--nb9-muted);
-  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #0a1a3a, #020617);
+  color: #e2e8f0;
   line-height: 1.6;
 }
 
-header,
-main,
-section,
-footer {
-  width: 100%;
-}
-
-.hero,
-.hero-copy,
-.cta,
-#output,
-.hero-actions,
-section {
-  max-width: var(--nb9-max);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-section {
-  padding: 32px 20px;
-}
-
-header {
-  padding: 18px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.015),
-    rgba(255, 255, 255, 0.005)
-  );
-  backdrop-filter: blur(6px);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-
-.nb9-logo {
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--nb9-gold-soft);
-  text-transform: uppercase;
-}
-
-.nb9-logo img {
-  width: 120px;
-  height: auto;
-  display: block;
-  margin: 0 auto 10px auto;
-}
-.studio-tag {
-  font-size: 0.92rem;
-  color: #b8c3d9;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
-}
+/* ===============================
+   HERO
+================================= */
 
 .hero {
   text-align: center;
-  padding: 64px 20px 28px;
+  padding: 40px 20px;
 }
 
 .hero h1 {
-  margin: 0 0 14px;
-  font-size: clamp(2.2rem, 4vw, 3.8rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: var(--nb9-gold-soft);
-  text-shadow:
-    0 0 24px rgba(212, 175, 55, 0.16),
-    0 0 3px rgba(255, 255, 255, 0.04);
+  font-size: 2.5rem;
+  color: #facc15; /* GOLD */
+  margin-bottom: 10px;
 }
 
-.hero-subtitle {
-  margin: 0 auto;
-  max-width: 760px;
-  font-size: 1.06rem;
-  color: #cad4e6;
-  line-height: 1.7;
+.subtitle {
+  color: #94a3b8;
+  font-size: 1.1rem;
 }
 
-.hero p,
-.hero-copy p,
-section p {
-  margin-top: 0;
-}
+/* ===============================
+   SECTIONS
+================================= */
 
-.hero-copy {
-  padding: 18px 24px 0;
-}
-
-.hero-copy p,
-.hero-copy {
-  max-width: 760px;
-  text-align: center;
-  font-size: 1rem;
-  color: var(--nb9-muted);
-}
-
-section h2 {
-  font-size: 1.4rem;
-  color: var(--nb9-text);
-  margin: 0 0 14px;
-  padding-bottom: 8px;
-  position: relative;
-  border-bottom: none;
-}
-
-section h2::after {
-  content: "";
-  display: block;
-  width: 58px;
-  height: 2px;
-  margin-top: 10px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--nb9-teal), var(--nb9-purple));
-  opacity: 0.85;
-}
-
-section p,
-section li {
-  font-size: 1rem;
-  color: var(--nb9-muted);
-}
-
-section ul {
-  padding-left: 18px;
-  margin: 0;
-}
-
-.hero-copy,
-.cta,
-#output,
-.hero-actions,
-section.panel,
-.section-panel {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.028),
-    rgba(255, 255, 255, 0.018)
-  );
-  border: 1px solid var(--nb9-border);
-  border-radius: var(--nb9-radius);
-  box-shadow: var(--nb9-shadow);
-}
-
-.hero-copy {
-  padding: 24px 24px;
-  margin-top: 14px;
-}
-
-.cta {
-  margin-top: 24px;
-  padding: 24px 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 15% 15%, rgba(20, 241, 217, 0.06), transparent 24%),
-    radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.08), transparent 24%);
-  pointer-events: none;
-}
-
-.signal-capture-container,
-.tool-area {
-  position: relative;
-  z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.035),
-    rgba(255, 255, 255, 0.022)
-  );
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  border-left: 2px solid var(--nb9-teal);
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow:
-    inset 0 0 18px rgba(212, 175, 55, 0.05),
-    0 12px 30px rgba(0, 0, 0, 0.28),
-    0 0 18px rgba(139, 92, 246, 0.12);
-}
-
-textarea,
-.cta textarea,
-#signalInput,
-.signal-input,
-input[type="text"] {
-  display: block;
-  width: 100%;
-  min-height: 170px;
-  margin: 0;
-  padding: 16px 18px;
-  font: inherit;
-  font-size: 1rem;
-  line-height: 1.65;
-  color: var(--nb9-white);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(123, 146, 188, 0.22);
-  border-radius: 14px;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
-}
-
-textarea::placeholder,
-#signalInput::placeholder,
-.signal-input::placeholder {
-  color: #8da0c2;
-}
-
-textarea:hover,
-#signalInput:hover,
-.signal-input:hover {
-  border-color: rgba(20, 241, 217, 0.28);
-}
-
-textarea:focus,
-#signalInput:focus,
-.signal-input:focus,
-input[type="text"]:focus {
-  border-color: rgba(20, 241, 217, 0.72);
-  box-shadow:
-    0 0 0 3px rgba(20, 241, 217, 0.08),
-    0 0 18px rgba(20, 241, 217, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.tool-actions,
-.button-row,
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.tool-actions {
-  margin-top: 18px;
-}
-
-.hero-actions {
-  margin-top: 22px;
-  padding: 22px 20px;
-  justify-content: center;
-}
-
-button,
-.primary-btn,
-.secondary-btn,
-.btn-primary,
-.btn-secondary,
-.feedback-btn,
-.cta-button {
-  font-family: inherit;
-  font-size: 0.98rem;
-  border-radius: 12px;
-  cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.22s ease,
-    border-color 0.22s ease,
-    background 0.22s ease,
-    color 0.22s ease;
-}
-
-button:hover,
-.primary-btn:hover,
-.secondary-btn:hover,
-.btn-primary:hover,
-.btn-secondary:hover,
-.feedback-btn:hover,
-.cta-button:hover {
-  transform: translateY(-1px);
-}
-
-button:active,
-.primary-btn:active,
-.secondary-btn:active,
-.btn-primary:active,
-.btn-secondary:active,
-.feedback-btn:active,
-.cta-button:active {
-  transform: translateY(0);
-}
-
-.primary-btn,
-.btn-primary,
-.cta .primary-btn,
-.cta button.primary-btn,
-.tool-actions .primary-btn,
-.tool-actions .btn-primary,
-button.generate,
-button.capture,
-.cta-button {
-  padding: 13px 24px;
-  background: linear-gradient(180deg, #f2d57a, #d4af37);
-  color: #11182d;
-  border: 1px solid rgba(255, 230, 153, 0.38);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  min-width: 180px;
-  box-shadow:
-    0 0 16px rgba(212, 175, 55, 0.28),
-    0 8px 20px rgba(0, 0, 0, 0.22);
-}
-
-.primary-btn:hover,
-.btn-primary:hover,
-.cta .primary-btn:hover,
-.tool-actions .primary-btn:hover,
-.tool-actions .btn-primary:hover,
-button.generate:hover,
-button.capture:hover,
-.cta-button:hover {
-  background: linear-gradient(180deg, #ffe7a3, #ddb74a);
-  box-shadow:
-    0 0 20px rgba(212, 175, 55, 0.36),
-    0 0 8px rgba(20, 241, 217, 0.16);
-}
-
-.secondary-btn,
-.btn-secondary,
-button.secondary,
-button.clear,
-button.feedback {
-  padding: 11px 18px;
-  background: rgba(255, 255, 255, 0.045);
-  color: #dde6f5;
-  border: 2px solid rgba(139, 92, 246, 0.42);
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-}
-
-.secondary-btn:hover,
-.btn-secondary:hover,
-button.secondary:hover,
-button.clear:hover,
-button.feedback:hover {
-  background: rgba(139, 92, 246, 0.14);
-  border-color: rgba(139, 92, 246, 0.65);
-  box-shadow: 0 0 14px rgba(139, 92, 246, 0.18);
-}
-
-.btn-secondary-teal {
-  border-color: rgba(20, 241, 217, 0.5);
-  color: var(--nb9-teal);
-}
-
-.btn-secondary-teal:hover {
-  background: rgba(20, 241, 217, 0.12);
-  border-color: rgba(20, 241, 217, 0.72);
-  box-shadow: 0 0 14px rgba(20, 241, 217, 0.14);
-  color: #ffffff;
-}
-
-.feedback-btn {
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #d4def0;
-  border: 1px solid rgba(20, 241, 217, 0.16);
-}
-
-.feedback-btn:hover {
-  border-color: rgba(20, 241, 217, 0.42);
-  box-shadow: 0 0 14px rgba(20, 241, 217, 0.14);
-}
-
-#output {
-  margin-top: 24px;
-  padding: 24px 20px;
-}
-
-#output .card {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.032),
-    rgba(255, 255, 255, 0.02)
-  );
-  border: 1px solid rgba(123, 146, 188, 0.14);
+section {
+  margin: 20px;
+  padding: 25px;
   border-radius: 16px;
-  padding: 20px;
-  box-shadow:
-    inset 0 0 14px rgba(80, 120, 255, 0.04),
-    0 10px 28px rgba(0, 0, 0, 0.2);
-}
-
-#output .card + .card {
-  margin-top: 14px;
-}
-
-#output .card h3,
-.section-title {
-  margin: 0 0 12px;
-  font-size: 1.08rem;
-  color: var(--nb9-text);
-  letter-spacing: 0.01em;
-  position: relative;
-}
-
-#output .card h3::after,
-.section-title::after {
-  content: "";
-  display: block;
-  width: 42px;
-  height: 2px;
-  margin-top: 8px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--nb9-teal), var(--nb9-purple));
-  opacity: 0.82;
-}
-
-.tight-text {
-  max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.divider-accent {
-  height: 1px;
-  width: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(155, 107, 255, 0.3),
-    transparent
-  );
-  margin: 1.8rem 0;
-}
-
-@media (max-width: 900px) {
-  .hero {
-    padding: 52px 18px 24px;
-  }
-
-  .hero h1 {
-    font-size: clamp(2rem, 7vw, 3rem);
-  }
-
-  section {
-    padding: 26px 18px;
-  }
-
-  .hero-copy,
-  .cta,
-  #output,
-  .hero-actions {
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-}
-
-@media (max-width: 640px) {
-  header {
-    padding: 16px 16px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nb9-logo {
-    font-size: 1.2rem;
-  }
-
-  .studio-tag {
-    font-size: 0.88rem;
-  }
-
-  .hero {
-    padding: 42px 16px 22px;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-  }
-
-  .hero-copy,
-  .cta,
-  #output,
-  .hero-actions,
-  section {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .signal-capture-container,
-  .tool-area {
-    padding: 16px;
-  }
-
-  textarea,
-  .cta textarea,
-  #signalInput,
-  .signal-input {
-    min-height: 150px;
-    font-size: 0.98rem;
-  }
-
-  .tool-actions,
-  .button-row,
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .primary-btn,
-  .secondary-btn,
-  .btn-primary,
-  .btn-secondary,
-  .feedback-btn,
-  .cta-button {
-    width: 100%;
-    text-align: center;
-  }
-
-  #output .card {
-    padding: 16px;
-  }
-}
-
-/* === SIGNAL CAPTURE UPGRADE === */
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.signal-hero {
-  width: 90%;
-  max-width: 720px;
-  margin: auto;
-  padding: 40px;
-  border-radius: 16px;
-}
-
-textarea {
-  width: 100%;
-  min-height: 200px;
-  font-size: 16px;
-  padding: 16px;
-  border-radius: 10px;
-}
-
-button {
-  display: block;
-  margin: 20px auto;
-  padding: 14px 32px;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* =========================
-   GLOBAL STRUCTURE
-========================= */
-
-body {
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: #e2e8f0;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-/* =========================
-   PANEL SYSTEM (CONTAINMENT)
-========================= */
-
-.panel {
-  max-width: 900px;
-  margin: 32px auto;
-  padding: 28px 24px;
-  border-radius: 16px;
-
   background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(8px);
-
-  border: 1px solid rgba(255, 255, 255, 0.05);
-
+  backdrop-filter: blur(10px);
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.02),
+    0 0 0 1px rgba(255,255,255,0.05),
     0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* subtle glow variation per step */
-.panel-entry { border-left: 3px solid #6366f1; }
-.panel-capture { border-left: 3px solid #22c55e; }
-.panel-interpret { border-left: 3px solid #38bdf8; }
-.panel-act { border-left: 3px solid #fbbf24; }
-.panel-expand { border-left: 3px solid #a855f7; }
+/* ===============================
+   HOW IT WORKS
+================================= */
 
-/* =========================
-   TYPOGRAPHY (HIERARCHY)
-========================= */
-
-h1, h2 {
-  font-weight: 600;
-  letter-spacing: -0.02em;
+.how-it-works h2 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 12px;
+.step {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(0,255,200,0.08),
+    rgba(139,92,246,0.08)
+  );
+
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
-h2 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
+.step h3 {
+  margin-bottom: 8px;
+  color: #e2e8f0;
 }
 
-p {
-  color: #94a3b8;
-  line-height: 1.5;
-  margin-bottom: 10px;
-  max-width: 65ch;
-}
-
-/* tighten spacing */
-.panel p:last-child {
-  margin-bottom: 0;
-}
-
-/* =========================
-   INPUT FIELD (CAPTURE)
-========================= */
+/* ===============================
+   INPUT
+================================= */
 
 textarea {
   width: 100%;
   min-height: 120px;
-  padding: 14px;
-  border-radius: 10px;
-
-  background: rgba(2, 6, 23, 0.7);
-  border: 1px solid rgba(255,255,255,0.08);
-
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(2, 6, 23, 0.8);
   color: #e2e8f0;
-  font-size: 0.95rem;
-
+  font-size: 1rem;
+  margin-bottom: 15px;
   outline: none;
 }
 
 textarea:focus {
-  border: 1px solid #22c55e;
-  box-shadow: 0 0 0 1px rgba(34,197,94,0.3);
+  border-color: #22d3ee; /* TEAL */
+  box-shadow: 0 0 10px rgba(34,211,238,0.4);
 }
 
-/* =========================
-   BUTTON SYSTEM (PRIORITY)
-========================= */
+/* ===============================
+   BUTTONS
+================================= */
 
-.btn-primary {
-  display: inline-block;
-  margin-top: 16px;
-  padding: 12px 22px;
-
-  border-radius: 10px;
+button {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 12px;
   border: none;
-
+  font-size: 1rem;
+  cursor: pointer;
   font-weight: 600;
-  font-size: 0.95rem;
+}
 
-  background: linear-gradient(135deg, #fbbf24, #d4af37);
+/* PRIMARY */
+button:first-of-type {
+  background: linear-gradient(135deg, #facc15, #eab308);
   color: #020617;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 6px 20px rgba(251,191,36,0.25),
-    0 0 0 1px rgba(255,255,255,0.05);
-
-  transition: all 0.2s ease;
 }
 
-.btn-primary:hover {
+/* SECONDARY */
+button:nth-of-type(2) {
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  color: #020617;
+}
+
+/* TERTIARY */
+button:nth-of-type(3) {
+  background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+  color: white;
+}
+
+button:hover {
+  opacity: 0.9;
   transform: translateY(-1px);
-  box-shadow:
-    0 10px 28px rgba(251,191,36,0.35);
 }
 
-/* secondary */
+/* ===============================
+   OUTPUT CARD
+================================= */
 
-.btn-secondary {
-  display: inline-block;
-  margin-top: 16px;
-  margin-left: 10px;
-  padding: 12px 22px;
+#output {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 16px;
 
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(34,211,238,0.08),
+    rgba(139,92,246,0.08)
+  );
 
-  background: transparent;
-  color: #a5b4fc;
-
-  font-weight: 500;
-  cursor: pointer;
-
-  transition: all 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+  white-space: pre-wrap;
 }
 
-.btn-secondary:hover {
-  background: rgba(99,102,241,0.1);
-}
+/* ===============================
+   HISTORY
+================================= */
 
-/* =========================
-   SECTION FLOW (SPACING)
-========================= */
-
-.panel + .panel {
+#history {
   margin-top: 20px;
 }
 
-/* =========================
-   SIGNAL / OUTPUT BLOCK
-========================= */
-
-.output-box {
-  margin-top: 16px;
-  padding: 16px;
-
+.history-item {
+  margin-bottom: 15px;
+  padding: 15px;
   border-radius: 12px;
 
   background: rgba(2, 6, 23, 0.6);
-  border: 1px solid rgba(255,255,255,0.05);
+
+  border-left: 3px solid;
+  border-image: linear-gradient(180deg, #22d3ee, #8b5cf6) 1;
 }
 
-.output-box strong {
-  color: #22c55e;
-}
+/* ===============================
+   MOBILE OPTIMISATION
+================================= */
 
-/* === NB9 STRUCTURE OVERRIDE LAYER === */
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
 
-/* Global tightening */
-body {
-  line-height: 1.5;
-}
-
-/* Main content width control */
-main {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-
-/* SECTION CONTAINERS */
-section {
-  background: rgba(20, 30, 60, 0.6);
-  border: 1px solid rgba(255, 215, 120, 0.15);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-}
-
-/* HEADINGS */
-h1, h2 {
-  margin-bottom: 12px;
-}
-
-p {
-  margin-bottom: 10px;
-  opacity: 0.85;
-}
-
-/* BUTTON SYSTEM */
-button,
-.btn,
-input[type="submit"] {
-  padding: 14px 22px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-/* PRIMARY BUTTON (GOLD) */
-.primary-btn {
-  background: linear-gradient(135deg, #d4af37, #f5d06f);
-  color: #0a0f2a;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
-}
-
-/* SECONDARY BUTTON (GREEN) */
-.secondary-btn {
-  background: rgba(60, 180, 140, 0.2);
-  color: #7ef0c8;
-  border: 1px solid rgba(60, 180, 140, 0.4);
-}
-
-/* BUTTON GROUP CENTERING */
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-/* INPUT AREA */
-textarea {
-  width: 100%;
-  border-radius: 10px;
-  padding: 14px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(0,0,0,0.2);
-  color: white;
-  margin-top: 10px;
-}
-
-/* RESULT BOX */
-.result-box {
-  background: rgba(0,0,0,0.25);
-  padding: 16px;
-  border-radius: 10px;
-  margin-top: 14px;
-  border-left: 3px solid #d4af37;
-}
-
-/* TEXT CONTROL */
-h1, h2 {
-  margin-bottom: 10px;
-}
-
-p {
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-
-/* BUTTON DOMINANCE */
-button {
-  display: block;
-  width: 100%;
-  max-width: 280px;
-  margin: 16px auto;
-  padding: 14px 18px;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  border-radius: 10px;
-  border: none;
-
-  background: linear-gradient(135deg, #d4af37, #f0c75e);
-  color: #0a0f2a;
-
-  cursor: pointer;
-
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
-}
-
-/* SECONDARY BUTTON (green accent) */
-button.secondary {
-  background: rgba(50, 180, 140, 0.15);
-  color: #6ef0c0;
-  border: 1px solid rgba(50, 180, 140, 0.4);
-}
-
-/* INPUT AREA */
-textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 10px;
-
-  background: rgba(0,0,0,0.2);
-  color: white;
-
-  border: 1px solid rgba(255,255,255,0.15);
-}
-
-/* RESULT BOX */
-.result {
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 10px;
-
-  background: rgba(0,0,0,0.25);
-  border-left: 3px solid #d4af37;
-}
-
-/* === LAYOUT RESET FIX === */
-
-body {
-  display: block !important;
-}
-
-main {
-  display: block !important;
-  width: 100% !important;
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-}
-
-section {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* Kill any grid/flex breaking layout */
-* {
-  box-sizing: border-box;
-}
-
-/* === FINAL REFINEMENT: CENTER + TIGHTEN === */
-
-/* 1. CENTER ALL CONTENT */
-main {
-  text-align: center;
-}
-
-section {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* 2. TIGHTER CONTENT WIDTH */
-section,
-.container,
-.panel {
-  max-width: 800px !important;
-  margin: 0 auto !important;
-}
-
-/* 3. HEADINGS + TEXT BALANCE */
-h1, h2, h3 {
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-p {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto 16px auto;
-}
-
-/* 4. BUTTON GROUPING (PRIMARY ACTION ZONE) */
-.button-group,
-.cta-group {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-/* 5. PRIMARY BUTTON (GOLD) */
-button.primary,
-.btn-primary {
-  background: linear-gradient(135deg, #d4af37, #f5d76e);
-  color: #111;
-  font-weight: 600;
-  padding: 14px 24px;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(212,175,55,0.4);
-}
-
-/* 6. SECONDARY BUTTON (TEAL) */
-button.secondary,
-.btn-secondary {
-  background: linear-gradient(135deg, #1f8f8f, #3ad1c8);
-  color: white;
-  padding: 14px 24px;
-  border-radius: 10px;
-}
-
-/* 7. INPUT BOX TIGHTEN */
-textarea,
-input {
-  max-width: 700px;
-  margin: 0 auto;
-  display: block;
-}
-
-/* 8. ACTION BUTTONS UNDER INPUT */
-textarea + button,
-input + button {
-  margin-top: 12px;
-}
-
-/* 9. FEEDBACK BUTTON COLORS */
-.feedback button:nth-child(1) {
-  background: #d4af37; /* gold */
-  color: #111;
-}
-
-.feedback button:nth-child(2) {
-  background: #3ad1c8; /* teal */
-  color: #111;
-}
-
-.feedback button:nth-child(3) {
-  background: #6c5ce7; /* purple */
-  color: white;
-}
-
-.feedback button:nth-child(4) {
-  background: #2ecc71; /* green */
-  color: #111;
-}
-
-/* 10. MAKE FEEDBACK BUTTONS LOOK CLEAN */
-.feedback button {
-  padding: 12px 18px;
-  border-radius: 10px;
-  margin: 6px;
-  min-width: 180px;
-}
-
-/* === FINAL POLISH: PREMIUM LOOK === */
-
-/* 1. TRUE GOLD SYSTEM */
-:root {
-  --gold-main: #d4af37;
-  --gold-soft: #f5d76e;
-  --gold-glow: rgba(212, 175, 55, 0.35);
-}
-
-/* 2. PANEL DEPTH (THIS CHANGES EVERYTHING) */
-section,
-.container,
-.panel {
-  background: linear-gradient(180deg, rgba(20,30,60,0.9), rgba(10,15,40,0.95));
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.02),
-    0 10px 30px rgba(0,0,0,0.4),
-    inset 0 0 20px rgba(255,255,255,0.02);
-  border-radius: 14px;
-}
-
-/* 3. PRIMARY BUTTON (GOLD - NOW PREMIUM) */
-button.primary,
-.btn-primary {
-  background: linear-gradient(135deg, #d4af37, #f5d76e);
-  color: #111;
-  font-weight: 600;
-  border: none;
-  box-shadow:
-    0 0 12px var(--gold-glow),
-    0 4px 12px rgba(0,0,0,0.4);
-  transition: all 0.2s ease;
-}
-
-/* HOVER = LIFE */
-button.primary:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 18px var(--gold-glow),
-    0 6px 16px rgba(0,0,0,0.5);
-}
-
-/* 4. SECONDARY BUTTON (TEAL UPGRADE) */
-button.secondary,
-.btn-secondary {
-  background: linear-gradient(135deg, #1f8f8f, #3ad1c8);
-  box-shadow:
-    0 0 10px rgba(58,209,200,0.3),
-    0 4px 12px rgba(0,0,0,0.4);
-  transition: all 0.2s ease;
-}
-
-button.secondary:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 16px rgba(58,209,200,0.5),
-    0 6px 16px rgba(0,0,0,0.5);
-}
-
-/* 5. INPUT FIELD (FEELS MORE "SYSTEM") */
-textarea,
-input {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
-}
-
-/* 6. FEEDBACK BUTTONS (CLEAN + CONSISTENT) */
-.feedback button {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: white;
-  transition: all 0.2s ease;
-}
-
-.feedback button:hover {
-  background: rgba(255,255,255,0.12);
-  transform: translateY(-1px);
-}
-
-/* 7. HEADLINE GOLD ACCENT */
-h1 {
-  background: linear-gradient(90deg, #d4af37, #f5d76e);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* 8. SUBTLE DIVIDER ACCENTS */
-hr,
-.divider {
-  border: none;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold-main), transparent);
-  opacity: 0.6;
-}
-
-.main-logo {
-  display: block;
-  margin: 0 auto 20px auto;
-  width: 120px;
-  height: auto;
+  section {
+    margin: 15px;
+    padding: 20px;
+  }
 }
