@@ -1,110 +1,115 @@
-import express from "express";
-import cors from "cors";
-import path from "path";
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
-// 🔥 Serve ALL files from root
-app.use(express.static("."));
+app.post("/api/insight", (req, res) => {
+  const { signal } = req.body;
 
-// 🧠 Clarification state
-let awaitingClarification = false;
-
-const isVague = (input) => {
-  const vaguePatterns = [
-    "stuck",
-    "confused",
-    "overwhelmed",
-    "not sure",
-    "don't know",
-    "dont know",
-    "lost",
-    "uncertain"
-  ];
-
-  const shortInput = input.split(" ").length <= 4;
-
-  return (
-    shortInput ||
-    vaguePatterns.some(word => input.toLowerCase().includes(word))
-  );
-};
-
-app.post("/generate", (req, res) => {
-  const input = req.body.input?.trim();
-
-  if (!input) {
-    return res.json({ output: "Please enter a signal." });
+  if (!signal || signal.trim() === "") {
+    return res.json({
+      type: "clarify",
+      content: "CLARIFYING QUESTION: What is active for you right now?"
+    });
   }
 
-  if (awaitingClarification) {
-    awaitingClarification = false;
+  const input = signal.toLowerCase();
 
+  // --- CLARIFYING LOGIC (SMARTER) ---
+  if (
+    input.length < 8 ||
+    input.includes("not sure") ||
+    input.includes("idk") ||
+    input.includes("confused")
+  ) {
     return res.json({
-      output: `
-SIGNAL: ${input}
+      type: "clarify",
+      content:
+        "CLARIFYING QUESTION: What specific area of your life or situation does this relate to?"
+    });
+  }
 
-STATE: Movement mixed with uncertainty
+  // --- INSIGHT ENGINE ---
+  let response = {};
 
-DISTORTION: Overwhelm from too many paths
+  if (input.includes("business") || input.includes("start")) {
+    response = {
+      signal: "Starting a new business venture",
+      state: "Excitement mixed with uncertainty",
+      distortion: "Overwhelm from the number of steps and unknowns ahead",
+      recognition:
+        "This is a transition point between security and independence",
+      insight:
+        "Clarity comes from breaking complexity into structured, manageable parts rather than trying to solve everything at once",
+      action: `
+1. Define your core idea in one sentence (what problem you solve)
+2. Identify your target audience (who specifically needs this)
+3. Outline a simple offer (what you provide and how)
+4. Block 3–5 hours this week to work ONLY on this
+5. Take one visible step (write it, name it, or test it)
 
-RECOGNITION: You are ready for change
-
-INSIGHT: You now have direction. The hesitation is not confusion — it is the moment before action.
-
-NEXT BEST ACTION:
-1. Define exactly what this means (be specific)
-2. Choose ONE simple starting step
-3. Ignore everything else
-4. Take action within 24 hours
-5. Adjust after movement
-
-Clarity follows action.
+Focus on movement, not perfection.
 `
-    });
-  }
+    };
+  } else if (input.includes("stuck")) {
+    response = {
+      signal: "Feeling stuck",
+      state: "Low clarity and reduced momentum",
+      distortion: "Belief that nothing is changing or progressing",
+      recognition:
+        "Stuckness often signals overload or lack of clear direction",
+      insight:
+        "Movement returns when you reduce scope and act on something small and immediate",
+      action: `
+1. Identify one area causing the most friction
+2. Reduce it to the smallest possible step
+3. Set a 10–15 minute timer
+4. Take action immediately without overthinking
+5. Stop after completion — build momentum gradually
 
-  if (isVague(input)) {
-    awaitingClarification = true;
+Small movement breaks stagnation.
+`
+    };
+  } else {
+    response = {
+      signal: "Unstructured signal",
+      state: "Unclear or undefined",
+      distortion: "Lack of clarity",
+      recognition: "Need to define the signal more clearly",
+      insight:
+        "Clarity improves when the signal is made more specific and grounded",
+      action: `
+1. Rewrite your signal in one clear sentence
+2. Specify what area it relates to
+3. Identify what outcome you want
+4. Take one small step toward that outcome
 
-    return res.json({
-      output: "CLARIFYING QUESTION: What specific area or situation does this relate to?"
-    });
+Clarity comes from definition.
+`
+    };
   }
 
   return res.json({
-    output: `
-SIGNAL: ${input}
+    type: "insight",
+    content: `
+SIGNAL: ${response.signal}
 
-STATE: Forward movement with uncertainty
+STATE: ${response.state}
 
-DISTORTION: Overthinking the path
+DISTORTION: ${response.distortion}
 
-RECOGNITION: Desire for change
+RECOGNITION: ${response.recognition}
 
-INSIGHT: You are already at the point of action.
+INSIGHT: ${response.insight}
 
 NEXT BEST ACTION:
-1. Break this into one clear step
-2. Act within 24 hours
-3. Avoid overplanning
-4. Learn through execution
-5. Adjust as needed
-
-Momentum creates clarity.
+${response.action}
 `
   });
 });
 
-// 🔥 ROOT FIX (CRITICAL)
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve("index.html"));
-});
-
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
