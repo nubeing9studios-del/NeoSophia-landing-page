@@ -209,3 +209,44 @@ button:hover {
   margin-top: 10px;
   color: #64748b;
 }
+
+/* =========================
+   INSIGHT FORMATTING
+========================= */
+
+.output-card p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* SECTION HEADINGS */
+.output-card strong {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* COLOR-CODED INSIGHT LAYERS */
+
+.signal { color: #22c55e; }        /* Heart */
+.state { color: #38bdf8; }         /* Emotional clarity */
+.distortion { color: #f87171; }    /* Warning */
+.recognition { color: #facc15; }   /* Realisation */
+.insight { color: #a855f7; }       /* Crown */
+
+/* ACTION SECTION */
+.action-section {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148,163,184,0.2);
+}
+
+/* ACTION STEPS */
+.action-step {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+
+  background: rgba(2,6,23,0.6);
+  border-left: 3px solid #22c55e;
+}
