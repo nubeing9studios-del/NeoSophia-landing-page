@@ -1,187 +1,191 @@
-/* ===============================
-   GLOBAL
-================================= */
+/* =========================
+   NEOSOPHIA SIGNAL CAPTURE UI
+   CLEAN SYSTEM V1
+========================= */
 
-body {
+/* RESET */
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(circle at top, #0a1a3a, #020617);
-  color: #e2e8f0;
-  line-height: 1.6;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
-/* ===============================
-   HERO
-================================= */
+/* BASE */
+body {
+  background: radial-gradient(circle at top,
+    #0f172a 0%,
+    #020617 60%,
+    #01030a 100%
+  );
+  color: #e2e8f0;
+  padding: 20px;
+}
 
+/* CONTAINER */
+.container {
+  max-width: 700px;
+  margin: auto;
+}
+
+/* =========================
+   HEADER
+========================= */
 .hero {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 20px;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(34, 211, 238, 0.08),
+    rgba(139, 92, 246, 0.08)
+  );
+
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  margin-bottom: 25px;
 }
 
 .hero h1 {
-  font-size: 2.5rem;
-  color: #facc15; /* GOLD */
-  margin-bottom: 10px;
+  font-size: 32px;
+  font-weight: 700;
+
+  background: linear-gradient(135deg, #facc15, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.subtitle {
+.hero p {
+  margin-top: 10px;
   color: #94a3b8;
-  font-size: 1.1rem;
 }
 
-/* ===============================
-   SECTIONS
-================================= */
+/* =========================
+   SECTION CARDS
+========================= */
+.section {
+  background: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.08),
+    rgba(139, 92, 246, 0.08)
+  );
 
-section {
-  margin: 20px;
-  padding: 25px;
-  border-radius: 16px;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(10px);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.05),
-    0 10px 30px rgba(0,0,0,0.4);
-}
-
-/* ===============================
-   HOW IT WORKS
-================================= */
-
-.how-it-works h2 {
-  text-align: center;
+  border: 1px solid rgba(34, 211, 238, 0.12);
+  border-radius: 18px;
+  padding: 20px;
   margin-bottom: 20px;
 }
 
+/* TITLES */
+h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+/* DIVIDER */
+.divider {
+  height: 2px;
+  width: 60px;
+  margin: 10px 0 20px;
+  border-radius: 2px;
+
+  background: linear-gradient(90deg, #22d3ee, #8b5cf6);
+}
+
+/* =========================
+   HOW IT WORKS CARDS
+========================= */
 .step {
-  margin-bottom: 20px;
   padding: 15px;
-  border-radius: 12px;
+  border-radius: 14px;
+  margin-bottom: 10px;
 
   background: linear-gradient(
     135deg,
-    rgba(0,255,200,0.08),
-    rgba(139,92,246,0.08)
+    rgba(34, 211, 238, 0.10),
+    rgba(139, 92, 246, 0.10)
   );
 
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(34, 211, 238, 0.15);
 }
 
-.step h3 {
-  margin-bottom: 8px;
-  color: #e2e8f0;
+.step strong {
+  display: block;
+  margin-bottom: 5px;
 }
 
-/* ===============================
+/* =========================
    INPUT
-================================= */
-
+========================= */
 textarea {
   width: 100%;
-  min-height: 120px;
+  height: 120px;
   padding: 15px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.1);
+
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+
   background: rgba(2, 6, 23, 0.8);
   color: #e2e8f0;
-  font-size: 1rem;
+
+  font-size: 14px;
   margin-bottom: 15px;
-  outline: none;
 }
 
-textarea:focus {
-  border-color: #22d3ee; /* TEAL */
-  box-shadow: 0 0 10px rgba(34,211,238,0.4);
-}
-
-/* ===============================
+/* =========================
    BUTTONS
-================================= */
-
+========================= */
 button {
   width: 100%;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 12px;
+  padding: 14px;
   border: none;
-  font-size: 1rem;
-  cursor: pointer;
+  border-radius: 14px;
+  margin-bottom: 10px;
   font-weight: 600;
+  cursor: pointer;
 }
 
-/* PRIMARY */
-button:first-of-type {
+/* PRIMARY (GOLD ONLY) */
+button.primary {
   background: linear-gradient(135deg, #facc15, #eab308);
   color: #020617;
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.25);
 }
 
-/* SECONDARY */
-button:nth-of-type(2) {
-  background: linear-gradient(135deg, #22d3ee, #6366f1);
+/* SECONDARY (TEAL → PURPLE FLOW) */
+button.secondary {
+  background: linear-gradient(135deg, #22d3ee, #8b5cf6);
   color: #020617;
 }
 
-/* TERTIARY */
-button:nth-of-type(3) {
-  background: linear-gradient(135deg, #8b5cf6, #22d3ee);
-  color: white;
+/* TERTIARY (SUBTLE) */
+button.tertiary {
+  background: rgba(148, 163, 184, 0.1);
+  color: #cbd5f5;
 }
 
-button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* ===============================
-   OUTPUT CARD
-================================= */
-
-#output {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 16px;
-
+/* =========================
+   OUTPUT
+========================= */
+.output-card {
   background: linear-gradient(
     135deg,
-    rgba(34,211,238,0.08),
-    rgba(139,92,246,0.08)
+    rgba(34, 211, 238, 0.08),
+    rgba(139, 92, 246, 0.08)
   );
 
-  border: 1px solid rgba(255,255,255,0.05);
-  white-space: pre-wrap;
-}
-
-/* ===============================
-   HISTORY
-================================= */
-
-#history {
+  border: 1px solid rgba(34, 211, 238, 0.12);
+  border-radius: 18px;
+  padding: 20px;
   margin-top: 20px;
 }
 
-.history-item {
-  margin-bottom: 15px;
-  padding: 15px;
-  border-radius: 12px;
-
-  background: rgba(2, 6, 23, 0.6);
-
-  border-left: 3px solid;
-  border-image: linear-gradient(180deg, #22d3ee, #8b5cf6) 1;
-}
-
-/* ===============================
-   MOBILE OPTIMISATION
-================================= */
-
-@media (max-width: 600px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  section {
-    margin: 15px;
-    padding: 20px;
-  }
+/* =========================
+   MICRO TEXT
+========================= */
+.micro-note {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 10px;
+  color: #64748b;
 }
