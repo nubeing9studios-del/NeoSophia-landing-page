@@ -13,7 +13,7 @@ async function generateInsight() {
   outputEl.innerText = "Processing...";
 
   try {
-    const response = await fetch("/generate", {
+    const response = await fetch("https://neosophia-landing-page.onrender.com/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -21,13 +21,17 @@ async function generateInsight() {
       body: JSON.stringify({ input })
     });
 
+    if (!response.ok) {
+      throw new Error("Server not responding");
+    }
+
     const data = await response.json();
     const result = data.output || "No response.";
 
-    // === MAIN OUTPUT ===
+    // MAIN OUTPUT
     outputEl.innerText = result;
 
-    // === HISTORY (CLEAN + CONTROLLED) ===
+    // HISTORY
     const entry = document.createElement("div");
     entry.className = "history-entry";
 
@@ -41,11 +45,11 @@ async function generateInsight() {
 
     historyEl.prepend(entry);
 
-    // Clear input AFTER success
     inputEl.value = "";
 
   } catch (error) {
-    outputEl.innerText = "Error processing request.";
+    outputEl.innerText = "Connection issue. Waking server… try again in 5 seconds.";
+    console.error(error);
   }
 }
 
