@@ -2,25 +2,35 @@ import express from "express";
 import fetch from "node-fetch";
 
 const app = express();
+
 app.use(express.json());
 app.use(express.static("public"));
 
 app.post("/api/interpret", async (req, res) => {
   const { signal } = req.body;
 
+  // =========================
+  // BASIC VALIDATION
+  // =========================
   if (!signal || signal.trim().length < 5) {
     return res.json({
       response: "Please enter a clearer signal."
     });
   }
 
-  // === CLARIFYING LOGIC ===
-  if (signal.length < 20 || signal.split(" ").length < 4) {
+  // =========================
+  // CLARIFYING LOGIC (IMPROVED)
+  // =========================
+  if (signal.length < 15 || signal.split(" ").length < 3) {
     return res.json({
-      response: `CLARIFYING QUESTION:\nWhat specifically about "${signal}" feels most active or unresolved right now?`
+      response: `CLARIFYING QUESTION:
+What specifically about "${signal}" feels most active or unresolved right now?`
     });
   }
 
+  // =========================
+  // PROMPT
+  // =========================
   const prompt = `
 You are Signal Capture — a clarity system.
 
@@ -40,18 +50,17 @@ NEXT BEST ACTION:
 2. Short-term (today / this week)
 3. Direction (next phase)
 
+FINAL:
+End with ONE follow-up question that deepens clarity.
+
 RULES:
-- No fluff, no filler
+- No fluff
 - No vague language
 - No therapy tone
 - No generic advice
-- Must reflect the user’s actual situation
+- Must reflect the user’s real situation
 - Must identify the real friction point
-- Actions must be:
-  - specific
-  - realistic
-  - immediately usable
-- Prioritise clarity over depth
+- Actions must be specific, realistic, usable
 - Speak like a strategist, not a coach
 
 Signal:
@@ -68,21 +77,35 @@ Signal:
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.7
+        temperature: 0.6
       })
     });
 
     const data = await response.json();
 
+    // =========================
+    // SAFETY CHECK
+    // =========================
+    const reply =
+      data?.choices?.[0]?.message?.content ||
+      "No response generated.";
+
     res.json({
-      response: data.choices[0].message.content
+      response: reply
     });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Error processing request.");
+    console.error("ERROR:", error);
+
+    res.status(500).json({
+      response: "Error processing request."
+    });
   }
 });
+
+// =========================
+// SERVER START
+// =========================
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
