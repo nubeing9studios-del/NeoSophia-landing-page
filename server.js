@@ -1,36 +1,33 @@
+
 import express from "express";
-import fetch from "node-fetch";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.static("public"));
 
+// === HEALTH CHECK (IMPORTANT FOR RENDER) ===
+app.get("/", (req, res) => {
+  res.sendFile(process.cwd() + "/public/index.html");
+});
+
+// === API ===
 app.post("/api/interpret", async (req, res) => {
   const { signal } = req.body;
 
-  // =========================
-  // BASIC VALIDATION
-  // =========================
   if (!signal || signal.trim().length < 5) {
     return res.json({
       response: "Please enter a clearer signal."
     });
   }
 
-  // =========================
-  // CLARIFYING LOGIC (IMPROVED)
-  // =========================
-  if (signal.length < 15 || signal.split(" ").length < 3) {
+  // === CLARIFYING LOGIC ===
+  if (signal.length < 20 || signal.split(" ").length < 4) {
     return res.json({
-      response: `CLARIFYING QUESTION:
-What specifically about "${signal}" feels most active or unresolved right now?`
+      response: `CLARIFYING QUESTION:\nWhat specifically about "${signal}" feels most active or unresolved right now?`
     });
   }
 
-  // =========================
-  // PROMPT
-  // =========================
   const prompt = `
 You are Signal Capture — a clarity system.
 
@@ -50,18 +47,14 @@ NEXT BEST ACTION:
 2. Short-term (today / this week)
 3. Direction (next phase)
 
-FINAL:
-End with ONE follow-up question that deepens clarity.
-
 RULES:
 - No fluff
 - No vague language
 - No therapy tone
 - No generic advice
-- Must reflect the user’s real situation
-- Must identify the real friction point
-- Actions must be specific, realistic, usable
-- Speak like a strategist, not a coach
+- Must reflect the real situation
+- Must identify friction clearly
+- Actions must be practical + specific
 
 Signal:
 "${signal}"
@@ -77,36 +70,26 @@ Signal:
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.6
+        temperature: 0.7
       })
     });
 
     const data = await response.json();
 
-    // =========================
-    // SAFETY CHECK
-    // =========================
-    const reply =
-      data?.choices?.[0]?.message?.content ||
-      "No response generated.";
-
     res.json({
-      response: reply
+      response: data.choices?.[0]?.message?.content || "No response generated."
     });
 
   } catch (error) {
-    console.error("ERROR:", error);
-
+    console.error(error);
     res.status(500).json({
-      response: "Error processing request."
+      response: "Server error. Try again."
     });
   }
 });
 
-// =========================
-// SERVER START
-// =========================
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
