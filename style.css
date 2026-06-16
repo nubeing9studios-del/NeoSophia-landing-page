@@ -1,252 +1,63 @@
-/* =========================
-   NEOSOPHIA SIGNAL CAPTURE
-   RESONANCE UI SYSTEM V2
-========================= */
-
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
-/* BASE */
 body {
-  background: radial-gradient(circle at top,
-    #0b1220 0%,
-    #020617 60%,
-    #01030a 100%
-  );
+  background: #020617;
   color: #e2e8f0;
+  font-family: sans-serif;
   padding: 20px;
 }
 
-/* CONTAINER */
 .container {
-  max-width: 720px;
+  max-width: 700px;
   margin: auto;
 }
 
-/* =========================
-   HERO
-========================= */
 .hero {
   text-align: center;
-  padding: 30px 20px;
-  border-radius: 20px;
-
-  background: linear-gradient(
-    135deg,
-    rgba(34,197,94,0.08),
-    rgba(79,70,229,0.08),
-    rgba(168,85,247,0.08)
-  );
-
-  border: 1px solid rgba(34,197,94,0.2);
-  margin-bottom: 25px;
-}
-
-.hero h1 {
-  font-size: 32px;
-  font-weight: 700;
-
-  background: linear-gradient(135deg, #22c55e, #6366f1, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-  margin-top: 10px;
-  color: #94a3b8;
-}
-
-/* =========================
-   SECTION CARDS
-========================= */
-.section {
-  background: linear-gradient(
-    135deg,
-    rgba(34,197,94,0.06),
-    rgba(79,70,229,0.06),
-    rgba(168,85,247,0.06)
-  );
-
-  border: 1px solid rgba(99,102,241,0.2);
-  border-radius: 18px;
-  padding: 20px;
   margin-bottom: 20px;
 }
 
-/* TITLES */
-h2 {
-  margin-bottom: 10px;
-  font-size: 20px;
+.section {
+  background: rgba(255,255,255,0.03);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
-/* DIVIDER */
-.divider {
-  height: 2px;
-  width: 60px;
-  margin: 10px 0 20px;
-  border-radius: 2px;
-
-  background: linear-gradient(90deg, #22c55e, #6366f1, #a855f7);
-}
-
-/* =========================
-   STEPS
-========================= */
-.step {
-  padding: 15px;
-  border-radius: 14px;
-  margin-bottom: 10px;
-
-  background: linear-gradient(
-    135deg,
-    rgba(34,197,94,0.08),
-    rgba(79,70,229,0.08),
-    rgba(168,85,247,0.08)
-  );
-
-  border: 1px solid rgba(168,85,247,0.2);
-}
-
-.step strong {
-  display: block;
-  margin-bottom: 5px;
-}
-
-/* =========================
-   INPUT
-========================= */
 textarea {
   width: 100%;
   height: 120px;
-  padding: 15px;
-
-  border-radius: 14px;
-  border: 1px solid rgba(148,163,184,0.2);
-
-  background: rgba(2,6,23,0.85);
-  color: #e2e8f0;
-
-  font-size: 14px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-/* =========================
-   BUTTONS
-========================= */
 button {
   width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 14px;
   margin-bottom: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
 }
 
-/* GOLD = ACTION */
-button.primary {
-  background: linear-gradient(135deg, #facc15, #eab308);
-  color: #020617;
-  box-shadow: 0 0 18px rgba(250,204,21,0.3);
+.primary {
+  background: gold;
 }
 
-/* GREEN = RESET / GROUND */
-button.secondary {
-  background: linear-gradient(135deg, #22c55e, #4ade80);
-  color: #022c22;
+.secondary {
+  background: teal;
 }
 
-/* PURPLE/INDIGO = MEMORY */
-button.tertiary {
-  background: linear-gradient(135deg, #6366f1, #a855f7);
+.tertiary {
+  background: purple;
   color: white;
 }
 
-/* HOVER */
-button:hover {
-  transform: translateY(-2px);
-  opacity: 0.95;
-}
-
-/* =========================
-   OUTPUT
-========================= */
 .output-card {
-  background: linear-gradient(
-    135deg,
-    rgba(34,197,94,0.06),
-    rgba(79,70,229,0.06),
-    rgba(168,85,247,0.06)
-  );
-
-  border: 1px solid rgba(99,102,241,0.2);
-  border-radius: 18px;
-  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 10px;
   margin-top: 20px;
 }
 
-/* =========================
-   TEXT STRUCTURE
-========================= */
-.output-card strong {
-  display: block;
-  margin-top: 10px;
-  color: #cbd5f5;
-}
-
-/* =========================
-   MICRO TEXT
-========================= */
-.micro-note {
+.gateway-line {
   text-align: center;
   font-size: 12px;
-  margin-top: 10px;
-  color: #64748b;
-}
-
-/* =========================
-   INSIGHT FORMATTING
-========================= */
-
-.output-card p {
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-/* SECTION HEADINGS */
-.output-card strong {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-}
-
-/* COLOR-CODED INSIGHT LAYERS */
-
-.signal { color: #22c55e; }        /* Heart */
-.state { color: #38bdf8; }         /* Emotional clarity */
-.distortion { color: #f87171; }    /* Warning */
-.recognition { color: #facc15; }   /* Realisation */
-.insight { color: #a855f7; }       /* Crown */
-
-/* ACTION SECTION */
-.action-section {
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(148,163,184,0.2);
-}
-
-/* ACTION STEPS */
-.action-step {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 10px;
-
-  background: rgba(2,6,23,0.6);
-  border-left: 3px solid #22c55e;
+  opacity: 0.6;
 }
