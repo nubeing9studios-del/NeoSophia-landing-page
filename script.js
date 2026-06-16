@@ -1,8 +1,3 @@
-// =========================
-// SIGNAL CAPTURE FRONTEND
-// FULL REPLACEMENT SCRIPT
-// =========================
-
 const input = document.getElementById("signalInput");
 const output = document.getElementById("output");
 const historyContainer = document.getElementById("history");
@@ -10,11 +5,9 @@ const historyContainer = document.getElementById("history");
 const generateBtn = document.getElementById("generateBtn");
 const clearBtn = document.getElementById("clearBtn");
 const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+const copyBtn = document.getElementById("copyInsightBtn");
 
-// =========================
 // FORMAT RESPONSE
-// =========================
-
 function formatResponse(text) {
   return text
     .replace("SIGNAL:", "<strong class='signal'>SIGNAL:</strong>")
@@ -22,22 +15,16 @@ function formatResponse(text) {
     .replace("DISTORTION:", "<strong class='distortion'>DISTORTION:</strong>")
     .replace("RECOGNITION:", "<strong class='recognition'>RECOGNITION:</strong>")
     .replace("INSIGHT:", "<strong class='insight'>INSIGHT:</strong>")
-    .replace("NEXT BEST ACTION:", "<div class='action-section'><strong>NEXT BEST ACTION:</strong></div>")
-    .replace(/1\.\s/g, "<div class='action-step'>1. ")
-    .replace(/2\.\s/g, "<div class='action-step'>2. ")
-    .replace(/3\.\s/g, "<div class='action-step'>3. ")
+    .replace("NEXT BEST ACTION:", "<strong>NEXT BEST ACTION:</strong>")
     .replace(/\n/g, "<br>");
 }
 
-// =========================
-// LIVE PROCESSING STATES
-// =========================
-
-function startProcessingAnimation() {
+// PROCESSING ANIMATION
+function startProcessing() {
   const phases = [
     "Receiving signal...",
-    "Stabilising noise...",
-    "Interpreting pattern...",
+    "Stabilising...",
+    "Interpreting...",
     "Generating clarity..."
   ];
 
@@ -46,54 +33,11 @@ function startProcessingAnimation() {
   return setInterval(() => {
     output.innerHTML = `<div class="output-card">${phases[i]}</div>`;
     i = (i + 1) % phases.length;
-  }, 800);
+  }, 700);
 }
 
-// =========================
-// SAVE TO HISTORY
-// =========================
-
-function saveToHistory(signal, response) {
-  const history = JSON.parse(localStorage.getItem("signalHistory")) || [];
-
-  history.unshift({
-    signal,
-    response,
-    time: new Date().toLocaleString()
-  });
-
-  localStorage.setItem("signalHistory", JSON.stringify(history));
-  renderHistory();
-}
-
-// =========================
-// RENDER HISTORY
-// =========================
-
-function renderHistory() {
-  const history = JSON.parse(localStorage.getItem("signalHistory")) || [];
-
-  historyContainer.innerHTML = "";
-
-  history.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "output-card";
-
-    card.innerHTML = `
-      <p><strong>Signal:</strong> ${item.signal}</p>
-      <p>${formatResponse(item.response)}</p>
-      <small>${item.time}</small>
-    `;
-
-    historyContainer.appendChild(card);
-  });
-}
-
-// =========================
 // GENERATE INSIGHT
-// =========================
-
-generateBtn.addEventListener("click", async () => {
+generateBtn.onclick = async () => {
   const signal = input.value.trim();
 
   if (!signal) {
@@ -101,11 +45,10 @@ generateBtn.addEventListener("click", async () => {
     return;
   }
 
-  // Start animation
-  const interval = startProcessingAnimation();
+  const interval = startProcessing();
 
   try {
-    const res = await fetch("/api/generate", {
+    const res = await fetch("/api/interpret", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -117,38 +60,72 @@ generateBtn.addEventListener("click", async () => {
 
     clearInterval(interval);
 
-    if (data.response) {
-      output.innerHTML = `<div class="output-card">${formatResponse(data.response)}</div>`;
-      saveToHistory(signal, data.response);
-    } else {
-      output.innerHTML = "<div class='output-card'>No response received.</div>";
-    }
+    output.innerHTML = `
+      <div class="output-card">
+        ${formatResponse(data.response)}
+      </div>
+    `;
+
+    saveToHistory(signal, data.response);
 
   } catch (err) {
     clearInterval(interval);
-    output.innerHTML = "<div class='output-card'>Connection error. Try again.</div>";
+    output.innerHTML = "<div class='output-card'>Connection error.</div>";
   }
-});
+};
 
-// =========================
-// CLEAR INPUT
-// =========================
+// COPY INSIGHT
+copyBtn.onclick = () => {
+  const text = output.innerText;
 
-clearBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(text);
+
+  copyBtn.innerText = "Copied ✓";
+
+  setTimeout(() => {
+    copyBtn.innerText = "Copy Insight";
+  }, 2000);
+};
+
+// CLEAR SIGNAL
+clearBtn.onclick = () => {
   input.value = "";
-});
+};
 
-// =========================
 // CLEAR HISTORY
-// =========================
-
-clearHistoryBtn.addEventListener("click", () => {
-  localStorage.removeItem("signalHistory");
+clearHistoryBtn.onclick = () => {
+  localStorage.removeItem("history");
   renderHistory();
-});
+};
 
-// =========================
-// INIT
-// =========================
+// SAVE HISTORY
+function saveToHistory(signal, response) {
+  let history = JSON.parse(localStorage.getItem("history")) || [];
+
+  history.unshift({ signal, response });
+
+  localStorage.setItem("history", JSON.stringify(history));
+
+  renderHistory();
+}
+
+// RENDER HISTORY
+function renderHistory() {
+  let history = JSON.parse(localStorage.getItem("history")) || [];
+
+  historyContainer.innerHTML = "";
+
+  history.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "output-card";
+
+    div.innerHTML = `
+      <strong>Signal:</strong> ${item.signal}<br><br>
+      ${formatResponse(item.response)}
+    `;
+
+    historyContainer.appendChild(div);
+  });
+}
 
 renderHistory();
