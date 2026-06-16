@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signal Capture</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>Signal Capture</h1>
+    <p>Turn noise into one clear next move.</p>
+  </div>
+
+  <div class="section">
+    <h2>How it works</h2>
+    <div class="divider"></div>
+
+    <div class="step"><strong>Capture</strong> Enter your signal.</div>
+    <div class="step"><strong>Interpret</strong> Receive structured clarity.</div>
+    <div class="step"><strong>Act</strong> Take the next step.</div>
+  </div>
+
+  <div class="section">
+    <h2>Capture your signal</h2>
+
+    <textarea id="signalInput" placeholder="What’s active right now?"></textarea>
+
+    <button id="generateBtn" class="primary">Generate Insight</button>
+    <button id="clearBtn" class="secondary">Clear Signal</button>
+    <button id="clearHistoryBtn" class="tertiary">Clear History</button>
+
+    <!-- FINAL LAYER ADDITIONS -->
+    <button id="copyInsightBtn" class="secondary">Copy Insight</button>
+
+  </div>
+
+  <div id="output"></div>
+
+  <!-- Gateway line -->
+  <div class="gateway-line">
+    If this helped, there’s a deeper system behind it.
+  </div>
+
+  <div id="history"></div>
+
+</div>
+
+<script src="scripts.js"></script>
+
+</body>
+</html>
