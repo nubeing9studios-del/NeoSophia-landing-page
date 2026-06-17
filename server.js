@@ -1,17 +1,9 @@
-
 import express from "express";
 
 const app = express();
-
 app.use(express.json());
 app.use(express.static("public"));
 
-// === HEALTH CHECK (IMPORTANT FOR RENDER) ===
-app.get("/", (req, res) => {
-  res.sendFile(process.cwd() + "/public/index.html");
-});
-
-// === API ===
 app.post("/api/interpret", async (req, res) => {
   const { signal } = req.body;
 
@@ -21,7 +13,7 @@ app.post("/api/interpret", async (req, res) => {
     });
   }
 
-  // === CLARIFYING LOGIC ===
+  // Clarifying gate
   if (signal.length < 20 || signal.split(" ").length < 4) {
     return res.json({
       response: `CLARIFYING QUESTION:\nWhat specifically about "${signal}" feels most active or unresolved right now?`
@@ -49,12 +41,10 @@ NEXT BEST ACTION:
 
 RULES:
 - No fluff
-- No vague language
-- No therapy tone
-- No generic advice
-- Must reflect the real situation
-- Must identify friction clearly
-- Actions must be practical + specific
+- No vague advice
+- Be precise and direct
+- Identify the real friction point
+- Actions must be specific and usable
 
 Signal:
 "${signal}"
@@ -76,20 +66,26 @@ Signal:
 
     const data = await response.json();
 
+    // 🔥 CRITICAL FIX
+    if (!data || !data.choices || !data.choices[0]) {
+      console.error("API ERROR:", data);
+      return res.json({
+        response: "Error generating insight. Check API key or server logs."
+      });
+    }
+
     res.json({
-      response: data.choices?.[0]?.message?.content || "No response generated."
+      response: data.choices[0].message.content
     });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      response: "Server error. Try again."
+    console.error("SERVER ERROR:", error);
+    res.json({
+      response: "Server connection issue. Try again."
     });
   }
 });
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
 });
