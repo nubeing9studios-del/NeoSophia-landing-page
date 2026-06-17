@@ -4,6 +4,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
+// === TEMP MEMORY STORE (per session — simple version) ===
+let pendingClarification = null;
+
 app.post("/api/interpret", async (req, res) => {
   const { signal } = req.body;
 
@@ -13,13 +16,29 @@ app.post("/api/interpret", async (req, res) => {
     });
   }
 
-  // Clarifying gate
+  // === IF USER IS ANSWERING A CLARIFYING QUESTION ===
+  if (pendingClarification) {
+    const fullSignal = `${pendingClarification} → ${signal}`;
+    pendingClarification = null;
+
+    return generateInsight(fullSignal, res);
+  }
+
+  // === CLARIFYING LOGIC ===
   if (signal.length < 20 || signal.split(" ").length < 4) {
+    pendingClarification = signal;
+
     return res.json({
       response: `CLARIFYING QUESTION:\nWhat specifically about "${signal}" feels most active or unresolved right now?`
     });
   }
 
+  // === NORMAL FLOW ===
+  return generateInsight(signal, res);
+});
+
+// === CORE AI FUNCTION ===
+async function generateInsight(signal, res) {
   const prompt = `
 You are Signal Capture — a clarity system.
 
@@ -41,24 +60,25 @@ NEXT BEST ACTION:
 
 RULES:
 - No fluff
-- No vague advice
-- Be precise
-- Identify the real friction
-- Actions must be usable
+- No vague language
+- No therapy tone
+- Must be precise
+- Must identify real friction
+- Actions must be specific and usable
 
 Signal:
 "${signal}"
 `;
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "openai/gpt-4o-mini",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.7
       })
@@ -66,24 +86,15 @@ Signal:
 
     const data = await response.json();
 
-    if (!data?.choices?.[0]?.message?.content) {
-      console.error("API ERROR:", data);
-      return res.json({
-        response: "Error generating insight. Check API key."
-      });
-    }
-
     res.json({
-      response: data.choices[0].message.content
+      response: data.choices?.[0]?.message?.content || "No response generated."
     });
 
   } catch (error) {
-    console.error("SERVER ERROR:", error);
-    res.json({
-      response: "Connection issue. Try again."
-    });
+    console.error(error);
+    res.status(500).send("Error processing request.");
   }
-});
+}
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
