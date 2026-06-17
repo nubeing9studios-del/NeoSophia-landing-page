@@ -1,4 +1,4 @@
-const input = document.querySelector("textarea");
+const input = document.querySelector("#signalInput");
 const output = document.querySelector("#output");
 const button = document.querySelector("#generate");
 
