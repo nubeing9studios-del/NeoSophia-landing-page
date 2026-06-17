@@ -42,9 +42,9 @@ NEXT BEST ACTION:
 RULES:
 - No fluff
 - No vague advice
-- Be precise and direct
-- Identify the real friction point
-- Actions must be specific and usable
+- Be precise
+- Identify the real friction
+- Actions must be usable
 
 Signal:
 "${signal}"
@@ -66,11 +66,10 @@ Signal:
 
     const data = await response.json();
 
-    // 🔥 CRITICAL FIX
-    if (!data || !data.choices || !data.choices[0]) {
+    if (!data?.choices?.[0]?.message?.content) {
       console.error("API ERROR:", data);
       return res.json({
-        response: "Error generating insight. Check API key or server logs."
+        response: "Error generating insight. Check API key."
       });
     }
 
@@ -81,7 +80,7 @@ Signal:
   } catch (error) {
     console.error("SERVER ERROR:", error);
     res.json({
-      response: "Server connection issue. Try again."
+      response: "Connection issue. Try again."
     });
   }
 });
