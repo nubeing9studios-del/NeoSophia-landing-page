@@ -1,20 +1,19 @@
-const input = document.querySelector("#signalInput");
-const output = document.querySelector("#output");
-const button = document.querySelector("#generate");
+const generateBtn = document.getElementById("generate");
+const signalInput = document.getElementById("signalInput");
+const output = document.getElementById("output");
 
-button.addEventListener("click", async () => {
-  const signal = input.value.trim();
+generateBtn.addEventListener("click", async () => {
+  const signal = signalInput.value.trim();
 
   if (!signal) {
-    output.innerHTML = "Enter a signal first.";
+    output.innerText = "Enter a signal.";
     return;
   }
 
-  // Show loading state
-  output.innerHTML = "Processing...";
+  output.innerText = "Processing...";
 
   try {
-    const res = await fetch("/api/interpret", {
+    const response = await fetch("/api/interpret", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -22,22 +21,17 @@ button.addEventListener("click", async () => {
       body: JSON.stringify({ signal })
     });
 
-    const data = await res.json();
+    const data = await response.json();
 
-    if (!data.response) {
-      output.innerHTML = "No response received.";
+    if (!data || !data.response) {
+      output.innerText = "No response generated.";
       return;
     }
 
-    // Format response cleanly
-    output.innerHTML = `
-      <div class="response-card">
-        <pre>${data.response}</pre>
-      </div>
-    `;
+    output.innerText = data.response;
 
-  } catch (err) {
-    console.error(err);
-    output.innerHTML = "Connection error. Try again.";
+  } catch (error) {
+    console.error(error);
+    output.innerText = "Connection issue. Try again.";
   }
 });
