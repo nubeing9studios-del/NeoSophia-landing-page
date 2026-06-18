@@ -10,7 +10,8 @@ async function generateInsight() {
     return;
   }
 
-  status.textContent = "Processing signal...";
+  status.textContent = "Processing...";
+  output.innerHTML = "";
 
   try {
     const res = await fetch("/api/interpret", {
@@ -28,11 +29,12 @@ async function generateInsight() {
       return;
     }
 
-    // === FORMAT OUTPUT ===
-    const formatted = formatOutput(data.response);
-    output.innerHTML = formatted;
+    // DELAY for perceived intelligence
+    setTimeout(() => {
+      output.innerHTML = formatOutput(data.response);
+      status.textContent = "Complete.";
+    }, 400);
 
-    status.textContent = "Signal processed.";
   } catch (err) {
     console.error(err);
     output.innerHTML = "Error generating insight.";
@@ -41,11 +43,11 @@ async function generateInsight() {
 }
 
 function formatOutput(text) {
-  const sections = text.split("\n");
+  const lines = text.split("\n");
 
   let html = "";
 
-  sections.forEach(line => {
+  lines.forEach(line => {
     if (line.startsWith("SIGNAL:")) {
       html += `<div class="block signal"><strong>${line}</strong></div>`;
     } else if (line.startsWith("STATE:")) {
