@@ -1,161 +1,128 @@
-/* === RESET === */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* === BODY === */
+/* BACKGROUND */
 body {
-  font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #0b1220, #020617);
-  color: #e2e8f0;
-  min-height: 100vh;
+  background: radial-gradient(circle at top, #0b1d3a, #050d1f);
+  color: #ffffff;
   display: flex;
   justify-content: center;
   padding: 40px 20px;
 }
 
-/* === CONTAINER === */
+/* CONTAINER */
 .container {
   width: 100%;
   max-width: 720px;
 }
 
-/* === TITLE (GOLD PRIMARY) === */
-h1 {
+/* HEADER */
+.header-card {
   text-align: center;
-  font-size: 2.4rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: #d4af37;
-}
-
-/* === SUBTITLE === */
-.subtitle {
-  text-align: center;
-  color: #94a3b8;
   margin-bottom: 30px;
 }
 
-/* === CARD === */
+.header-card h1 {
+  font-size: 2.4rem;
+  color: #FFD700;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+.header-card p {
+  opacity: 0.8;
+  margin-top: 8px;
+}
+
+/* SECTION */
+.section {
+  margin-bottom: 25px;
+}
+
+/* CARDS */
 .card {
-  background: linear-gradient(145deg, #0f172a, #1e293b);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 20px;
-
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow:
-    0 0 0 1px rgba(212,175,55,0.05),
-    0 10px 30px rgba(0,0,0,0.5);
-}
-
-/* === CARD HEADINGS === */
-.card h2 {
-  font-size: 1.2rem;
+  background: linear-gradient(145deg, #0f2a55, #081a35);
+  padding: 16px;
+  border-radius: 12px;
   margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  transition: 0.3s ease;
 }
 
-/* GOLD SECTION */
-.gold h2 {
-  color: #d4af37;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
 }
 
-/* PURPLE SECTION */
-.purple h2 {
-  color: #7c3aed;
+.card h3 {
+  color: #FFD700;
 }
 
-/* === STEPS === */
-.step {
-  margin-bottom: 12px;
-}
-
-.step strong {
-  color: #22c55e;
-}
-
-/* === TEXTAREA === */
+/* INPUT */
 textarea {
   width: 100%;
-  height: 120px;
-  padding: 14px;
-
+  height: 110px;
   border-radius: 10px;
-  border: 1px solid #334155;
-
-  background: #020617;
-  color: #e2e8f0;
-
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 14px;
+  background: #071427;
+  color: #fff;
   font-size: 0.95rem;
   resize: none;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
-/* === BUTTON (GREEN ACTION) === */
+/* BUTTON */
 button {
   width: 100%;
   padding: 14px;
   border-radius: 10px;
   border: none;
-
-  font-weight: 600;
+  background: linear-gradient(90deg, #00ff99, #00ccff);
+  color: #002;
+  font-weight: bold;
   cursor: pointer;
-
-  background: linear-gradient(90deg, #22c55e, #4ade80);
-  color: black;
-
-  transition: 0.25s ease;
+  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(0,255,150,0.4);
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(34,197,94,0.5);
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(0,255,150,0.8);
 }
 
-/* === OUTPUT === */
-#output {
-  white-space: pre-wrap;
-  font-size: 0.95rem;
-  line-height: 1.6;
+/* OUTPUT */
+.output-card {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #0b2a4a, #081a30);
+  box-shadow: 0 0 30px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
-/* === OUTPUT BLOCKS === */
-.block {
-  padding: 12px;
-  border-radius: 10px;
+/* OUTPUT LABEL STYLES */
+.output-card p {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* COLOUR ACCENTS */
+.signal { border-left: 4px solid #FFD700; padding-left: 10px; }
+.state { border-left: 4px solid #9d4edd; padding-left: 10px; }
+.distortion { border-left: 4px solid #ff4d4d; padding-left: 10px; }
+.recognition { border-left: 4px solid #00c2ff; padding-left: 10px; }
+.insight { border-left: 4px solid #c77dff; padding-left: 10px; }
+.action { border-left: 4px solid #00ff99; padding-left: 10px; }
+
+/* OUTPUT TITLE */
+.output-title {
+  font-size: 1.2rem;
   margin-bottom: 10px;
-}
-
-/* GOLD */
-.block.signal {
-  border-left: 4px solid #d4af37;
-}
-
-/* PURPLE */
-.block.state {
-  border-left: 4px solid #7c3aed;
-}
-
-/* RED */
-.block.distortion {
-  border-left: 4px solid #ef4444;
-}
-
-/* BLUE */
-.block.recognition {
-  border-left: 4px solid #3b82f6;
-}
-
-/* GREEN */
-.block.action {
-  border-left: 4px solid #22c55e;
-}
-
-/* === STATUS === */
-#status {
-  margin-top: 10px;
-  font-size: 0.85rem;
-  color: #64748b;
+  color: #FFD700;
 }
