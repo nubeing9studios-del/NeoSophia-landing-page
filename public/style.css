@@ -1,128 +1,115 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-/* BACKGROUND */
 body {
-  background: radial-gradient(circle at top, #0b1d3a, #050d1f);
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #0b1d3a, #050b18);
+  color: white;
 }
 
-/* CONTAINER */
+/* CENTER EVERYTHING */
 .container {
-  width: 100%;
   max-width: 720px;
+  margin: 60px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* HEADINGS (GOLD) */
+h1, h2 {
+  color: #d4af37;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 /* HEADER */
 .header-card {
   text-align: center;
-  margin-bottom: 30px;
-}
-
-.header-card h1 {
-  font-size: 2.4rem;
-  color: #FFD700;
-  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
 }
 
 .header-card p {
-  opacity: 0.8;
-  margin-top: 8px;
-}
-
-/* SECTION */
-.section {
-  margin-bottom: 25px;
+  opacity: 0.7;
 }
 
 /* CARDS */
+.section {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
 .card {
-  background: linear-gradient(145deg, #0f2a55, #081a35);
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-  transition: 0.3s ease;
+  background: rgba(255,255,255,0.05);
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 10px;
 }
 
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
-
+/* PURPLE PROCESS STEPS */
 .card h3 {
-  color: #FFD700;
+  color: #9b5cff;
 }
 
-/* INPUT */
+/* TEXTAREA */
 textarea {
   width: 100%;
-  height: 110px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 14px;
-  background: #071427;
-  color: #fff;
-  font-size: 0.95rem;
-  resize: none;
-  margin-bottom: 12px;
-}
-
-/* BUTTON */
-button {
-  width: 100%;
+  height: 120px;
   padding: 14px;
   border-radius: 10px;
   border: none;
-  background: linear-gradient(90deg, #00ff99, #00ccff);
-  color: #002;
+  margin-top: 10px;
+  font-size: 15px;
+  background: rgba(0,0,0,0.4);
+  color: white;
+  outline: none;
+}
+
+/* BUTTON (GREEN ACTION) */
+button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
   font-weight: bold;
+  background: linear-gradient(90deg, #00ff9c, #00c3ff);
+  color: black;
   cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 0 15px rgba(0,255,150,0.4);
+  transition: all 0.2s ease;
 }
 
 button:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 25px rgba(0,255,150,0.8);
 }
 
-/* OUTPUT */
+/* OUTPUT CARD */
 .output-card {
-  margin-top: 20px;
+  background: rgba(255,255,255,0.04);
   padding: 20px;
   border-radius: 14px;
-  background: linear-gradient(145deg, #0b2a4a, #081a30);
-  box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
 }
-
-/* OUTPUT LABEL STYLES */
-.output-card p {
-  margin-bottom: 12px;
-  line-height: 1.5;
-}
-
-/* COLOUR ACCENTS */
-.signal { border-left: 4px solid #FFD700; padding-left: 10px; }
-.state { border-left: 4px solid #9d4edd; padding-left: 10px; }
-.distortion { border-left: 4px solid #ff4d4d; padding-left: 10px; }
-.recognition { border-left: 4px solid #00c2ff; padding-left: 10px; }
-.insight { border-left: 4px solid #c77dff; padding-left: 10px; }
-.action { border-left: 4px solid #00ff99; padding-left: 10px; }
 
 /* OUTPUT TITLE */
 .output-title {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #FFD700;
+  color: #d4af37;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* OUTPUT LINES WITH COLORED ACCENTS */
+.signal { border-left: 4px solid #d4af37; padding-left: 10px; }
+.state { border-left: 4px solid #9b5cff; padding-left: 10px; }
+.distortion { border-left: 4px solid #ff4d4d; padding-left: 10px; }
+.recognition { border-left: 4px solid #00c3ff; padding-left: 10px; }
+.insight { border-left: 4px solid #b266ff; padding-left: 10px; }
+.action { border-left: 4px solid #00ff9c; padding-left: 10px; }
+
+/* SPACING */
+p {
+  line-height: 1.5;
 }
