@@ -8,12 +8,11 @@
 /* === BODY === */
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #0f172a, #020617);
+  background: radial-gradient(circle at top, #0b1220, #020617);
   color: #e2e8f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
   padding: 40px 20px;
 }
 
@@ -23,23 +22,20 @@ body {
   max-width: 720px;
 }
 
-/* === TITLE === */
+/* === TITLE (GOLD PRIMARY) === */
 h1 {
+  text-align: center;
   font-size: 2.4rem;
   font-weight: 700;
-  text-align: center;
   margin-bottom: 10px;
-
-  background: linear-gradient(90deg, #d4af37, #22c55e, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #d4af37;
 }
 
 /* === SUBTITLE === */
 .subtitle {
   text-align: center;
-  margin-bottom: 30px;
   color: #94a3b8;
+  margin-bottom: 30px;
 }
 
 /* === CARD === */
@@ -49,15 +45,26 @@ h1 {
   padding: 20px;
   margin-bottom: 20px;
 
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.05),
+    0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* === CARD TITLES === */
+/* === CARD HEADINGS === */
 .card h2 {
-  margin-bottom: 12px;
   font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+/* GOLD SECTION */
+.gold h2 {
   color: #d4af37;
+}
+
+/* PURPLE SECTION */
+.purple h2 {
+  color: #7c3aed;
 }
 
 /* === STEPS === */
@@ -86,7 +93,7 @@ textarea {
   margin-bottom: 15px;
 }
 
-/* === BUTTON === */
+/* === BUTTON (GREEN ACTION) === */
 button {
   width: 100%;
   padding: 14px;
@@ -96,7 +103,7 @@ button {
   font-weight: 600;
   cursor: pointer;
 
-  background: linear-gradient(90deg, #d4af37, #22c55e);
+  background: linear-gradient(90deg, #22c55e, #4ade80);
   color: black;
 
   transition: 0.25s ease;
@@ -104,7 +111,7 @@ button {
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 20px rgba(34,197,94,0.5);
 }
 
 /* === OUTPUT === */
@@ -114,9 +121,36 @@ button:hover {
   line-height: 1.6;
 }
 
-/* === OUTPUT STRUCTURE COLORS === */
-#output strong {
-  color: #7c3aed;
+/* === OUTPUT BLOCKS === */
+.block {
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* GOLD */
+.block.signal {
+  border-left: 4px solid #d4af37;
+}
+
+/* PURPLE */
+.block.state {
+  border-left: 4px solid #7c3aed;
+}
+
+/* RED */
+.block.distortion {
+  border-left: 4px solid #ef4444;
+}
+
+/* BLUE */
+.block.recognition {
+  border-left: 4px solid #3b82f6;
+}
+
+/* GREEN */
+.block.action {
+  border-left: 4px solid #22c55e;
 }
 
 /* === STATUS === */
@@ -124,15 +158,4 @@ button:hover {
   margin-top: 10px;
   font-size: 0.85rem;
   color: #64748b;
-}
-
-/* === MOBILE === */
-@media (max-width: 600px) {
-  body {
-    padding: 20px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
 }
