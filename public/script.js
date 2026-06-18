@@ -1,68 +1,74 @@
+const button = document.getElementById("generate");
 const input = document.getElementById("signalInput");
 const output = document.getElementById("output");
-const status = document.getElementById("status");
 
-async function generateInsight() {
+button.addEventListener("click", async () => {
   const signal = input.value.trim();
 
   if (!signal) {
-    output.innerHTML = "Enter a signal first.";
+    output.innerHTML = "<p>Please enter a signal.</p>";
     return;
   }
 
-  status.textContent = "Processing...";
-  output.innerHTML = "";
+  output.innerHTML = "<p>Processing...</p>";
 
   try {
     const res = await fetch("/api/interpret", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ signal })
+      body: JSON.stringify({ signal }),
     });
 
     const data = await res.json();
 
     if (!data.response) {
-      output.innerHTML = "No response generated.";
+      output.innerHTML = "<p>No response generated.</p>";
       return;
     }
 
-    // DELAY for perceived intelligence
-    setTimeout(() => {
-      output.innerHTML = formatOutput(data.response);
-      status.textContent = "Complete.";
-    }, 400);
+    const formatted = formatOutput(data.response);
+    output.innerHTML = formatted;
 
   } catch (err) {
-    console.error(err);
-    output.innerHTML = "Error generating insight.";
-    status.textContent = "";
+    output.innerHTML = "<p>Error generating insight.</p>";
   }
-}
+});
+
 
 function formatOutput(text) {
-  const lines = text.split("\n");
+  const lines = text.split("\n").filter(line => line.trim() !== "");
 
-  let html = "";
+  let html = `<div class="output-title">Output</div>`;
 
   lines.forEach(line => {
+
     if (line.startsWith("SIGNAL:")) {
-      html += `<div class="block signal"><strong>${line}</strong></div>`;
-    } else if (line.startsWith("STATE:")) {
-      html += `<div class="block state"><strong>${line}</strong></div>`;
-    } else if (line.startsWith("DISTORTION:")) {
-      html += `<div class="block distortion"><strong>${line}</strong></div>`;
-    } else if (line.startsWith("RECOGNITION:")) {
-      html += `<div class="block recognition"><strong>${line}</strong></div>`;
-    } else if (line.startsWith("INSIGHT:")) {
-      html += `<div class="block state"><strong>${line}</strong></div>`;
-    } else if (line.startsWith("NEXT BEST ACTION:")) {
-      html += `<div class="block action"><strong>${line}</strong></div>`;
-    } else {
-      html += `<div>${line}</div>`;
+      html += `<p class="signal"><strong>${line}</strong></p>`;
     }
+    else if (line.startsWith("STATE:")) {
+      html += `<p class="state"><strong>${line}</strong></p>`;
+    }
+    else if (line.startsWith("DISTORTION:")) {
+      html += `<p class="distortion"><strong>${line}</strong></p>`;
+    }
+    else if (line.startsWith("RECOGNITION:")) {
+      html += `<p class="recognition"><strong>${line}</strong></p>`;
+    }
+    else if (line.startsWith("INSIGHT:")) {
+      html += `<p class="insight"><strong>${line}</strong></p>`;
+    }
+    else if (line.startsWith("NEXT BEST ACTION")) {
+      html += `<p class="action"><strong>${line}</strong></p>`;
+    }
+    else if (line.match(/^\d+\./)) {
+      html += `<p style="margin-left:10px;">${line}</p>`;
+    }
+    else {
+      html += `<p>${line}</p>`;
+    }
+
   });
 
   return html;
