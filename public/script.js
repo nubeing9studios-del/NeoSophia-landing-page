@@ -1,19 +1,19 @@
-const generateBtn = document.getElementById("generate");
-const signalInput = document.getElementById("signalInput");
+const input = document.getElementById("signalInput");
 const output = document.getElementById("output");
+const status = document.getElementById("status");
 
-generateBtn.addEventListener("click", async () => {
-  const signal = signalInput.value.trim();
+async function generateInsight() {
+  const signal = input.value.trim();
 
   if (!signal) {
-    output.innerText = "Enter a signal.";
+    output.innerHTML = "Enter a signal first.";
     return;
   }
 
-  output.innerText = "Processing...";
+  status.textContent = "Processing signal...";
 
   try {
-    const response = await fetch("/api/interpret", {
+    const res = await fetch("/api/interpret", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -21,17 +21,47 @@ generateBtn.addEventListener("click", async () => {
       body: JSON.stringify({ signal })
     });
 
-    const data = await response.json();
+    const data = await res.json();
 
-    if (!data || !data.response) {
-      output.innerText = "No response generated.";
+    if (!data.response) {
+      output.innerHTML = "No response generated.";
       return;
     }
 
-    output.innerText = data.response;
+    // === FORMAT OUTPUT ===
+    const formatted = formatOutput(data.response);
+    output.innerHTML = formatted;
 
-  } catch (error) {
-    console.error(error);
-    output.innerText = "Connection issue. Try again.";
+    status.textContent = "Signal processed.";
+  } catch (err) {
+    console.error(err);
+    output.innerHTML = "Error generating insight.";
+    status.textContent = "";
   }
-});
+}
+
+function formatOutput(text) {
+  const sections = text.split("\n");
+
+  let html = "";
+
+  sections.forEach(line => {
+    if (line.startsWith("SIGNAL:")) {
+      html += `<div class="block signal"><strong>${line}</strong></div>`;
+    } else if (line.startsWith("STATE:")) {
+      html += `<div class="block state"><strong>${line}</strong></div>`;
+    } else if (line.startsWith("DISTORTION:")) {
+      html += `<div class="block distortion"><strong>${line}</strong></div>`;
+    } else if (line.startsWith("RECOGNITION:")) {
+      html += `<div class="block recognition"><strong>${line}</strong></div>`;
+    } else if (line.startsWith("INSIGHT:")) {
+      html += `<div class="block state"><strong>${line}</strong></div>`;
+    } else if (line.startsWith("NEXT BEST ACTION:")) {
+      html += `<div class="block action"><strong>${line}</strong></div>`;
+    } else {
+      html += `<div>${line}</div>`;
+    }
+  });
+
+  return html;
+}
