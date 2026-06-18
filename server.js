@@ -4,47 +4,44 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-// === TEMP MEMORY STORE (per session — simple version) ===
-let pendingClarification = null;
+let lastSignal = null;
 
 app.post("/api/interpret", async (req, res) => {
   const { signal } = req.body;
 
   if (!signal || signal.trim().length < 5) {
     return res.json({
-      response: "Please enter a clearer signal."
+      response: "Enter a real signal."
     });
   }
 
-  // === IF USER IS ANSWERING A CLARIFYING QUESTION ===
-  if (pendingClarification) {
-    const fullSignal = `${pendingClarification} → ${signal}`;
-    pendingClarification = null;
-
-    return generateInsight(fullSignal, res);
+  // === HANDLE CLARIFY FLOW ===
+  if (lastSignal && signal.length > 10) {
+    const combined = `${lastSignal} | Clarified: ${signal}`;
+    lastSignal = null;
+    return generateInsight(combined, res);
   }
 
-  // === CLARIFYING LOGIC ===
-  if (signal.length < 20 || signal.split(" ").length < 4) {
-    pendingClarification = signal;
+  // === TRIGGER CLARIFY ===
+  if (signal.length < 40) {
+    lastSignal = signal;
 
     return res.json({
-      response: `CLARIFYING QUESTION:\nWhat specifically about "${signal}" feels most active or unresolved right now?`
+      response: `CLARIFYING QUESTION:\nWhat exactly is blocking progress here — is it knowledge, structure, environment, or execution?`
     });
   }
 
-  // === NORMAL FLOW ===
   return generateInsight(signal, res);
 });
 
-// === CORE AI FUNCTION ===
 async function generateInsight(signal, res) {
   const prompt = `
-You are Signal Capture — a clarity system.
+You are Signal Capture — a precision clarity system.
 
-Return structured insight only.
+Your job:
+Cut through noise. Identify the real problem. Deliver decisive action.
 
-FORMAT:
+FORMAT STRICTLY:
 
 SIGNAL:
 STATE:
@@ -59,12 +56,13 @@ NEXT BEST ACTION:
 3. Direction (next phase)
 
 RULES:
-- No fluff
-- No vague language
-- No therapy tone
-- Must be precise
-- Must identify real friction
-- Actions must be specific and usable
+- No generic advice
+- No motivational tone
+- No therapy language
+- No filler
+- Be sharp, direct, and specific
+- Identify the TRUE bottleneck
+- Actions must be concrete and executable immediately
 
 Signal:
 "${signal}"
@@ -79,8 +77,7 @@ Signal:
       },
       body: JSON.stringify({
         model: "openai/gpt-4o-mini",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7
+        messages: [{ role: "user", content: prompt }]
       })
     });
 
@@ -90,9 +87,9 @@ Signal:
       response: data.choices?.[0]?.message?.content || "No response generated."
     });
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error processing request.");
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ response: "Error generating insight." });
   }
 }
 
