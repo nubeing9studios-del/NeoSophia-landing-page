@@ -1,56 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signal Capture</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+async function generateInsight() {
+  const input = document.getElementById("signalInput").value;
+  const output = document.getElementById("output");
 
-<body>
+  if (!input.trim()) {
+    output.innerHTML = "<p>Please enter a signal.</p>";
+    return;
+  }
 
-<div class="container">
+  output.innerHTML = "<p>Processing...</p>";
 
-  <div class="hero">
-    <h1>Signal Capture</h1>
-    <p>Turn noise into one clear next move.</p>
-  </div>
+  try {
+    const response = await fetch("/api/signal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ signal: input })
+    });
 
-  <div class="section">
-    <h2>How it works</h2>
-    <div class="divider"></div>
+    const data = await response.json();
 
-    <div class="step"><strong>Capture</strong> Enter your signal.</div>
-    <div class="step"><strong>Interpret</strong> Receive structured clarity.</div>
-    <div class="step"><strong>Act</strong> Take the next step.</div>
-  </div>
+    if (!response.ok) {
+      throw new Error(data.error || "Something went wrong");
+    }
 
-  <div class="section">
-    <h2>Capture your signal</h2>
+    output.innerHTML = `
+      <div class="result-block">
+        <p><strong>SIGNAL:</strong> ${data.signal}</p>
+        <p><strong>STATE:</strong> ${data.state}</p>
+        <p><strong>DISTORTION:</strong> ${data.distortion}</p>
+        <p><strong>RECOGNITION:</strong> ${data.recognition}</p>
+        <p><strong>INSIGHT:</strong> ${data.insight}</p>
+        <p><strong>NEXT BEST ACTION:</strong></p>
+        <ol>
+          ${data.actions.map(a => `<li>${a}</li>`).join("")}
+        </ol>
+      </div>
+    `;
+  } catch (error) {
+    output.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+  }
+}
 
-    <textarea id="signalInput" placeholder="What’s active right now?"></textarea>
-
-    <button id="generateBtn" class="primary">Generate Insight</button>
-    <button id="clearBtn" class="secondary">Clear Signal</button>
-    <button id="clearHistoryBtn" class="tertiary">Clear History</button>
-
-    <!-- FINAL LAYER ADDITIONS -->
-    <button id="copyInsightBtn" class="secondary">Copy Insight</button>
-
-  </div>
-
-  <div id="output"></div>
-
-  <!-- Gateway line -->
-  <div class="gateway-line">
-    If this helped, there’s a deeper system behind it.
-  </div>
-
-  <div id="history"></div>
-
-</div>
-
-<script src="scripts.js"></script>
-
-</body>
-</html>
+// BUTTON CONNECTION
+document.getElementById("generateBtn").addEventListener("click", generateInsight);
