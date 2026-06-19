@@ -1,75 +1,73 @@
-const button = document.getElementById("generate");
-const input = document.getElementById("signalInput");
-const output = document.getElementById("output");
+document.getElementById("generate").addEventListener("click", async () => {
+  const input = document.getElementById("signalInput").value;
+  const output = document.getElementById("output");
 
-button.addEventListener("click", async () => {
-  const signal = input.value.trim();
-
-  if (!signal) {
-    output.innerHTML = "<p>Please enter a signal.</p>";
+  if (!input.trim()) {
+    output.innerHTML = "Please enter a signal.";
     return;
   }
 
-  output.innerHTML = "<p>Processing...</p>";
+  output.innerHTML = "Processing...";
 
   try {
-    const res = await fetch("/api/interpret", {
+    const res = await fetch("/api/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ signal }),
+      body: JSON.stringify({ signal: input }),
     });
 
     const data = await res.json();
 
-    if (!data.response) {
-      output.innerHTML = "<p>No response generated.</p>";
-      return;
-    }
+    console.log("API RESPONSE:", data); // 🔍 DEBUG LINE
 
-    const formatted = formatOutput(data.response);
-    output.innerHTML = formatted;
+    // ✅ SAFE HANDLING
+    const rawText =
+      data.result ||
+      data.output ||
+      data.message ||
+      "No response generated.";
+
+    const formatted = formatOutput(rawText);
+
+    output.innerHTML = `
+      <div class="output-title">Output</div>
+      ${formatted}
+
+      <div style="margin-top:20px; display:flex; gap:10px;">
+        <button onclick="copyOutput()">Copy Insight</button>
+        <button onclick="clearAll()">Clear</button>
+      </div>
+    `;
 
   } catch (err) {
-    output.innerHTML = "<p>Error generating insight.</p>";
+    console.error(err);
+    output.innerHTML = "Error connecting to server.";
   }
 });
 
-
+/* FORMAT OUTPUT */
 function formatOutput(text) {
-  const lines = text.split("\n").filter(line => line.trim() !== "");
+  return text
+    .replace("SIGNAL:", '<p class="signal"><strong>SIGNAL:</strong>')
+    .replace("STATE:", '</p><p class="state"><strong>STATE:</strong>')
+    .replace("DISTORTION:", '</p><p class="distortion"><strong>DISTORTION:</strong>')
+    .replace("RECOGNITION:", '</p><p class="recognition"><strong>RECOGNITION:</strong>')
+    .replace("INSIGHT:", '</p><p class="insight"><strong>INSIGHT:</strong>')
+    .replace("NEXT BEST ACTION:", '</p><p class="action"><strong>NEXT BEST ACTION:</strong>')
+    + '</p>';
+}
 
-  let html = `<div class="output-title">Output</div>`;
+/* COPY */
+function copyOutput() {
+  const text = document.getElementById("output").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Insight copied.");
+}
 
-  lines.forEach(line => {
-
-    if (line.startsWith("SIGNAL:")) {
-      html += `<p class="signal"><strong>${line}</strong></p>`;
-    }
-    else if (line.startsWith("STATE:")) {
-      html += `<p class="state"><strong>${line}</strong></p>`;
-    }
-    else if (line.startsWith("DISTORTION:")) {
-      html += `<p class="distortion"><strong>${line}</strong></p>`;
-    }
-    else if (line.startsWith("RECOGNITION:")) {
-      html += `<p class="recognition"><strong>${line}</strong></p>`;
-    }
-    else if (line.startsWith("INSIGHT:")) {
-      html += `<p class="insight"><strong>${line}</strong></p>`;
-    }
-    else if (line.startsWith("NEXT BEST ACTION")) {
-      html += `<p class="action"><strong>${line}</strong></p>`;
-    }
-    else if (line.match(/^\d+\./)) {
-      html += `<p style="margin-left:10px;">${line}</p>`;
-    }
-    else {
-      html += `<p>${line}</p>`;
-    }
-
-  });
-
-  return html;
+/* CLEAR */
+function clearAll() {
+  document.getElementById("signalInput").value = "";
+  document.getElementById("output").innerHTML = "";
 }
