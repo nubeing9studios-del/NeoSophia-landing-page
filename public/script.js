@@ -10,8 +10,7 @@ async function generateInsight() {
   output.innerHTML = "<p>Processing...</p>";
 
   try {
-    const response = await fetch("/api/signal", {
-      method: "POST",
+    const response = await fetch("https://neosophia-landing-page.onrender.com/api/signal", {
       headers: {
         "Content-Type": "application/json"
       },
