@@ -11,12 +11,7 @@ async function generateInsight() {
 
   try {
     const response = await fetch("https://neosophia-landing-page.onrender.com/api/signal", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ signal: input })
-})
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
@@ -42,10 +37,14 @@ async function generateInsight() {
         </ol>
       </div>
     `;
+
   } catch (error) {
     output.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
   }
 }
 
-// BUTTON CONNECTION
-document.getElementById("generateBtn").addEventListener("click", generateInsight);
+document.addEventListener("DOMContentLoaded", () => {
+  document
+    .getElementById("generateBtn")
+    .addEventListener("click", generateInsight);
+});
