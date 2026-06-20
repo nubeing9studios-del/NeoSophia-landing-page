@@ -11,6 +11,12 @@ async function generateInsight() {
 
   try {
     const response = await fetch("https://neosophia-landing-page.onrender.com/api/signal", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ signal: input })
+})
       headers: {
         "Content-Type": "application/json"
       },
