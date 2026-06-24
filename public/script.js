@@ -1,49 +1,41 @@
 async function generateInsight() {
-  const input = document.getElementById("signalInput").value;
-  const output = document.getElementById("output");
+  const inputField = document.getElementById("userInput");
+  const outputDiv = document.getElementById("output");
 
-  if (!input.trim()) {
-    output.innerHTML = "<p>Please enter a signal.</p>";
+  const userInput = inputField.value;
+
+  if (!userInput) {
+    outputDiv.innerHTML = "Please enter a signal.";
     return;
   }
 
-  output.innerHTML = "<p>Processing...</p>";
-
   try {
-    const response = await fetch("/api/signal", {
+    const response = await fetch("/analyze", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ signal: input })
+      body: JSON.stringify({ input: userInput }),
     });
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.error || "Something went wrong");
+    if (data.error) {
+      outputDiv.innerHTML = `<span style="color:red;">${data.error}</span>`;
+      return;
     }
 
-    output.innerHTML = `
-      <div class="result-block">
-        <p><strong>SIGNAL:</strong> ${data.signal}</p>
-        <p><strong>STATE:</strong> ${data.state}</p>
-        <p><strong>DISTORTION:</strong> ${data.distortion}</p>
-        <p><strong>RECOGNITION:</strong> ${data.recognition}</p>
-        <p><strong>INSIGHT:</strong> ${data.insight}</p>
-        <p><strong>NEXT BEST ACTION:</strong></p>
-        <ol>
-          ${data.actions.map(a => `<li>${a}</li>`).join("")}
-        </ol>
-      </div>
+    outputDiv.innerHTML = `
+      <strong>SIGNAL:</strong> ${data.signal}<br><br>
+      <strong>STATE:</strong> ${data.state}<br><br>
+      <strong>DISTORTION:</strong> ${data.distortion}<br><br>
+      <strong>RECOGNITION:</strong> ${data.recognition}<br><br>
+      <strong>INSIGHT:</strong> ${data.insight}<br><br>
+      <strong>NEXT BEST ACTION:</strong> ${data.action}
     `;
+
   } catch (error) {
-    output.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+    outputDiv.innerHTML = `<span style="color:red;">Error connecting to server</span>`;
+    console.error(error);
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  document
-    .getElementById("generateBtn")
-    .addEventListener("click", generateInsight);
-});
