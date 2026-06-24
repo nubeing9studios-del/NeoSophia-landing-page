@@ -18,14 +18,14 @@ async function generateInsight() {
       body: JSON.stringify({ input: userInput })
     });
 
-    // 🔴 Catch non-JSON responses (IMPORTANT)
+    // Read raw response first
     const text = await response.text();
 
     let data;
     try {
       data = JSON.parse(text);
     } catch (err) {
-      outputDiv.innerHTML = `<span style="color:red;">Server error (not JSON): ${text}</span>`;
+      outputDiv.innerHTML = `<span style="color:red;">Server returned non-JSON response:</span><br>${text}`;
       return;
     }
 
@@ -34,7 +34,6 @@ async function generateInsight() {
       return;
     }
 
-    // ✅ Render output cleanly
     outputDiv.innerHTML = `
       <strong>SIGNAL:</strong> ${data.signal}<br><br>
       <strong>STATE:</strong> ${data.state}<br><br>
