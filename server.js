@@ -7,15 +7,15 @@ const PORT = process.env.PORT || 10000;
 // Middleware
 app.use(express.json());
 
-// ✅ Serve static frontend
+// Serve static frontend
 app.use(express.static(path.join(__dirname, "public")));
 
-// ✅ Root route (fixes Cannot GET /)
+// Root route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// ✅ API endpoint
+// API endpoint
 app.post("/api/signal", (req, res) => {
   const input = req.body.input;
 
@@ -23,46 +23,79 @@ app.post("/api/signal", (req, res) => {
     return res.json({ error: "No input provided" });
   }
 
-  // Temporary intelligent baseline (not static anymore)
-  let response;
+  const lower = input.toLowerCase();
 
-  if (input.toLowerCase().includes("stuck") || input.toLowerCase().includes("overthinking")) {
+  let response = {
+    signal: "",
+    state: "",
+    distortion: "",
+    recognition: "",
+    insight: "",
+    action: []
+  };
+
+  // 🧠 CASE 1: Stuck / Overthinking
+  if (lower.includes("stuck") || lower.includes("overthinking")) {
     response = {
-      signal: "Stuck between vision and execution",
-      state: "Clarity present, execution blocked",
-      distortion: "Over-expansion and lack of prioritisation",
-      recognition: "You are not stuck — you are overloaded",
-      insight: "Progress requires reduction, not addition",
-      nextAction: [
-        "Choose one task only",
-        "Set a 30-minute execution window",
-        "Complete without switching context"
+      signal: "You are experiencing a breakdown between intention and execution, where movement is blocked despite internal clarity.",
+      
+      state: "Your direction is understood, but your system is overloaded, preventing you from translating thought into action.",
+      
+      distortion: "You are attempting to process too many possibilities at once, creating paralysis instead of progress.",
+      
+      recognition: "This is not a lack of ability or discipline — it is a failure of prioritisation and sequencing.",
+      
+      insight: "Progress is restored through reduction, not expansion. Clarity becomes stronger through action, not continued thinking.",
+      
+      action: [
+        "Identify the ONE task that creates the most forward movement",
+        "Commit to completing only that task today without switching focus",
+        "Set a fixed 30–60 minute execution window",
+        "After completion, write the next 3 steps before doing anything else"
       ]
     };
-  } else if (input.toLowerCase().includes("tired") || input.toLowerCase().includes("low energy")) {
+  }
+
+  // 🧠 CASE 2: Low energy / tired
+  else if (lower.includes("tired") || lower.includes("low energy")) {
     response = {
-      signal: "Energy depletion",
-      state: "Mental or physical fatigue",
-      distortion: "Trying to push without recovery",
-      recognition: "Your system needs reset, not pressure",
-      insight: "Energy precedes clarity",
-      nextAction: [
-        "Pause for 10 minutes",
-        "Hydrate or move your body",
-        "Return with reduced scope"
+      signal: "Your system is signalling depletion and reduced capacity for sustained output.",
+      
+      state: "Mental or physical fatigue is limiting your ability to focus and execute effectively.",
+      
+      distortion: "You are trying to push forward without restoring energy, which reduces efficiency and clarity.",
+      
+      recognition: "Your system does not need more pressure — it needs recovery and recalibration.",
+      
+      insight: "Energy precedes clarity. Without restoring your baseline, all effort becomes inefficient.",
+      
+      action: [
+        "Pause all active tasks for at least 10–15 minutes",
+        "Hydrate and physically move your body",
+        "Reduce your workload to one simple task",
+        "Resume only when your energy state improves"
       ]
     };
-  } else {
+  }
+
+  // 🧠 DEFAULT CASE (fallback intelligence)
+  else {
     response = {
-      signal: input,
-      state: "Unclassified signal",
-      distortion: "Pattern not yet defined",
-      recognition: "More clarity needed",
-      insight: "Refine the signal for deeper accuracy",
-      nextAction: [
-        "Be more specific",
-        "Reduce to one core problem",
-        "Submit again"
+      signal: `The signal detected is: "${input}" but it is not yet clearly structured.`,
+      
+      state: "You are experiencing internal noise without a clearly defined pattern or direction.",
+      
+      distortion: "Lack of clarity is creating hesitation, fragmentation, or delayed action.",
+      
+      recognition: "Clarity is not missing — it is unstructured and needs refinement.",
+      
+      insight: "You must reduce the signal into a single clear problem before meaningful action becomes possible.",
+      
+      action: [
+        "Rewrite your input into one clear and specific sentence",
+        "Identify the core tension or problem within that sentence",
+        "Choose one small action that directly addresses it",
+        "Execute immediately without overthinking"
       ]
     };
   }
