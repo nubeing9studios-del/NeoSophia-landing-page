@@ -20,123 +20,134 @@ app.post("/api/signal", (req, res) => {
 
   const text = input.toLowerCase();
 
-  // 🧠 SIGNAL SCORING SYSTEM
+  // 🧠 PHASE 3: SCORING SYSTEM
   let scores = {
     stuck: 0,
     fatigue: 0,
-    unclear: 0
+    confusion: 0,
+    pressure: 0,
+    avoidance: 0
   };
 
-  // 🔍 Pattern detection
-  if (text.includes("stuck") || text.includes("overthinking") || text.includes("can't move")) {
-    scores.stuck += 2;
-  }
+  // 🧠 SIGNAL DETECTION
+  if (text.includes("stuck") || text.includes("overthinking")) scores.stuck += 2;
+  if (text.includes("tired") || text.includes("low energy")) scores.fatigue += 2;
+  if (text.includes("confused") || text.includes("unclear")) scores.confusion += 2;
+  if (text.includes("overwhelmed") || text.includes("too much")) scores.pressure += 2;
+  if (text.includes("avoid") || text.includes("procrastinating")) scores.avoidance += 2;
 
-  if (text.includes("tired") || text.includes("low energy") || text.includes("burnout")) {
-    scores.fatigue += 2;
-  }
+  // 🧠 SECONDARY SIGNAL BLENDING
+  if (text.length > 120) scores.pressure += 1;
+  if (text.split(" ").length < 5) scores.confusion += 1;
 
-  if (text.length < 25 || text.includes("not sure") || text.includes("confused")) {
-    scores.unclear += 1;
-  }
-
-  // 🧠 Determine dominant signal
+  // 🧠 DETERMINE DOMINANT SIGNAL
   const dominant = Object.keys(scores).reduce((a, b) =>
     scores[a] > scores[b] ? a : b
   );
 
-  // 🎲 Variation engine (prevents repetition)
-  const variations = {
-    stuck: [
-      "You are caught between intention and execution.",
-      "There is a gap between what you know and what you are doing.",
-      "Movement is blocked despite internal clarity."
-    ],
-    fatigue: [
-      "Your system is running below optimal energy.",
-      "You are operating in a depleted state.",
-      "Your capacity is reduced due to fatigue."
-    ],
-    unclear: [
-      "The signal is not yet clearly defined.",
-      "Your input lacks structured clarity.",
-      "The core issue is still forming."
-    ]
-  };
+  const secondary = Object.keys(scores)
+    .filter(k => k !== dominant)
+    .sort((a, b) => scores[b] - scores[a])[0];
 
-  function pick(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+  // 🧠 RESPONSE BUILDER
+  function buildResponse(primary, secondary) {
+    let response = {};
+
+    switch (primary) {
+      case "stuck":
+        response.signal = "Execution is blocked despite internal clarity.";
+        response.state = "You know what needs to be done, but forward movement is not occurring.";
+        response.distortion = "Cognitive overload is replacing structured action.";
+        response.recognition = "This is not inability — it is a failure of sequencing.";
+        response.insight = "Movement begins by reducing scope, not increasing effort.";
+        response.nextAction = [
+          "Identify the single highest-impact task",
+          "Set a strict 30–60 minute execution window",
+          "Remove all competing inputs",
+          "Complete before reassessing"
+        ];
+        break;
+
+      case "fatigue":
+        response.signal = "Your system is operating in a depleted state.";
+        response.state = "Energy levels are insufficient for effective execution.";
+        response.distortion = "You are attempting output without recovery.";
+        response.recognition = "Recovery is a prerequisite, not a reward.";
+        response.insight = "Energy restoration creates clarity automatically.";
+        response.nextAction = [
+          "Pause immediately",
+          "Hydrate and physically reset",
+          "Lower expectations to one small task",
+          "Resume only when energy improves"
+        ];
+        break;
+
+      case "confusion":
+        response.signal = "Your input lacks structural clarity.";
+        response.state = "There is no clearly defined problem.";
+        response.distortion = "Ambiguity is preventing decision-making.";
+        response.recognition = "You cannot act on undefined problems.";
+        response.insight = "Clarity is created through reduction.";
+        response.nextAction = [
+          "Rewrite the situation in one sentence",
+          "Extract the core issue",
+          "Define a single objective",
+          "Act immediately on that objective"
+        ];
+        break;
+
+      case "pressure":
+        response.signal = "You are experiencing cognitive overload.";
+        response.state = "Too many demands are active simultaneously.";
+        response.distortion = "Everything is being treated as equally urgent.";
+        response.recognition = "Not everything matters at once.";
+        response.insight = "Priority is the removal of non-essential tasks.";
+        response.nextAction = [
+          "List everything currently active",
+          "Remove or delay 50% immediately",
+          "Select one priority only",
+          "Execute without deviation"
+        ];
+        break;
+
+      case "avoidance":
+        response.signal = "You are avoiding a known action.";
+        response.state = "The task is identified but not being executed.";
+        response.distortion = "Resistance is being rationalised as delay.";
+        response.recognition = "Avoidance signals importance, not difficulty.";
+        response.insight = "Action reduces resistance instantly.";
+        response.nextAction = [
+          "Start the task for 5 minutes only",
+          "Ignore outcome — focus on starting",
+          "Build momentum through continuation",
+          "Complete the first visible step"
+        ];
+        break;
+
+      default:
+        response.signal = input;
+        response.state = "Signal not fully classified.";
+        response.distortion = "Insufficient data for pattern detection.";
+        response.recognition = "Clarity is required.";
+        response.insight = "Refine the signal.";
+        response.nextAction = [
+          "Be more specific",
+          "Reduce to one issue",
+          "Resubmit"
+        ];
+    }
+
+    // 🧠 SECONDARY INFLUENCE
+    if (secondary && scores[secondary] > 0) {
+      response.insight += ` Secondary influence detected: ${secondary}.`;
+    }
+
+    return response;
   }
 
-  let response = {
-    signal: "",
-    state: "",
-    distortion: "",
-    recognition: "",
-    insight: "",
-    action: []
-  };
+  const result = buildResponse(dominant, secondary);
 
-  // 🧠 INTELLIGENCE LOGIC
-
-  if (dominant === "stuck") {
-    response.signal = pick(variations.stuck);
-
-    response.state = "You understand what needs to be done, but your system is overloaded or unfocused.";
-
-    response.distortion = "Too many competing thoughts are creating paralysis instead of execution.";
-
-    response.recognition = "The issue is not capability — it is prioritisation and sequencing.";
-
-    response.insight = "Progress is created by narrowing focus, not expanding effort.";
-
-    response.action = [
-      "Select one task that creates the most immediate movement",
-      "Commit to completing only that task",
-      "Set a strict execution window (30–60 minutes)",
-      "Block all distractions until completion"
-    ];
-  }
-
-  else if (dominant === "fatigue") {
-    response.signal = pick(variations.fatigue);
-
-    response.state = "Your mental or physical energy is limiting your ability to act effectively.";
-
-    response.distortion = "You are trying to push through instead of resetting your system.";
-
-    response.recognition = "Recovery is required before meaningful progress can occur.";
-
-    response.insight = "Energy is the foundation of clarity and execution.";
-
-    response.action = [
-      "Pause current activity immediately",
-      "Hydrate and move your body",
-      "Reduce expectations to one small task",
-      "Resume only when energy improves"
-    ];
-  }
-
-  else {
-    response.signal = pick(variations.unclear);
-
-    response.state = "There is internal noise without a clearly defined problem.";
-
-    response.distortion = "Lack of clarity is preventing action.";
-
-    response.recognition = "You need to define the problem before solving it.";
-
-    response.insight = "Clarity comes from reducing the signal to one precise statement.";
-
-    response.action = [
-      "Rewrite your situation in one clear sentence",
-      "Identify the core issue within that sentence",
-      "Choose one action that directly addresses it",
-      "Execute immediately"
-    ];
-  }
-
-  res.json(response);
+  res.json(result);
 });
 
 app.listen(PORT, () => {
