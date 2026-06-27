@@ -1,71 +1,59 @@
-// Signal Capture Frontend Script (Clean Final Version)
-
-document.addEventListener("DOMContentLoaded", () => {
-  const button = document.getElementById("generateBtn");
-  const inputField = document.getElementById("signalInput");
+document.getElementById("generateBtn").addEventListener("click", async () => {
+  const input = document.getElementById("signalInput").value.trim();
   const outputDiv = document.getElementById("output");
 
-  if (!button || !inputField || !outputDiv) {
-    console.error("❌ Missing required DOM elements");
+  if (!input) {
+    outputDiv.innerHTML = "<span style='color:red;'>Please enter a signal.</span>";
     return;
   }
 
-  console.log("✅ Signal Capture Ready");
+  outputDiv.innerHTML = "Generating insight...";
 
-  button.addEventListener("click", async () => {
-    const userInput = inputField.value.trim();
+  try {
+    const response = await fetch("/api/signal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ input })
+    });
 
-    if (!userInput) {
-      outputDiv.innerHTML = "<span style='color:red;'>Please enter a signal.</span>";
+    const data = await response.json();
+
+    console.log("DEBUG RESPONSE:", data); // 🔥 critical for debugging
+
+    if (data.error) {
+      outputDiv.innerHTML = `<span style="color:red;">${data.error}</span>`;
       return;
     }
 
-    outputDiv.innerHTML = "Processing...";
-    console.log("📡 Sending signal:", userInput);
+    // ✅ BULLETPROOF ACTION HANDLING
+    let actionsHTML = "";
 
-    try {
-      const response = await fetch("/api/signal", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ input: userInput })
-      });
-
-      const data = await response.json();
-
-      console.log("✅ Response received:", data);
-
-      if (data.error) {
-        outputDiv.innerHTML = `<span style="color:red;">${data.error}</span>`;
-        return;
-      }
-
-      // Render structured output
-      outputDiv.innerHTML = `
-        <div class="output-block">
-          <p><strong>SIGNAL:</strong> ${data.signal || "—"}</p>
-          <p><strong>STATE:</strong> ${data.state || "—"}</p>
-          <p><strong>DISTORTION:</strong> ${data.distortion || "—"}</p>
-          <p><strong>RECOGNITION:</strong> ${data.recognition || "—"}</p>
-          <p><strong>INSIGHT:</strong> ${data.insight || "—"}</p>
-          <p><strong>NEXT BEST ACTION:</strong><br>${formatAction(data.action)}</p>
-        </div>
-      `;
-
-    } catch (error) {
-      console.error("❌ Fetch error:", error);
-      outputDiv.innerHTML = "<span style='color:red;'>Error connecting to server.</span>";
-    }
-  });
-
-  function formatAction(action) {
-    if (!action) return "—";
-
-    if (Array.isArray(action)) {
-      return action.map((step, i) => `${i + 1}. ${step}`).join("<br>");
+    if (data.nextAction && Array.isArray(data.nextAction) && data.nextAction.length > 0) {
+      actionsHTML = "<ol>" +
+        data.nextAction.map(action => `<li>${action}</li>`).join("") +
+        "</ol>";
+    } 
+    else if (typeof data.nextAction === "string") {
+      actionsHTML = `<p>${data.nextAction}</p>`;
+    } 
+    else {
+      actionsHTML = "<p style='color:orange;'>No actions returned</p>";
     }
 
-    return action;
+    outputDiv.innerHTML = `
+      <strong>SIGNAL:</strong> ${data.signal || "—"}<br><br>
+      <strong>STATE:</strong> ${data.state || "—"}<br><br>
+      <strong>DISTORTION:</strong> ${data.distortion || "—"}<br><br>
+      <strong>RECOGNITION:</strong> ${data.recognition || "—"}<br><br>
+      <strong>INSIGHT:</strong> ${data.insight || "—"}<br><br>
+      <strong>NEXT BEST ACTION:</strong>
+      ${actionsHTML}
+    `;
+
+  } catch (error) {
+    console.error(error);
+    outputDiv.innerHTML = "<span style='color:red;'>Server connection error.</span>";
   }
 });
