@@ -1,54 +1,82 @@
-document.getElementById("generateBtn").addEventListener("click", async () => {
-  const inputField = document.getElementById("signalInput");
-  const outputDiv = document.getElementById("output");
+const express = require("express");
+const path = require("path");
 
-  const userInput = inputField.value.trim();
+const app = express();
+const PORT = process.env.PORT || 10000;
 
-  if (!userInput) {
-    outputDiv.innerHTML = "Please enter a signal.";
-    return;
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+function buildResponse({
+  signal,
+  state,
+  distortion,
+  recognition,
+  insight,
+  nextAction
+}) {
+  return {
+    signal,
+    state,
+    distortion,
+    recognition,
+    insight,
+    nextAction: Array.isArray(nextAction) && nextAction.length > 0
+      ? nextAction
+      : [
+          "Pause and reset your focus",
+          "Reduce scope to one clear action",
+          "Execute immediately without delay"
+        ]
+  };
+}
+
+app.post("/api/signal", (req, res) => {
+  const input = (req.body.input || "").toLowerCase();
+
+  if (!input) {
+    return res.json({ error: "No input provided" });
   }
 
-  outputDiv.innerHTML = "Processing...";
+  let response;
 
-  try {
-    const response = await fetch("/api/signal", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ input: userInput })
+  if (input.includes("stuck") || input.includes("overthinking")) {
+    response = buildResponse({
+      signal: "Execution is blocked despite internal clarity.",
+      state: "You know what needs to be done, but forward movement is not occurring.",
+      distortion: "Cognitive overload is replacing structured action.",
+      recognition: "This is not inability — it is a failure of sequencing.",
+      insight: "Movement begins by reducing scope, not increasing effort.",
+      nextAction: [
+        "Select one task that creates immediate movement",
+        "Commit to completing only that task",
+        "Set a strict 30–60 minute execution window",
+        "Block all distractions until completion"
+      ]
     });
-
-    const data = await response.json();
-
-    if (data.error) {
-      outputDiv.innerHTML = `<span style="color:red;">${data.error}</span>`;
-      return;
-    }
-
-    // 🔥 FIX: Properly render nextAction array
-    let actionsHTML = "";
-
-    if (Array.isArray(data.nextAction)) {
-      actionsHTML = data.nextAction
-        .map((action, index) => `${index + 1}. ${action}`)
-        .join("<br>");
-    } else {
-      actionsHTML = "—";
-    }
-
-    outputDiv.innerHTML = `
-      <strong>SIGNAL:</strong> ${data.signal}<br><br>
-      <strong>STATE:</strong> ${data.state}<br><br>
-      <strong>DISTORTION:</strong> ${data.distortion}<br><br>
-      <strong>RECOGNITION:</strong> ${data.recognition}<br><br>
-      <strong>INSIGHT:</strong> ${data.insight}<br><br>
-      <strong>NEXT BEST ACTION:</strong><br>${actionsHTML}
-    `;
-
-  } catch (error) {
-    outputDiv.innerHTML = `<span style="color:red;">Error connecting to server</span>`;
-    console.error(error);
+  } else {
+    response = buildResponse({
+      signal: "Your input lacks structured clarity.",
+      state: "There is internal noise without a clearly defined problem.",
+      distortion: "Lack of definition is preventing execution.",
+      recognition: "You must define the problem before solving it.",
+      insight: "Clarity emerges by reducing the signal to one precise statement.",
+      nextAction: [
+        "Rewrite your situation in one clear sentence",
+        "Identify the core issue",
+        "Choose one action",
+        "Execute immediately"
+      ]
+    });
   }
+
+  res.json(response);
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
