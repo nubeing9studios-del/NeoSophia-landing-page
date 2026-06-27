@@ -14,7 +14,9 @@ app.get("/", (req, res) => {
 // 🔒 RESPONSE BUILDER (DUAL LAYER)
 function buildResponse(data) {
   return {
-    signal: data.signal,
+   return {
+  anchor: data.anchor,
+  signal: data.signal,
     state: data.state,
     distortion: data.distortion,
     recognition: data.recognition,
@@ -53,7 +55,8 @@ app.post("/api/signal", (req, res) => {
 
   // 🔥 OVERTHINKING / STUCK
   if (lower.includes("stuck") || lower.includes("overthinking")) {
-    response = buildResponse({
+   response = buildResponse({
+  anchor: "It feels like you already know what needs to be done, but something is stopping you from actually starting or following through.",
       signal: "You are experiencing a gap between knowing and doing. You already have a sense of what needs to happen, but you are not translating that into action.",
       
       state: "Your mind is overloaded with competing thoughts and priorities. Instead of focusing, your attention is being pulled in multiple directions at once.",
