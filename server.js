@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// 🔒 GUARANTEED RESPONSE BUILDER
+// 🔒 RESPONSE BUILDER (DUAL LAYER)
 function buildResponse(data) {
   return {
     signal: data.signal,
@@ -24,7 +24,7 @@ function buildResponse(data) {
       : [
           "Identify one clear next step",
           "Commit to executing it immediately",
-          "Avoid distractions",
+          "Remove distractions",
           "Complete before reassessing"
         ]
   };
@@ -35,11 +35,15 @@ app.post("/api/signal", (req, res) => {
 
   if (!input) {
     return res.json(buildResponse({
-      signal: "No signal provided. You have not entered anything the system can interpret.",
-      state: "There is no active input to process, so no meaningful interpretation can occur.",
-      distortion: "Without input, the system cannot distinguish between signal and noise.",
-      recognition: "You need to provide a clear thought, tension, or question.",
-      insight: "Clarity begins with expression. Once you define something, it becomes workable."
+      signal: "Nothing has been entered yet, so there is no signal to interpret. Right now, the system has nothing to work with.",
+      
+      state: "There is no active mental or emotional input present. This means no meaningful pattern or condition can be identified.",
+      
+      distortion: "Without input, there is no distinction between signal and noise. The system cannot generate clarity from absence.",
+      
+      recognition: "You need to express what is on your mind, even if it feels unclear or incomplete.",
+      
+      insight: "Clarity does not require perfection — it starts with putting something into words."
     }));
   }
 
@@ -47,24 +51,24 @@ app.post("/api/signal", (req, res) => {
 
   let response;
 
-  // 🔥 OVERLOAD / STUCK
+  // 🔥 OVERTHINKING / STUCK
   if (lower.includes("stuck") || lower.includes("overthinking")) {
     response = buildResponse({
-      signal: "Execution is blocked despite internal clarity. You likely already know what needs to be done, but you are not moving forward.",
+      signal: "You are experiencing a gap between knowing and doing. You already have a sense of what needs to happen, but you are not translating that into action.",
       
-      state: "You are mentally overloaded. Too many thoughts, tasks, or priorities are competing for your attention at once.",
+      state: "Your mind is overloaded with competing thoughts and priorities. Instead of focusing, your attention is being pulled in multiple directions at once.",
       
-      distortion: "Cognitive overload is replacing structured action. Instead of progressing step by step, your system is trying to process everything simultaneously.",
+      distortion: "Your system is attempting to process everything simultaneously. This creates friction, which replaces structured progress with mental noise.",
       
-      recognition: "This is not a capability issue — it is a sequencing issue. You are not stuck because you cannot act, but because your actions are not being prioritised properly.",
+      recognition: "You are not stuck because you lack ability. You are stuck because your actions are not being sequenced or prioritised clearly.",
       
-      insight: "Movement begins by reducing scope, not increasing effort. Progress will return when you focus on one clear, executable step.",
+      insight: "Progress does not come from doing more. It comes from narrowing your focus to one clear, executable step.",
       
       nextAction: [
         "Identify the ONE task that creates the most immediate forward movement",
-        "Commit to completing only that task",
+        "Ignore everything else temporarily",
         "Set a strict 30–60 minute execution window",
-        "Block all distractions until completion"
+        "Complete the task before reassessing anything else"
       ]
     });
   }
@@ -72,43 +76,43 @@ app.post("/api/signal", (req, res) => {
   // 🔥 LOW ENERGY
   else if (lower.includes("tired") || lower.includes("low energy")) {
     response = buildResponse({
-      signal: "You are operating in a depleted state. Your energy levels are currently too low to support effective execution.",
+      signal: "Your current state suggests depletion. You are trying to operate, but your energy levels are not supporting effective action.",
       
-      state: "Your mental or physical energy is limiting your ability to act. Tasks feel heavier and harder to initiate than usual.",
+      state: "Your mental or physical capacity is reduced. Tasks feel heavier, slower, and harder to initiate.",
       
-      distortion: "You are trying to push through instead of resetting your system. This creates resistance rather than progress.",
+      distortion: "Instead of recognising the need for recovery, your system is trying to push forward. This creates resistance rather than progress.",
       
-      recognition: "Recovery is required before meaningful progress can occur. Action without energy will continue to feel forced.",
+      recognition: "This is not a productivity issue. It is an energy management issue. Without recovery, output will continue to degrade.",
       
-      insight: "Energy is the foundation of clarity and execution. Restoring your state will naturally improve your ability to act.",
+      insight: "Energy is the base layer of all execution. Restoring your state will naturally restore your ability to act.",
       
       nextAction: [
-        "Pause your current activity immediately",
-        "Hydrate and move your body",
-        "Reduce expectations to one small task",
+        "Stop what you are doing immediately",
+        "Drink water and physically move your body",
+        "Lower expectations to one very small task",
         "Resume only when your energy improves"
       ]
     });
   }
 
-  // 🔥 DEFAULT (CLARITY)
+  // 🔥 DEFAULT (CLARITY GAP)
   else {
     response = buildResponse({
-      signal: "Your input lacks structured clarity. The situation is not yet clearly defined.",
+      signal: "What you have expressed is active, but not yet clearly defined. There is movement in your thinking, but no precise direction.",
       
-      state: "There is internal noise without a clearly defined problem. Your thoughts are active but not organised.",
+      state: "You are dealing with internal noise rather than a clearly structured problem. Your thoughts exist, but they are not organised.",
       
-      distortion: "Lack of clarity is preventing action. Without a clear problem, your system cannot produce a clear solution.",
+      distortion: "Because the problem is not clearly defined, your system cannot produce a clear solution. This creates hesitation and inaction.",
       
-      recognition: "You must define the problem before solving it. Action requires a precise starting point.",
+      recognition: "You cannot act effectively until you define exactly what you are dealing with.",
       
-      insight: "Clarity comes from reducing the signal to one precise statement. Simplicity creates direction.",
+      insight: "Clarity is created by simplifying. When you reduce your situation to one precise statement, direction becomes available.",
       
       nextAction: [
         "Rewrite your situation in one clear sentence",
-        "Identify the core issue within that sentence",
-        "Choose one action that directly addresses it",
-        "Execute immediately"
+        "Identify the single core issue within it",
+        "Choose one action that directly addresses that issue",
+        "Execute immediately without adding complexity"
       ]
     });
   }
