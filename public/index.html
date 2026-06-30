@@ -1,46 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Signal Capture</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #0b1d3a, #050b18);
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+      background: #0d1f3f;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(to right, #00ffa3, #00c6ff);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #0d1f3f;
+    }
+
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #ffd700;
+    }
+
+    .question-box {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #112a52;
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="container">
-
-  <div class="hero">
-    <h1>Signal Capture</h1>
-    <p>Turn noise into one clear next move.</p>
-  </div>
-
-  <div class="section">
-    <h2>How it works</h2>
-
-    <div class="step"><strong>1. Capture</strong><br>Write the signal — the thought, tension, or question that’s active right now.</div>
-    <div class="step"><strong>2. Interpret</strong><br>The system reflects it back as structured insight, not advice.</div>
-    <div class="step"><strong>3. Act</strong><br>Take one clear next step to reduce noise and restore movement.</div>
-  </div>
-
-  <div class="section">
+  <div class="container">
     <h2>Capture your signal</h2>
 
-    <textarea id="signalInput" placeholder="What signal, tension, or question is active right now?"></textarea>
+    <textarea id="userInput" rows="4" placeholder="Enter your signal..."></textarea>
 
-    <button id="generateBtn">Generate Insight</button>
+    <button onclick="startSignal()">Generate Insight</button>
 
+    <div id="questionArea"></div>
+    <div id="output" class="output"></div>
   </div>
 
-  <div class="section">
-    <h2>Output</h2>
-    <div id="output"></div>
-  </div>
-
-</div>
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
