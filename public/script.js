@@ -1,59 +1,89 @@
-document.getElementById("generateBtn").addEventListener("click", async () => {
-  const input = document.getElementById("signalInput").value.trim();
-  const outputDiv = document.getElementById("output");
+let step = 0;
+let currentInput = "";
 
-  if (!input) {
-    outputDiv.innerHTML = "<span style='color:red;'>Please enter a signal.</span>";
+async function startSignal() {
+  step = 0;
+  currentInput = document.getElementById("userInput").value.trim();
+
+  if (!currentInput) {
+    displayOutput("Please enter a signal.");
     return;
   }
 
-  outputDiv.innerHTML = "Generating insight...";
+  processSignal();
+}
 
-  try {
-    const response = await fetch("/api/signal", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ input })
-    });
+async function processSignal() {
+  const res = await fetch("/api/signal", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      input: currentInput,
+      step: step
+    })
+  });
 
-    const data = await response.json();
+  const data = await res.json();
 
-    console.log("DEBUG RESPONSE:", data); // 🔥 critical for debugging
-
-    if (data.error) {
-      outputDiv.innerHTML = `<span style="color:red;">${data.error}</span>`;
-      return;
-    }
-
-    // ✅ BULLETPROOF ACTION HANDLING
-    let actionsHTML = "";
-
-    if (data.nextAction && Array.isArray(data.nextAction) && data.nextAction.length > 0) {
-      actionsHTML = "<ol>" +
-        data.nextAction.map(action => `<li>${action}</li>`).join("") +
-        "</ol>";
-    } 
-    else if (typeof data.nextAction === "string") {
-      actionsHTML = `<p>${data.nextAction}</p>`;
-    } 
-    else {
-      actionsHTML = "<p style='color:orange;'>No actions returned</p>";
-    }
-
-    outputDiv.innerHTML = `
-      <strong>SIGNAL:</strong> ${data.signal || "—"}<br><br>
-      <strong>STATE:</strong> ${data.state || "—"}<br><br>
-      <strong>DISTORTION:</strong> ${data.distortion || "—"}<br><br>
-      <strong>RECOGNITION:</strong> ${data.recognition || "—"}<br><br>
-      <strong>INSIGHT:</strong> ${data.insight || "—"}<br><br>
-      <strong>NEXT BEST ACTION:</strong>
-      ${actionsHTML}
-    `;
-
-  } catch (error) {
-    console.error(error);
-    outputDiv.innerHTML = "<span style='color:red;'>Server connection error.</span>";
+  // 🔹 HANDLE CLARIFY MODE
+  if (data.type === "clarify") {
+    showQuestion(data);
+    return;
   }
-});
+
+  // 🔹 HANDLE FULL RESPONSE
+  showOutput(data);
+}
+
+function showQuestion(data) {
+  const questionArea = document.getElementById("questionArea");
+
+  questionArea.innerHTML = `
+    <div class="question-box">
+      <div class="section">${data.anchor}</div>
+      <div class="section"><strong>${data.question}</strong></div>
+
+      <input id="clarifyInput" placeholder="Type your answer..." />
+
+      <button onclick="submitClarification()">Continue</button>
+    </div>
+  `;
+}
+
+function submitClarification() {
+  const answer = document.getElementById("clarifyInput").value.trim();
+
+  if (!answer) return;
+
+  currentInput = answer;
+  step++;
+
+  document.getElementById("questionArea").innerHTML = "";
+
+  processSignal();
+}
+
+function showOutput(data) {
+  const output = document.getElementById("output");
+
+  output.innerHTML = `
+    <div class="section"><span class="label">ANCHOR:</span> ${data.anchor}</div>
+
+    <div class="section"><span class="label">SIGNAL:</span> ${data.signal}</div>
+    <div class="section"><span class="label">STATE:</span> ${data.state}</div>
+    <div class="section"><span class="label">DISTORTION:</span> ${data.distortion}</div>
+    <div class="section"><span class="label">RECOGNITION:</span> ${data.recognition}</div>
+    <div class="section"><span class="label">INSIGHT:</span> ${data.insight}</div>
+
+    <div class="section"><span class="label">NEXT BEST ACTION:</span></div>
+    <ol>
+      ${data.nextAction.map(a => `<li>${a}</li>`).join("")}
+    </ol>
+  `;
+}
+
+function displayOutput(message) {
+  document.getElementById("output").innerHTML = message;
+}
